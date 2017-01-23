@@ -1,0 +1,27 @@
+---
+title: "Statistical Atlas - Honors Project"
+author: "Ryan Goluch, Heike Hofmann"
+date: "1/23/2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Read Data: 
+
+
+```{r}
+empl <- read.csv("Data/employment.csv")
+empl$adult.manufacturing <- empl$MALES.ABOVE.AGE.16.EMPLOYED.IN.MANUFACTURING+empl$FEMALES.ABOVE.AGE.16.EMPLOYED.I
+N.MANUFACTURING
+
+empl$women_manufacturing <- 100*empl$FEMALES.ABOVE.AGE.16.EMPLOYED.IN.MANUFACTURING/empl$TOTAL.HANDS.EMPLOYED.IN.MANUFACTURING
+empl$youth_manufacturing <- 100*empl$YOUTHS.EMPLOYED.IN.MANUFACTURING /empl$TOTAL.HANDS.EMPLOYED.IN.MANUFACTURING
+empl$men_manufacturing <- 100*empl$MALES.ABOVE.AGE.16.EMPLOYED.IN.MANUFACTURING/empl$TOTAL.HANDS.EMPLOYED.IN.MANUFACTURING
+empl$percent_manufacturing <- 100*empl$TOTAL.HANDS.EMPLOYED.IN.MANUFACTURING/empl$TOTAL.POPULATION
+
+empl[,c("State", "women_manufacturing", "men_manufacturing", "youth_manufacturing", "percent_manufacturing")]
+```
