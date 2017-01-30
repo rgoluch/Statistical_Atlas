@@ -1,36 +1,13 @@
 ---
-title: "Statistical Atlas - Honors Project"
-author: "Ryan Goluch, Heike Hofmann"
-date: "1/23/2017"
+title: "1-29 final macros"
+author: "Ryan Goluch"
+date: "1/29/2017"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
-
-Read Data: 
-
-
-```{r}
-empl <- read.csv("Data/employment.csv")
-
-empl$State <- empl$State.Territory
-empl$women_manufacturing <- 100*empl$FEMALES.ABOVE.AGE.16.EMPLOYED.IN.MANUFACTURING/empl$TOTAL.HANDS.EMPLOYED.IN.MANUFACTURING
-empl$youth_manufacturing <- 100*empl$YOUTHS.EMPLOYED.IN.MANUFACTURING /empl$TOTAL.HANDS.EMPLOYED.IN.MANUFACTURING
-empl$men_manufacturing <- 100*empl$MALES.ABOVE.AGE.16.EMPLOYED.IN.MANUFACTURING/empl$TOTAL.HANDS.EMPLOYED.IN.MANUFACTURING
-empl$percent_manufacturing <- 100*empl$TOTAL.HANDS.EMPLOYED.IN.MANUFACTURING/empl$TOTAL.POPULATION
-
-data.frame("State", "women_manufacturing", "men_manufacturing", "youth_manufacturing", "percent_manufacturing")
-#empl[,c("State", "women_manufacturing", "men_manufacturing", "youth_manufacturing", "percent_manufacturing")]
-```
-
-```{r}
-empl <- read.csv("Data/employment.csv")
-str(empl$State.Territory)
-```
-
 
 ```{r}
 #The macro for calculating manufacturing percentages
