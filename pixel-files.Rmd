@@ -1,0 +1,31 @@
+---
+title: "Reading pixelated values"
+author: "Heike Hofmann"
+date: "2/6/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r message = FALSE}
+library(tidyverse)
+pixels <- readxl::read_excel("pixel-measurements.xlsx")
+glimpse(pixels)
+```
+The `pixels` data set consists of the following set of variables:
+
+- `State` is the name of the state or territory measured.
+- `Unaccounted` is the width/height of the grey band on the outside of each square. each square is 541 x 541 pixels. The area of the grey band (?) corresponds to the percentage of persons not accounted for in each state.
+- `Agriculture` is the width in pixels of the left most bar in each state. The following two columns, `Male` and `Female` are the height in pixels of the two rectangles making up the left most strip.
+- the next sets of three variables are organized in the same way, i.e. `Trade` is the width of the second most left band, `Female` and `Male` are the heights of the rectangles within that strip.
+- The `Control.number` is based on the sum of the widths minus the average of the sums from the `Female` and `Male` columns.
+
+In a next step, we want to compare these numbers to the data from the Census Bureau's state aggregates.
+```{r}
+empl <- read.csv("Data/employment.csv")
+
+```
