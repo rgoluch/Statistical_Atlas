@@ -27,5 +27,50 @@ The `pixels` data set consists of the following set of variables:
 In a next step, we want to compare these numbers to the data from the Census Bureau's state aggregates.
 ```{r}
 empl <- read.csv("Data/employment.csv")
+```
 
+Extract variables concerned with manufacturing. The denominator in our calculation is not right - we are using total population. However, the comparison on the chart used is population over the age of 10. 
+```{r}
+manufacturing <- empl %>% select(
+  State, TOTAL.POPULATION,
+  TOTAL.HANDS.EMPLOYED.IN.MANUFACTURING,
+  MALES.ABOVE.AGE.16.EMPLOYED.IN.MANUFACTURING,
+  FEMALES.ABOVE.AGE.16.EMPLOYED.IN.MANUFACTURING,
+  YOUTHS.EMPLOYED.IN.MANUFACTURING) 
+manufacturing <- manufacturing %>% mutate(
+  manuPerc = TOTAL.HANDS.EMPLOYED.IN.MANUFACTURING/TOTAL.POPULATION*100,
+  menPerc = MALES.ABOVE.AGE.16.EMPLOYED.IN.MANUFACTURING/TOTAL.HANDS.EMPLOYED.IN.MANUFACTURING * 100,
+  womenPerc = FEMALES.ABOVE.AGE.16.EMPLOYED.IN.MANUFACTURING/TOTAL.HANDS.EMPLOYED.IN.MANUFACTURING * 100,
+  youthsPerc = YOUTHS.EMPLOYED.IN.MANUFACTURING/TOTAL.HANDS.EMPLOYED.IN.MANUFACTURING * 100
+)
+```
+
+Create comparable variables from pixel side:
+```{r}
+manu_pixel <- pixels %>% select(State, Manufacturing, Mfctr.Male, Mfctr.Female) %>% mutate(
+  State=toupper(State),
+  manuPercPix = Manufacturing/451*100,
+  menPercPix = Mfctr.Male/(Mfctr.Male+Mfctr.Female)*100,
+  womenPercPix = Mfctr.Female/(Mfctr.Male+Mfctr.Female)*100
+)
+  
+```
+Combine the two datasets:
+
+
+```{r}
+combo <- left_join(manu_pixel, manufacturing, by="State")
+combo %>% ggplot(aes(x = manuPercPix, y = manuPerc)) + 
+  geom_abline(colour = "grey50") +
+  geom_smooth(method="lm", se=FALSE) + geom_point() +
+  ggrepel::geom_label_repel(aes(label=State), combo %>% filter(manuPercPix >= 15))
+```
+
+Comparing the percentages for men and women (and youths in manufacturing). The error bars are based on %men at the lower end and %men and %youths at the upper end. The percentage of men employed in manufacturing based on the pixelated value should fall within that. 
+
+```{r}
+combo %>% mutate(State = reorder(State, menPerc)) %>%
+  ggplot(aes(x = menPercPix, y = State)) +
+  geom_errorbarh(aes(xmin=menPerc, xmax=menPerc+youthsPerc)) +
+  geom_point()
 ```
