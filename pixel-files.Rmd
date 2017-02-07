@@ -103,3 +103,12 @@ combo2 %>%
 ```
 
 Looks like we found the right data! 
+
+# Reshaping the data
+
+```{r, fig.height=8}
+occ <- occupation %>% gather(key="Occupation", value="Number", 2:6)
+occ %>% 
+  ggplot(aes(x = Area.name, weight=Number)) + 
+  geom_bar(position="fill", aes(fill=Occupation)) + coord_flip()
+```
