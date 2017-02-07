@@ -74,3 +74,32 @@ combo %>% mutate(State = reorder(State, menPerc)) %>%
   geom_errorbarh(aes(xmin=menPerc, xmax=menPerc+youthsPerc)) +
   geom_point()
 ```
+
+```{r}
+occupation <- read.csv("Data/occupation.csv")
+occupation$State <- as.character(occupation$Area.name)
+occupation$employed <- with(occupation, Agriculture+Services+Trade+Manufacturing+School)
+pixels2 <- pixels %>% mutate(
+  employed = Agriculture+Manufacturing+Trade+Services+School
+)
+
+combo2 <- left_join(pixels2, occupation, by="State")
+combo2 %>% 
+  ggplot(aes(x = Agriculture.x/employed.x, y = Agriculture.y/employed.y)) +
+  geom_point()
+combo2 %>% 
+  ggplot(aes(x = Manufacturing.x/employed.x, y = Manufacturing.y/employed.y)) +
+  geom_point()
+combo2 %>% 
+  ggplot(aes(x = Trade.x/employed.x, y = Trade.y/employed.y)) +
+  geom_point()
+combo2 %>% 
+  ggplot(aes(x = Services.x/employed.x, y = Services.y/employed.y)) +
+  geom_point()
+combo2 %>% 
+  ggplot(aes(x = School.x/employed.x, y = School.y/employed.y)) +
+  geom_point()
+
+```
+
+Looks like we found the right data! 
