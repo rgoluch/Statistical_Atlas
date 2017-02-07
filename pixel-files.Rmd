@@ -106,9 +106,17 @@ Looks like we found the right data!
 
 # Reshaping the data
 
-```{r, fig.height=8}
-occ <- occupation %>% gather(key="Occupation", value="Number", 2:6)
+```{r, fig.height=16, fig.width=10}
+occ <- occupation %>% gather(key="Occupation", value="Number", 2:6, factor_key = TRUE)
+
+cols <- c("#666633", "#264073", "#ffcc00", "#7587bd", "#ffe680")
 occ %>% 
-  ggplot(aes(x = Area.name, weight=Number)) + 
-  geom_bar(position="fill", aes(fill=Occupation)) + coord_flip()
+  ggplot(aes(x=1, weight=Number)) + 
+  geom_bar(position="fill", aes(fill=Occupation)) + coord_flip() +
+  facet_wrap(~Area.name, scales="free", ncol=6) + ylab("") + xlab("") +
+  theme(legend.position="top") +
+  scale_fill_manual(values = cols) +
+  scale_y_reverse() +
+  theme(axis.line=element_blank(), axis.text.y=element_blank(), 
+        axis.title = element_blank(), axis.ticks.y = element_blank())
 ```
