@@ -1,0 +1,42 @@
+---
+title: Gainful Occupation in 1870
+author:
+  - name: Heike Hofmann
+    email: hofmann@mail.iastate.edu
+    affiliation: Iowa1
+    footnote: Corresponding Author
+  - name: Ryan Goluch
+    email: rgoluch@mail.iastate.edu
+    affiliation: Iowa2
+address:
+  - code: Iowa1
+    address: Department of Statistics and Statistical Laboratory, Iowa State University, Ames, IA 50011-1121
+  - code: Iowa2
+    address: Department, Iowa State University, Ames, IA 50011-1121
+abstract: |
+  This is the abstract.
+
+  It consists of two paragraphs.
+
+bibliography: mybibfile.bib
+output: rticles::elsevier_article
+---
+
+Introduction
+===
+
+Data retrieved from @NHGIS. Figure \ref{fig:occupation} shows a miniature of the chart published as plate #32 in the Statistical Atlas of 1874 [@atlas] produced from data collected in the 9th US Census. 
+The chart is set-up in form of small multiples, also known as lattice or trellis plots [@becker:1996], one for each state and an enlarged plot as with an overview of the nation-wide aggregates. States are represented by squares of the same size, representing "the total population over 10 years of age", as detailed in the zoom-in in Figure \ref{fig:header}, which shows the description at the top of the plate. 
+
+![Plate #32 from the Statistical Atlas of 1874: Gender ratio of population over the age of 10 in different types of occupation. \label{fig:occupation}](images/ca000082.jpg)
+
+With the help of the description and the legend of Figures \ref{fig:header} and \ref{fig:legend}, we can interpret the details of each of the squares at the example of  Figure \ref{fig:us}. This figure shows an overview of type of occupation by gender across the US in 1870. It is essentially a mosaicplot [@hartigan:1981] of type of occupation (horizontal) and gender (vertical), but with a twist: the grey band around each one of the states' squares is proportional to the number of population "unaccounted" for, i.e. the difference between the total population over the age of ten and the population gainfully employed or attending school. The choice to show this part of the population by a band around is somewhat unfortunate, as it breaks the overall metaphor of the mosaicplot and thereby prevents any direct comparisons across charts except for area comparisons, which are cognitively harder and more error prone than comparisons of lengths [@cleveland:1984].
+
+![Zoom-in to the description section of plate #32 \label{fig:header}](images/header.png)
+
+![Zoom-in to the legend section of plate #32 \label{fig:legend}](images/legend.png)
+
+![Zoom-in to the overview of the US wide distribution of genders across occupations. \label{fig:us}](images/occupations-us.png)
+
+References {#references .unnumbered}
+==========
