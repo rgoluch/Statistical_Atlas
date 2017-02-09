@@ -1,5 +1,5 @@
 ---
-title: Gainful Occupation in 1870
+title: Revisiting two charts of the Statistical Atlas 1874
 author:
   - name: Heike Hofmann
     email: hofmann@mail.iastate.edu
@@ -25,7 +25,16 @@ output: rticles::elsevier_article
 Introduction
 ===
 
-Data retrieved from @NHGIS. Figure \ref{fig:occupation} shows a miniature of the chart published as plate #32 in the Statistical Atlas of 1874 [@atlas] produced from data collected in the 9th US Census. 
+Three times in the past, the US Census Bureau published a Statistical Atlas to map the state of the Union based on data collected in the 9th, 10th, and 11th US census (in 1870, 1880, and 1890). Each of these atlases represents a  masterpiece in science and technology.
+
+XXX What we are planning on doing here
+
+
+
+The Chart
+===
+
+Figure \ref{fig:occupation} shows a miniature of the chart published as plate #32 in the Statistical Atlas of 1874 [@atlas] produced from data collected in the 9th US Census. 
 The chart is set-up in form of small multiples, also known as lattice or trellis plots [@becker:1996], one for each state and an enlarged plot as with an overview of the nation-wide aggregates. States are represented by squares of the same size, representing "the total population over 10 years of age", as detailed in the zoom-in in Figure \ref{fig:header}, which shows the description at the top of the plate. 
 
 ![Plate #32 from the Statistical Atlas of 1874: Gender ratio of population over the age of 10 in different types of occupation. \label{fig:occupation}](images/ca000082.jpg)
@@ -37,6 +46,95 @@ With the help of the description and the legend of Figures \ref{fig:header} and 
 ![Zoom-in to the legend section of plate #32 \label{fig:legend}](images/legend.png)
 
 ![Zoom-in to the overview of the US wide distribution of genders across occupations. \label{fig:us}](images/occupations-us.png)
+
+The Data
+===
+
+Data retrieved from @NHGIS. 
+
+```{r echo = FALSE, message = FALSE}
+library(tidyverse)
+occupation <- read.csv("../Data/occupation.csv")
+occupation$State <- as.character(occupation$Area.name)
+occupation$employed <- with(occupation, Agriculture+Services+Trade+Manufacturing+School)
+
+occ2 <- occupation %>% gather(key="Occupation.Gender", value="Number", 7:16, factor_key = TRUE)
+occ2 <- occ2 %>% select(State, employed, Occupation.Gender, Number) %>% 
+  separate(Occupation.Gender, into=c("Occupation", "Gender"))
+occ2 <- occ2 %>% mutate(
+  Occupation = factor(Occupation, levels=c("Ag", "Mfctr", "Trade", "Srv", "School")),
+  Gender = factor(Gender, levels=c("Male", "Female"))
+)
+levels(occ2$Occupation) <- c("Agriculture", "Manufacturing", "Trade", "Service", "School")
+occ2$Territory <- as.logical(gsub(".* Territory", "TRUE", occ2$State))
+```
+
+```{r fig.width=5, fig.height=5.5, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Recreation of the mosaicplot based on gainfully employed population over ten."}
+cols <- c("#333300", "#000066", "#cc9900", "#202060", "#86742d")
+library(ggmosaic)
+occ2 %>% filter(is.na(Territory)) %>% ggplot() +
+  geom_mosaic(aes(x = product(Gender, Occupation), 
+                  fill=Occupation, alpha = Gender, weight = Number),
+              offset = 0.005) + 
+  scale_fill_manual(values=cols) + theme_bw() +
+  scale_alpha_manual(values=c(0.8,1)) +
+  theme(legend.position = "top") + 
+  coord_equal() +
+    theme(axis.line=element_blank(), axis.text=element_blank(), 
+        axis.title.y = element_blank(), axis.ticks = element_blank()) +
+  xlab("The United States")
+```
+
+
+```{r fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center", fig.cap="Recreation of mosaics of gainful occupation by states."}
+occ2 %>% filter(is.na(Territory)) %>% ggplot() +
+  geom_mosaic(aes(x = product(Gender, Occupation), 
+                  fill=Occupation, alpha = Gender, weight = Number),
+              offset = 0.005) + 
+  scale_fill_manual(values=cols) + theme_bw() +
+  scale_alpha_manual(values=c(0.8,1)) +
+  theme(legend.position = "top") + 
+  facet_wrap(~State, ncol=6) +
+#  coord_equal() +
+  theme(axis.line=element_blank(), axis.text=element_blank(), 
+        axis.title = element_blank(), axis.ticks = element_blank(),
+        aspect.ratio=1) 
+```
+
+
+```{r fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Mosaics of gainful occupation by territories."}
+occ2 %>% filter(!is.na(Territory)) %>% ggplot() +
+  geom_mosaic(aes(x = product(Gender, Occupation), 
+                  fill=Occupation, alpha = Gender, weight = Number),
+              offset = 0.005) + 
+  scale_fill_manual(values=cols) + theme_bw() +
+  scale_alpha_manual(values=c(0.8,1)) +
+  theme(legend.position = "top") + 
+  facet_wrap(~State, ncol=6) +
+#  coord_equal() +
+  theme(axis.line=element_blank(), axis.text=element_blank(), 
+        axis.title = element_blank(), axis.ticks = element_blank(),
+        aspect.ratio=1) 
+```
+
+Maps
+===
+
+The R package `USAboundaries` [@USAboundaries] provides historical US state borders. This is used to map the US in 1870 in Figure \ref{fig:us1870}.
+
+```{r echo = FALSE, message = FALSE}
+library(USAboundaries)
+map_states <- us_boundaries("1870-01-01", type = "state")
+map1870 <- map_data(map_states)
+map1870$Territory <- gsub(".* Territory", "TRUE", map1870$region)
+map1870$Territory <- gsub(".* Department", "TRUE", map1870$Territory)
+map1870$Territory <- as.logical(gsub(".* Terr.", "TRUE", map1870$Territory))
+
+map1870 %>% filter(is.na(Territory)) %>%
+  ggplot(aes(x = long, y = lat, group = group)) +
+  geom_polygon()
+```
+
 
 References {#references .unnumbered}
 ==========
