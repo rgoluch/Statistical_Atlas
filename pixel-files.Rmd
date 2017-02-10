@@ -24,6 +24,13 @@ The `pixels` data set consists of the following set of variables:
 - the next sets of three variables are organized in the same way, i.e. `Trade` is the width of the second most left band, `Female` and `Male` are the heights of the rectangles within that strip.
 - The `Control.number` is based on the sum of the widths minus the average of the sums from the `Female` and `Male` columns.
 
+Just to get an idea of the size of the unaccounted population, we have:
+
+```{r}
+summary((541^2 - (541-2*pixels$Unaccounted)^2)/541^2)
+```
+
+
 In a next step, we want to compare these numbers to the data from the Census Bureau's state aggregates.
 ```{r}
 empl <- read.csv("Data/employment.csv")
@@ -78,26 +85,26 @@ combo %>% mutate(State = reorder(State, menPerc)) %>%
 ```{r}
 occupation <- read.csv("Data/occupation.csv")
 occupation$State <- as.character(occupation$Area.name)
-occupation$employed <- with(occupation, Agriculture+Services+Trade+Manufacturing+School)
+occupation$employed <- rowSums(occupation[,-c(1,12:13)])
 pixels2 <- pixels %>% mutate(
   employed = Agriculture+Manufacturing+Trade+Services+School
 )
 
 combo2 <- left_join(pixels2, occupation, by="State")
 combo2 %>% 
-  ggplot(aes(x = Agriculture.x/employed.x, y = Agriculture.y/employed.y)) +
+  ggplot(aes(x = Agriculture/employed.x, y = (Agriculture.Female+Agriculture.Male)/employed.y)) +
   geom_point()
 combo2 %>% 
-  ggplot(aes(x = Manufacturing.x/employed.x, y = Manufacturing.y/employed.y)) +
+  ggplot(aes(x = Manufacturing/employed.x, y = (Manufacturing.Female+Manufacturing.Male)/employed.y)) +
   geom_point()
 combo2 %>% 
-  ggplot(aes(x = Trade.x/employed.x, y = Trade.y/employed.y)) +
+  ggplot(aes(x = Trade/employed.x, y = (Trade.Female.y+Trade.Male.y)/employed.y)) +
   geom_point()
 combo2 %>% 
-  ggplot(aes(x = Services.x/employed.x, y = Services.y/employed.y)) +
+  ggplot(aes(x = Services/employed.x, y = (Service.Female+Service.Male)/employed.y)) +
   geom_point()
 combo2 %>% 
-  ggplot(aes(x = School.x/employed.x, y = School.y/employed.y)) +
+  ggplot(aes(x = School/employed.x, y = (School.Female+School.Male)/employed.y)) +
   geom_point()
 
 ```
@@ -121,7 +128,7 @@ occ %>%
         axis.title = element_blank(), axis.ticks.y = element_blank())
 ```
 ```{r, fig.height=5, fig.width=5}
-occ2 <- occupation %>% gather(key="Occupation.Gender", value="Number", 7:16, factor_key = TRUE)
+occ2 <- occupation %>% gather(key="Occupation.Gender", value="Number", 2:11, factor_key = TRUE)
 occ2 <- occ2 %>% select(State, employed, Occupation.Gender, Number) %>% 
   separate(Occupation.Gender, into=c("Occupation", "Gender"))
 
