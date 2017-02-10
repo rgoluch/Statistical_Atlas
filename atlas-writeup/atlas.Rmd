@@ -197,11 +197,13 @@ occupation3 <- left_join(occupation2, ages.sex, by=c("Area.name"="STATEICP"))
 occupation3 <- occupation3 %>% mutate(
   Total.Above10.Female = above10.Female/above10*Total.Above10.Est,
   Total.Above10.Male = above10.Male/above10*Total.Above10.Est,
-  Unaccounted.Female = Total.Above10.Female - (Agriculture.Female+Manufacturing.Female+Trade.Female+Service.Female+School.Female),
-  Unaccounted.Male = pmax(Total.Above10.Male - (Agriculture.Male+Manufacturing.Male+Trade.Male+Service.Male+School.Male)
-,0))
+  Employed.Female = Agriculture.Female+Manufacturing.Female+Trade.Female+Service.Female+School.Female,
+  Employed.Male = Agriculture.Male+Manufacturing.Male+Trade.Male+Service.Male+School.Male,
+  Unaccounted.Female = Total.Above10.Female - Employed.Female,
+  Unaccounted.Male = pmax(Total.Above10.Male - Employed.Male,0)
+)
 
-occ3 <- occupation3 %>% gather(key="Occupation.Sex", value="Number", c(2:11,22:23)) %>% separate(Occupation.Sex, into=c("Occupation", "Sex"))
+occ3 <- occupation3 %>% gather(key="Occupation.Sex", value="Number", c(2:11,24:25)) %>% separate(Occupation.Sex, into=c("Occupation", "Sex"))
 occ3 <- occ3 %>% mutate(
   Occupation = factor(Occupation, levels= c("Agriculture", "Manufacturing",
                                             "Trade", "Service", "School", "Unaccounted")),
