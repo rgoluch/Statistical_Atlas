@@ -39,7 +39,7 @@ The chart is set-up in form of small multiples, also known as lattice or trellis
 
 ![Plate #32 from the Statistical Atlas of 1874: Gender ratio of population over the age of 10 in different types of occupation. \label{fig:occupation}](images/ca000082.jpg)
 
-With the help of the description and the legend of Figures \ref{fig:header} and \ref{fig:legend}, we can interpret the details of each of the squares at the example of  Figure \ref{fig:us}. This figure shows an overview of type of occupation by gender across the US in 1870. It is essentially a mosaicplot [@hartigan:1981] of type of occupation (horizontal) and gender (vertical), but with a twist: the grey band around each one of the states' squares is proportional to the number of population "unaccounted" for, i.e. the difference between the total population over the age of ten and the population gainfully employed or attending school. The choice to show this part of the population by a band around is somewhat unfortunate, as it breaks the overall metaphor of the mosaicplot and thereby prevents any direct comparisons across charts except for area comparisons, which are cognitively harder and more error prone than comparisons of lengths [@cleveland:1984].
+With the help of the description and the legend of Figures \ref{fig:header} and \ref{fig:legend}, we can interpret the details of each of the squares at the example of  Figure \ref{fig:us}. This figure shows an overview of type of occupation by gender across the US in 1870. It is essentially a mosaicplot [@hartigan:1981] of type of occupation (horizontal) and gender (vertical), but with a twist: the grey band around each one of the states' squares is proportional to the number of population "unaccounted" for, i.e. the difference between the total population over the age of ten and the population gainfully employed or attending school. The choice to show this part of the population by a band around is somewhat unfortunate, as it breaks the overall metaphor of the mosaicplot and thereby prevents any direct comparisons across charts except for area comparisons, which are cognitively harder and more error prone than comparisons of lengths [@cleveland:1984]. It also masks the size of the population that is thus *unaccounted* for by visually cutting it into a quarter of the size it actually is. The percentage of unaccounted individuals is at about 30% nation-wide higher than any of the other groups. It is also made up of about 97% women and girls.
 
 ![Zoom-in to the description section of plate #32 \label{fig:header}](images/header.png)
 
@@ -50,29 +50,35 @@ With the help of the description and the legend of Figures \ref{fig:header} and 
 The Data
 ===
 
-Data retrieved from @NHGIS. 
+Data retrieved from @NHGIS - from table NT13 on "Employed Population by Occupation by Age by Sex".
 
 ```{r echo = FALSE, message = FALSE}
 library(tidyverse)
 occupation <- read.csv("../Data/occupation.csv")
 occupation$State <- as.character(occupation$Area.name)
-occupation$employed <- with(occupation, Agriculture+Services+Trade+Manufacturing+School)
+occupation$Territory <- as.logical(gsub(".* Territory", "TRUE", occupation$State))
+occupation$Area.name <- gsub(" Territory", "", occupation$Area.name)
+occupation$Area.name <- gsub(" Department", "", occupation$Area.name)
+occupation$Area.name <- gsub(" Terr.", "", occupation$Area.name)
 
-occ2 <- occupation %>% gather(key="Occupation.Gender", value="Number", 7:16, factor_key = TRUE)
-occ2 <- occ2 %>% select(State, employed, Occupation.Gender, Number) %>% 
+
+occ2 <- occupation %>% gather(key="Occupation.Gender", value="Number", 2:11, factor_key = TRUE)
+occ2 <- occ2 %>% select(State, Total.Population, Occupation.Gender, Number) %>% 
   separate(Occupation.Gender, into=c("Occupation", "Gender"))
 occ2 <- occ2 %>% mutate(
-  Occupation = factor(Occupation, levels=c("Ag", "Mfctr", "Trade", "Srv", "School")),
+  Occupation = factor(Occupation, levels= c("Agriculture", "Manufacturing",
+                                            "Trade", "Service", "School")),
   Gender = factor(Gender, levels=c("Male", "Female"))
 )
-levels(occ2$Occupation) <- c("Agriculture", "Manufacturing", "Trade", "Service", "School")
-occ2$Territory <- as.logical(gsub(".* Territory", "TRUE", occ2$State))
+occ2 <- occ2 %>% group_by(State) %>% mutate(Total.Employed=sum(Number))
+occ2$Area.Name <- gsub(" Territory","", occ2$State)
+occ2$Area.Name <- gsub(" Terr.","", occ2$Area.Name)
 ```
 
 ```{r fig.width=5, fig.height=5.5, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Recreation of the mosaicplot based on gainfully employed population over ten."}
 cols <- c("#333300", "#000066", "#cc9900", "#202060", "#86742d")
 library(ggmosaic)
-occ2 %>% filter(is.na(Territory)) %>% ggplot() +
+occ2 %>% filter(State==Area.Name) %>% ggplot() +
   geom_mosaic(aes(x = product(Gender, Occupation), 
                   fill=Occupation, alpha = Gender, weight = Number),
               offset = 0.005) + 
@@ -87,7 +93,7 @@ occ2 %>% filter(is.na(Territory)) %>% ggplot() +
 
 
 ```{r fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center", fig.cap="Recreation of mosaics of gainful occupation by states."}
-occ2 %>% filter(is.na(Territory)) %>% ggplot() +
+occ2 %>% filter(Area.Name==State) %>% ggplot() +
   geom_mosaic(aes(x = product(Gender, Occupation), 
                   fill=Occupation, alpha = Gender, weight = Number),
               offset = 0.005) + 
@@ -103,7 +109,7 @@ occ2 %>% filter(is.na(Territory)) %>% ggplot() +
 
 
 ```{r fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Mosaics of gainful occupation by territories."}
-occ2 %>% filter(!is.na(Territory)) %>% ggplot() +
+occ2 %>% filter(Area.Name != State) %>% ggplot() +
   geom_mosaic(aes(x = product(Gender, Occupation), 
                   fill=Occupation, alpha = Gender, weight = Number),
               offset = 0.005) + 
@@ -122,17 +128,114 @@ Maps
 
 The R package `USAboundaries` [@USAboundaries] provides historical US state borders. This is used to map the US in 1870 in Figure \ref{fig:us1870}.
 
-```{r echo = FALSE, message = FALSE}
+```{r echo = FALSE, message = FALSE, fig.pos="center", fig.cap="Map of States in the US in 1870 \\label{fig:us1870}"}
 library(USAboundaries)
 map_states <- us_boundaries("1870-01-01", type = "state")
 map1870 <- map_data(map_states)
 map1870$Territory <- gsub(".* Territory", "TRUE", map1870$region)
 map1870$Territory <- gsub(".* Department", "TRUE", map1870$Territory)
 map1870$Territory <- as.logical(gsub(".* Terr.", "TRUE", map1870$Territory))
+map1870$Parts <- c("Territory", "State")[is.na(map1870$Territory)+1]
+map1870 %>% filter(lat <= 50) %>% 
+  ggplot(aes(x = long, y = lat, group = group, fill=Parts)) +
+  geom_polygon() + scale_fill_manual(values=c("grey50", "grey70")) + 
+  ggthemes::theme_map()
+```
 
-map1870 %>% filter(is.na(Territory)) %>%
-  ggplot(aes(x = long, y = lat, group = group)) +
-  geom_polygon()
+
+```{r, message=FALSE, fig.height = 8, fig.width=5, echo=FALSE, fig.pos="center", fig.caption="Density plots \\label{fig:density}"}
+
+popmap <- left_join(map1870, occ2, by=c("region"="State")) %>% filter(lat <= 50)
+
+library(ggmapr)
+poplist <- popmap %>% filter(!is.na(Number)) %>% tidyr::nest(-region, -Occupation, -Gender)
+poplist$sample <- poplist$data %>% 
+  purrr::map(.f = function(d) d %>% map_unif(n = round(d$Number[1]/10000+.5)))
+df3 <- poplist %>% select(-data) %>% tidyr::unnest()
+df3 %>% ggplot(aes(x = long, y = lat)) +
+  facet_grid(Occupation~Gender) + 
+  geom_polygon(aes(group = group, fill=Parts), 
+               data = map1870 %>% filter(lat <= 50)) +  
+  scale_fill_manual(values=c("grey50", "grey70")) + 
+  ggthemes::theme_map() +
+  geom_point(aes(color = Occupation), size = 1) +
+  theme(legend.position="top")
+
+```
+
+Because state-level aggregates of the number of total population above the age of ten is not available, we are making use of the 1\% microsample of the ninth census provided by the Integrated Public Use Microdata Series (IPUMS-USA) provided through the Minnesota Population Center [@ipums]. 
+```{r echo = FALSE, eval = FALSE}
+ipums <- read.csv("../Data/ipums-1870.csv")
+ages <- ipums %>% group_by(STATEICP) %>% summarize(total = n(), above10 = sum(AGE>10))
+ages.sex <- ipums %>% group_by(STATEICP, SEX) %>% summarize(total = n(), above10 = sum(AGE>10))
+write.csv(ages, file="../Data/ages-ipums.csv", row.names=FALSE)
+write.csv(ages.sex, file="../Data/ages-sex-ipums.csv", row.names=FALSE)
+```
+
+```{r echo = FALSE}
+ages <- read.csv("../Data/ages-ipums.csv")
+ages <- ages %>% mutate(
+  STATEICP = replace(STATEICP, STATEICP == "Louisianna", "Louisiana"),
+  STATEICP = replace(as.character(STATEICP), STATEICP %in% c("South Dakota", "North Dakota"), "Dakota")
+)
+ages <- ages %>% group_by(STATEICP) %>% summarize(total=sum(total), above10 = sum(above10))
+
+ages.sex <- read.csv("../Data/ages-sex-ipums.csv")
+ages.sex <- ages.sex %>% mutate(
+  STATEICP = replace(STATEICP, STATEICP == "Louisianna", "Louisiana"),
+  STATEICP = replace(as.character(STATEICP), STATEICP %in% c("South Dakota", "North Dakota"), "Dakota")
+) %>% group_by(STATEICP, SEX) %>% summarize(above10=sum(above10))
+ages.sex <- ages.sex %>% 
+  spread(key=SEX, value=above10)
+names(ages.sex)[2:3] <- c("above10.Female", "above10.Male")
+
+# all good!
+anti_join(occupation, ages, by=c("Area.name"="STATEICP")) %>% count(State)
+occupation2 <- left_join(occupation, ages, by=c("Area.name"="STATEICP")) 
+occupation2$Total.Above10.Est <- with(occupation2, above10/total*Total.Population)
+occupation3 <- left_join(occupation2, ages.sex, by=c("Area.name"="STATEICP"))
+occupation3 <- occupation3 %>% mutate(
+  Total.Above10.Female = above10.Female/above10*Total.Above10.Est,
+  Total.Above10.Male = above10.Male/above10*Total.Above10.Est,
+  Unaccounted.Female = Total.Above10.Female - (Agriculture.Female+Manufacturing.Female+Trade.Female+Service.Female+School.Female),
+  Unaccounted.Male = pmax(Total.Above10.Male - (Agriculture.Male+Manufacturing.Male+Trade.Male+Service.Male+School.Male)
+,0))
+
+occ3 <- occupation3 %>% gather(key="Occupation.Sex", value="Number", c(2:11,22:23)) %>% separate(Occupation.Sex, into=c("Occupation", "Sex"))
+occ3 <- occ3 %>% mutate(
+  Occupation = factor(Occupation, levels= c("Agriculture", "Manufacturing",
+                                            "Trade", "Service", "School", "Unaccounted")),
+  Sex = factor(Sex, levels=c("Male", "Female"))
+)
+```
+
+```{r echo = FALSE}
+cols <- c("#333300", "#000066", "#cc9900", "#202060", "#86742d", "grey40")
+occ3 %>% filter(Area.name==State) %>% ggplot() +
+  geom_mosaic(aes(x = product(Sex, Occupation), 
+                  fill=Occupation, alpha = Sex, weight = Number),
+              offset = 0.005) + 
+  scale_fill_manual(values=cols) + theme_bw() +
+  scale_alpha_manual(values=c(0.8,1)) +
+  theme(legend.position = "top") + 
+  coord_equal() +
+    theme(axis.line=element_blank(), axis.text=element_blank(), 
+        axis.title.y = element_blank(), axis.ticks = element_blank()) +
+  xlab("The United States")
+```
+
+```{r fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Mosaics of gainful occupation by territories including population not employed."}
+occ3 %>% filter(Area.name==State) %>% ggplot() +
+  geom_mosaic(aes(x = product(Sex, Occupation), 
+                  fill=Occupation, alpha = Sex, weight = Number),
+              offset = 0.005) + 
+  scale_fill_manual(values=cols) + theme_bw() +
+  scale_alpha_manual(values=c(0.8,1)) +
+  theme(legend.position = "top") + 
+  facet_wrap(~State, ncol=6) +
+  coord_equal() +
+    theme(axis.line=element_blank(), axis.text=element_blank(), 
+        axis.title = element_blank(), axis.ticks = element_blank()) 
 ```
 
 
