@@ -114,10 +114,17 @@ Looks like we found the right data!
 # Reshaping the data
 
 ```{r, fig.height=16, fig.width=10}
-occ <- occupation %>% gather(key="Occupation", value="Number", 2:6, factor_key = TRUE)
+occ2 <- occupation %>% gather(key="Occupation.Gender", value="Number", 2:11, factor_key = TRUE)
+occ2 <- occ2 %>%  
+  separate(Occupation.Gender, into=c("Occupation", "Gender"))
+
+occ2 <- occ2 %>% mutate(
+  Occupation = factor(Occupation, levels=c("Agriculture", "Manufacturing", "Trade", "Service", "School")),
+  Gender = factor(Gender, levels=c("Male", "Female"))
+)
 
 cols <- c("#666633", "#264073", "#ffcc00", "#7587bd", "#ffe680")
-occ %>% 
+occ2 %>% 
   ggplot(aes(x=1, weight=Number)) + 
   geom_bar(position="fill", aes(fill=Occupation)) + coord_flip() +
   facet_wrap(~Area.name, scales="free", ncol=6) + ylab("") + xlab("") +
@@ -127,15 +134,9 @@ occ %>%
   theme(axis.line=element_blank(), axis.text.y=element_blank(), 
         axis.title = element_blank(), axis.ticks.y = element_blank())
 ```
-```{r, fig.height=5, fig.width=5}
-occ2 <- occupation %>% gather(key="Occupation.Gender", value="Number", 2:11, factor_key = TRUE)
-occ2 <- occ2 %>% select(State, employed, Occupation.Gender, Number) %>% 
-  separate(Occupation.Gender, into=c("Occupation", "Gender"))
 
-occ2 <- occ2 %>% mutate(
-  Occupation = factor(Occupation, levels=c("Ag", "Mfctr", "Trade", "Srv", "School")),
-  Gender = factor(Gender, levels=c("Male", "Female"))
-)
+
+```{r, fig.height=5, fig.width=5}
 
 cols <- c("#666633", "#264073", "#ffcc00", "#7587bd", "#ffe680")
 
