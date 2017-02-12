@@ -15,6 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 pixels <- readxl::read_excel("pixel-measurements.xlsx")
 glimpse(pixels)
+# write.csv(pixels, file="Data/pixel-values.csv", row.names=FALSE)
 ```
 The `pixels` data set consists of the following set of variables:
 

@@ -37,11 +37,11 @@ The Chart
 ===
 
 Figure \ref{fig:occupation} shows a miniature of the chart published as plate #32 in the Statistical Atlas of 1874 [@atlas] produced from data collected in the 9th US Census. 
-The chart is set-up in form of small multiples, also known as lattice or trellis plots [@becker:1996], one for each state and an enlarged plot as with an overview of the nation-wide aggregates. States are represented by squares of the same size, representing "the total population over 10 years of age", as detailed in the zoom-in in Figure \ref{fig:header}, which shows the description at the top of the plate. 
+The chart is set-up in form of small multiples [@tufte], also known as lattice or trellis plots [@becker:1996], one for each state and an enlarged plot as with an overview of the nation-wide aggregates. States are represented by squares of the same size, representing "the total population over 10 years of age", as detailed in the zoom-in in Figure \ref{fig:header}, which shows the description at the top of the plate. 
 
 ![Plate #32 from the Statistical Atlas of 1874: Gender ratio of population over the age of 10 in different types of occupation. \label{fig:occupation}](images/ca000082.jpg)
 
-With the help of the description and the legend of Figures \ref{fig:header} and \ref{fig:legend}, we can interpret the details of each of the squares at the example of  Figure \ref{fig:us}. This figure shows an overview of type of occupation by gender across the US in 1870. It is essentially a mosaicplot [@hartigan:1981] of type of occupation (horizontal) and gender (vertical), but with a twist: the grey band around each one of the states' squares is proportional to the number of population "unaccounted" for, i.e. the difference between the total population over the age of ten and the population gainfully employed or attending school. The choice to show this part of the population by a band around is somewhat unfortunate, as it breaks the overall metaphor of the mosaicplot and thereby prevents any direct comparisons across charts except for area comparisons, which are cognitively harder and more error prone than comparisons of lengths [@cleveland:1984]. It also masks the size of the population that is thus *unaccounted* for by visually cutting it into a quarter of the size it actually is. The percentage of unaccounted individuals is at about 30% nation-wide higher than any of the other groups. It is also made up of about 97% women and girls.
+With the help of the description and the legend of Figures \ref{fig:header} and \ref{fig:legend}, we can interpret the details of each of the squares at the example of  Figure \ref{fig:us}. This figure shows an overview of type of occupation by gender across the US in 1870. It is essentially a mosaic [@hartigan:1981] or Marimekko plot [citation?] of type of occupation (horizontal) and gender (vertical), but with a twist: the grey band around each one of the states' squares is proportional to the number of population "unaccounted" for, i.e. the difference between the total population over the age of ten and the population gainfully employed or attending school. The choice to show this part of the population by a band around is somewhat unfortunate, as it breaks the overall metaphor of the mosaicplot and thereby prevents any direct comparisons across charts except for area comparisons, which are cognitively harder and more error prone than comparisons of lengths [@cleveland:1984]. It also masks the size of the population that is thus *unaccounted* for by visually cutting it into a quarter of the size it actually is. The percentage of unaccounted individuals is at about 30% nation-wide higher than any of the other groups. It is also made up of about 97% women and girls.
 
 ![Zoom-in to the description section of plate #32 \label{fig:header}](images/header.png)
 
@@ -146,24 +146,30 @@ map1870 %>% filter(lat <= 50) %>%
 ```
 
 
-```{r, message=FALSE, fig.height = 8, fig.width=5, echo=FALSE, fig.pos="center", fig.caption="Density plots \\label{fig:density}"}
+```{r, message=FALSE, fig.height = 8, fig.width=5, echo=FALSE, fig.pos="center", fig.cap="Density plots: each dot represents (according to its size) the number of people employed in each occupation or going to school. For women in particular, strong geographic patterns emerge.\\label{fig:density}", cache=TRUE}
 
 popmap <- left_join(map1870, occ2, by=c("region"="State")) %>% filter(lat <= 50)
 
 library(ggmapr)
-poplist <- popmap %>% filter(!is.na(Number)) %>% tidyr::nest(-region, -Occupation, -Gender)
-poplist$sample <- poplist$data %>% 
-  purrr::map(.f = function(d) d %>% map_unif(n = round(d$Number[1]/10000+.5)))
-df3 <- poplist %>% select(-data) %>% tidyr::unnest()
-df3 %>% ggplot(aes(x = long, y = lat)) +
-  facet_grid(Occupation~Gender) + 
-  geom_polygon(aes(group = group, fill=Parts), 
-               data = map1870 %>% filter(lat <= 50)) +  
-  scale_fill_manual(values=c("grey50", "grey70")) + 
-  ggthemes::theme_map() +
-  geom_point(aes(color = Occupation), size = 1) +
-  theme(legend.position="top")
-
+popmap$jitters1 <- round(popmap$Number/50000,0)
+popmap$jitters2 <- round((popmap$Number %% 50000)/5000,0)
+popmap$jitters3 <- round((popmap$Number %% 5000)/500,0)
+popmap %>% filter(!is.na(Number)) %>% ggplot(aes(x = long, y = lat)) +
+   geom_polygon(aes(group = group, fill=Parts), colour="white", size = 0.5) +
+   stat_polygon_jitter(aes(long = long, lat = lat, group = Area.Name, 
+                           mapgroup = group, n = jitters1, 
+                           colour = Occupation, size="a")) +
+   stat_polygon_jitter(aes(long = long, lat = lat, group = Area.Name, 
+                           mapgroup = group, n = jitters2, 
+                           colour = Occupation, size="b")) +
+   stat_polygon_jitter(aes(long = long, lat = lat, group = Area.Name, 
+                           mapgroup = group, n = jitters3, 
+                           colour = Occupation, size = "c")) +
+   ggthemes::theme_map() + facet_grid(Occupation~Gender) +
+  scale_colour_brewer(palette="Dark2", guide="none") +
+  scale_fill_manual(values=c("grey80", "grey95")) +
+  theme(legend.position="top") +
+  scale_size_manual("Population:", labels=c("50000","5000", "500"), values=c(1,.5,.25))
 ```
 
 Because state-level aggregates of the number of total population above the age of ten is not available, we are making use of the 1\% microsample of the ninth census provided by the Integrated Public Use Microdata Series (IPUMS-USA) provided through the Minnesota Population Center [@ipums]. 
@@ -175,7 +181,7 @@ write.csv(ages, file="../Data/ages-ipums.csv", row.names=FALSE)
 write.csv(ages.sex, file="../Data/ages-sex-ipums.csv", row.names=FALSE)
 ```
 
-```{r echo = FALSE}
+```{r echo = FALSE, fig.pos="center", fig.cap="Mosaic plot of the US-wide gender ratio of population over ten years of age in different occupations, school, and others."}
 ages <- read.csv("../Data/ages-ipums.csv")
 ages <- ages %>% mutate(
   STATEICP = replace(STATEICP, STATEICP == "Louisianna", "Louisiana"),
@@ -193,7 +199,7 @@ ages.sex <- ages.sex %>%
 names(ages.sex)[2:3] <- c("above10.Female", "above10.Male")
 
 # all good!
-anti_join(occupation, ages, by=c("Area.name"="STATEICP")) %>% count(State)
+# anti_join(occupation, ages, by=c("Area.name"="STATEICP")) %>% count(State)
 occupation2 <- left_join(occupation, ages, by=c("Area.name"="STATEICP")) 
 occupation2$Total.Above10.Est <- with(occupation2, above10/total*Total.Population)
 occupation3 <- left_join(occupation2, ages.sex, by=c("Area.name"="STATEICP"))
@@ -212,6 +218,34 @@ occ3 <- occ3 %>% mutate(
                                             "Trade", "Service", "School", "Unaccounted")),
   Sex = factor(Sex, levels=c("Male", "Female"))
 )
+```
+
+Figure \ref{fig:comparison} shows that the numbers from NT 14 and the microsample closely matches the information on plate #32.
+
+```{r echo=FALSE, fig.pos="center", warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). \\label{fig:comparison}"}
+pixels2 <- read.csv("../Data/pixel-values.csv")
+pixels2$Unaccounted <- (451^2 - (451-2*pixels2$Unaccounted)^2)/451
+
+px1 <- pixels2 %>% select(State, Agriculture, Manufacturing, Trade, Service, School, Unaccounted) %>% gather(key="Occupation", value="Pixels", -State, factor_key=TRUE)
+px1 <- px1 %>% group_by(State) %>% mutate(State.Pixels=sum(Pixels))
+px1 <- px1 %>% mutate(PixPercent = Pixels/State.Pixels*100) %>% arrange(State)
+
+occ4 <- occ3 %>% select(Area.name, Occupation, Sex, Number) %>% 
+  spread(key="Sex", value="Number") %>%
+  mutate(Number = Male + Female) %>% 
+  group_by(Area.name) %>%
+  mutate(Total = sum(Number), 
+         CensusPercent = Number/Total*100) %>%
+  select(-Male, -Female, -Total)
+
+px2 <- full_join(px1, occ4, by=c("State"="Area.name", "Occupation")) 
+
+px2 %>% 
+  ggplot(aes(x = PixPercent, y = CensusPercent)) +
+  geom_abline() + geom_point() + 
+  facet_wrap(~Occupation) + theme_bw() +
+  xlab("Percentages of occupation based on Plate #32") +
+  ylab("Percentages based on Census Data")
 ```
 
 ```{r echo = FALSE}
