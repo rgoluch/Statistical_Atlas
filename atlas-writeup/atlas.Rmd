@@ -25,7 +25,8 @@ output: rticles::elsevier_article
 Introduction
 ===
 
-Three times in the past, the US Census Bureau published a Statistical Atlas to map the state of the Union based on data collected in the 9th, 10th, and 11th US census (in 1870, 1880, and 1890). Each of these atlases represents a  masterpiece in science and technology.
+Three times in the past, the US Census Bureau published a Statistical Atlas to map the state of the Union based on data collected in the 9th, 10th, and 11th US census (in 1870, 1880, and 1890). Each of these atlases represents a  masterpiece in science and technology. Here, we want to focus on the ninth Census, supervised by Francis A. Walker. At this time, the United States had a population of about 38.5 million people. The Atlas represents a graphical compendium of the census information prepared in more than 100 lithographic plates. Most of these plates are overlaid maps, but some consist of more abstract and, at that time, novel visualizations.
+Of particular interest are plates #31 and #32. Both of these plates have a very similar studture: they show what are now known as mosaic plots or  Marimekko charts in small multiples, one for each state. 
 
 XXX What we are planning on doing here
 
@@ -33,7 +34,7 @@ XXX What we are planning on doing here
 2. *Recreate the charts:* that involves to get the data, check that it is the right data and re-create the charts (to the degree that modern charts will allow us to do that). In order to be able to check the data for correctness, we have to digitize the information provided in the chart (by measuring the relevant geometric objects).
 3. *Re-display the data:* some of the visualization choices made in the original charts are cognitively questionable. Re-displaying the data also allows us to introduce a spatial component.
 
-The Chart
+Plate #32: Gender Ratio in Agriculture, Trade, Service, Manufacturing, and Schools
 ===
 
 Figure \ref{fig:occupation} shows a miniature of the chart published as plate #32 in the Statistical Atlas of 1874 [@atlas] produced from data collected in the 9th US Census. 
@@ -41,7 +42,7 @@ The chart is set-up in form of small multiples [@tufte], also known as lattice o
 
 ![Plate #32 from the Statistical Atlas of 1874: Gender ratio of population over the age of 10 in different types of occupation. \label{fig:occupation}](images/ca000082.jpg)
 
-With the help of the description and the legend of Figures \ref{fig:header} and \ref{fig:legend}, we can interpret the details of each of the squares at the example of  Figure \ref{fig:us}. This figure shows an overview of type of occupation by gender across the US in 1870. It is essentially a mosaic [@hartigan:1981] or Marimekko plot [citation?] of type of occupation (horizontal) and gender (vertical), but with a twist: the grey band around each one of the states' squares is proportional to the number of population "unaccounted" for, i.e. the difference between the total population over the age of ten and the population gainfully employed or attending school. The choice to show this part of the population by a band around is somewhat unfortunate, as it breaks the overall metaphor of the mosaicplot and thereby prevents any direct comparisons across charts except for area comparisons, which are cognitively harder and more error prone than comparisons of lengths [@cleveland:1984]. It also masks the size of the population that is thus *unaccounted* for by visually cutting it into a quarter of the size it actually is. The percentage of unaccounted individuals is at about 30% nation-wide higher than any of the other groups. It is also made up of about 97% women and girls.
+With the help of the description and the legend of Figures \ref{fig:header} and \ref{fig:legend}, we can interpret the details of each of the squares at the example of  Figure \ref{fig:us}. This figure shows an overview of type of occupation by gender across the US in 1870. It is essentially a mosaic [@hartigan:1981] or Marimekko plot [citation?] of type of occupation (horizontal) and gender (vertical), but with a twist: the grey band around each one of the states' squares is proportional to the number of population "unaccounted" for, i.e. the difference between the total population over the age of ten and the population gainfully employed in one of the five categories or attending school. The choice to show this part of the population by a band around is somewhat unfortunate, as it breaks the overall metaphor of the mosaicplot and thereby prevents any direct comparisons across charts except for area comparisons, which are cognitively harder and more error prone than comparisons of lengths [@cleveland:1984]. It also masks the size of the population that is thus *unaccounted* for by visually cutting it into a quarter of the size it actually is. The percentage of unaccounted individuals is at about 30% nation-wide higher than any of the other groups. It is also made up of about 97% women and girls.
 
 ![Zoom-in to the description section of plate #32 \label{fig:header}](images/header.png)
 
@@ -53,7 +54,10 @@ With the help of the description and the legend of Figures \ref{fig:header} and 
 The Data
 ===
 
-Data retrieved from @NHGIS - from table NT13 on "Employed Population by Occupation by Age by Sex".
+Data retrieved from @NHGIS - from table NT13 on "Employed Population by Occupation by Age by Sex". XXX The numbers in this table are state-level aggregates of population numbers by gender and occupation. XX Adding sample?
+Because state-level aggregates of the number of total population above the age of ten is not available, we are making use of the 1\% microsample of the ninth census provided by the Integrated Public Use Microdata Series (IPUMS-USA) provided through the Minnesota Population Center [@ipums]. This allows us to find state-wide estimates for the size of the male and female population above ten for each state. Based on these estimates we derive the size of the population not "gainfully employed" or attending school. 
+Figure \ref{fig:comparison} shows that the numbers combined from NT13 and the microsample closely match the information on plate #32. For all occupation levels and school attendance the numbers are *very* close. For population not accounted for, the numbers are estimated from the 1% ipums microsample. this inflates the variability in these numbers, but the relationship to the visual measurements is still very strong. 
+
 
 ```{r echo = FALSE, message = FALSE}
 library(tidyverse)
@@ -172,7 +176,6 @@ popmap %>% filter(!is.na(Number)) %>% ggplot(aes(x = long, y = lat)) +
   scale_size_manual("Population:", labels=c("50000","5000", "500"), values=c(1,.5,.25))
 ```
 
-Because state-level aggregates of the number of total population above the age of ten is not available, we are making use of the 1\% microsample of the ninth census provided by the Integrated Public Use Microdata Series (IPUMS-USA) provided through the Minnesota Population Center [@ipums]. 
 ```{r echo = FALSE, eval = FALSE}
 ipums <- read.csv("../Data/ipums-1870.csv")
 ages <- ipums %>% group_by(STATEICP) %>% summarize(total = n(), above10 = sum(AGE>10))
@@ -220,7 +223,6 @@ occ3 <- occ3 %>% mutate(
 )
 ```
 
-Figure \ref{fig:comparison} shows that the numbers from NT 14 and the microsample closely matches the information on plate #32.
 
 ```{r echo=FALSE, fig.pos="center", warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). \\label{fig:comparison}"}
 pixels2 <- read.csv("../Data/pixel-values.csv")
@@ -248,7 +250,7 @@ px2 %>%
   ylab("Percentages based on Census Data")
 ```
 
-```{r echo = FALSE}
+```{r echo = FALSE, fig.pos="center", fig.cap="Mosaicplot of the gender ratio in different occupations of the population ten years of age and above."}
 cols <- c("#333300", "#000066", "#cc9900", "#202060", "#86742d", "grey40")
 occ3 %>% filter(Area.name==State) %>% ggplot() +
   geom_mosaic(aes(x = product(Sex, Occupation), 
