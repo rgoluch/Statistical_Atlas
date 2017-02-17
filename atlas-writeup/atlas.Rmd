@@ -160,9 +160,9 @@ map1870 %>% filter(lat <= 50) %>%
 popmap <- left_join(map1870, occ2, by=c("region"="State")) %>% filter(lat <= 50)
 
 library(ggmapr)
-popmap$jitters1 <- round(popmap$Number/50000,0)
-popmap$jitters2 <- round((popmap$Number %% 50000)/5000,0)
-popmap$jitters3 <- round((popmap$Number %% 5000)/500,0)
+popmap$jitters1 <- round(popmap$Number/100000,0)
+popmap$jitters2 <- round((popmap$Number %% 100000)/10000,0)
+popmap$jitters3 <- round((popmap$Number %% 10000)/1000,0)
 popmap %>% filter(!is.na(Number)) %>% ggplot(aes(x = long, y = lat)) +
    geom_polygon(aes(group = group, fill=Parts), colour="white", size = 0.5) +
    stat_polygon_jitter(aes(long = long, lat = lat, group = Area.Name, 
@@ -178,7 +178,7 @@ popmap %>% filter(!is.na(Number)) %>% ggplot(aes(x = long, y = lat)) +
   scale_colour_brewer(palette="Dark2", guide="none") +
   scale_fill_manual(values=c("grey80", "grey95")) +
   theme(legend.position="top") +
-  scale_size_manual("Population:", labels=c("50000","5000", "500"), values=c(1,.5,.25))
+  scale_size_manual("Population:", labels=c("100,000","10,000", "1,000"), values=c(1,.5,.25))
 ```
 
 ```{r echo = FALSE, eval = FALSE}
