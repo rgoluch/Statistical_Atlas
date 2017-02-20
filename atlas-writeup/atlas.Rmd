@@ -26,7 +26,12 @@ Introduction
 ===
 
 Three times in the past, the US Census Bureau published a Statistical Atlas to map the state of the Union based on data collected in the 9th, 10th, and 11th US census (in 1870, 1880, and 1890). Each of these atlases represents a  masterpiece in science and technology. Here, we want to focus on the ninth Census, supervised by Francis A. Walker. At this time, the United States had a population of about 38.5 million people. The Atlas represents a graphical compendium of the census information prepared in more than 100 lithographic plates. Most of these plates are overlaid maps, but some consist of more abstract and, at that time, novel visualizations.
-Of particular interest are plates #31 and #32. Both of these plates have a very similar studture: they show what are now known as mosaic plots or  Marimekko charts in small multiples, one for each state. 
+Of particular interest are plates #31 and #32. Both of these plates have a very similar studture: they show small multiples, one for each state, of what are now known as mosaic plots or  Marimekko charts.
+
+
+At the time the Statistical Atlas for the ninth census was created, Mosaic plots were a novel way of visualizing data. Even though sometimes Minard [@minard44] is cited as the first to create a mosaic plot [@friendly], the square form of a  Mosaic plot wasn't published until 1877 [@mayr].
+
+were not a well established form of visualizing data 
 
 XXX What we are planning on doing here
 
