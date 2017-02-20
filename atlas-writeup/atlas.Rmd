@@ -39,6 +39,24 @@ XXX What we are planning on doing here
 2. *Recreate the charts:* that involves to get the data, check that it is the right data and re-create the charts (to the degree that modern charts will allow us to do that). In order to be able to check the data for correctness, we have to digitize the information provided in the chart (by measuring the relevant geometric objects).
 3. *Re-display the data:* some of the visualization choices made in the original charts are cognitively questionable. Re-displaying the data also allows us to introduce a spatial component.
 
+Plate #31: Church Accommodations
+===
+
+```{r echo = FALSE}
+library(RColorBrewer)
+cols = brewer.pal(n=12, name="Paired")
+church <- read.csv("../Data/denominations-1874.csv")
+cl <- church %>% gather(key="Denomination", value = "Number", 7:25)
+library(ggmosaic)
+cl <- cl %>% mutate(Denomination = reorder(Denomination, Number, na.rm=TRUE))
+
+cl %>%
+  ggplot() +
+  geom_mosaic(aes(weight = Number,  x=product(Denomination), fill=Denomination)) +
+  facet_wrap(~Area.name) + scale_fill_manual(values=c(cols, cols))
+```
+
+
 Plate #32: Gender Ratio in Agriculture, Trade, Service, Manufacturing, and Schools
 ===
 
