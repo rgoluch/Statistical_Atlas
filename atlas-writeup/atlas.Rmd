@@ -28,10 +28,8 @@ Introduction
 Three times in the past, the US Census Bureau published a Statistical Atlas to map the state of the Union based on data collected in the 9th, 10th, and 11th US census (in 1870, 1880, and 1890). Each of these atlases represents a  masterpiece in science and technology. Here, we want to focus on the ninth Census, supervised by Francis A. Walker. At this time, the United States had a population of about 38.5 million people. The Atlas represents a graphical compendium of the census information prepared in more than 100 lithographic plates. Most of these plates are overlaid maps, but some consist of more abstract and, at that time, novel visualizations.
 Of particular interest are plates #31 and #32. Both of these plates have a very similar studture: they show small multiples, one for each state, of what are now known as mosaic plots or  Marimekko charts.
 
+At the time the Statistical Atlas for the ninth census was created, Mosaic plots were a novel way of visualizing data. Even though area plots as a means of visualizing data had been in use before [@friendly], e.g. Minard's [@minard] plate #3 [@newyork], Mosaic plots in their modern form of use were not published until 1877 [@mayr].
 
-At the time the Statistical Atlas for the ninth census was created, Mosaic plots were a novel way of visualizing data. Even though sometimes Minard [@minard44] is cited as the first to create a mosaic plot [@friendly], the square form of a  Mosaic plot wasn't published until 1877 [@mayr].
-
-were not a well established form of visualizing data 
 
 XXX What we are planning on doing here
 
@@ -39,10 +37,31 @@ XXX What we are planning on doing here
 2. *Recreate the charts:* that involves to get the data, check that it is the right data and re-create the charts (to the degree that modern charts will allow us to do that). In order to be able to check the data for correctness, we have to digitize the information provided in the chart (by measuring the relevant geometric objects).
 3. *Re-display the data:* some of the visualization choices made in the original charts are cognitively questionable. Re-displaying the data also allows us to introduce a spatial component.
 
+```{r data-reading, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+occ2 <- read.csv("../Data/occ2.csv")
+occ2 <- occ2 %>% mutate(
+  Occupation = factor(Occupation, levels= c("Agriculture", "Manufacturing",
+                                            "Trade", "Service", "School")),
+  Gender = factor(Gender, levels=c("Male", "Female")),
+  State = as.character(State),
+  Area.Name = as.character(Area.Name)
+)
+
+occ3 <- read.csv("../Data/occ3.csv")
+occ3 <- occ3 %>% mutate(
+  Occupation = factor(Occupation, levels= c("Agriculture", "Manufacturing",
+                                            "Trade", "Service", "School", "Unaccounted")),
+  Sex = factor(Sex, levels=c("Male", "Female")),
+  State = as.character(State),
+  Area.name = as.character(Area.name)
+)
+```
+
 Plate #31: Church Accommodations
 ===
 
-```{r echo = FALSE}
+```{r echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center"}
 library(RColorBrewer)
 cols = brewer.pal(n=12, name="Paired")
 church <- read.csv("../Data/denominations-1874.csv")
@@ -52,8 +71,9 @@ cl <- cl %>% mutate(Denomination = reorder(Denomination, Number, na.rm=TRUE))
 
 cl %>%
   ggplot() +
-  geom_mosaic(aes(weight = Number,  x=product(Denomination), fill=Denomination)) +
-  facet_wrap(~Area.name) + scale_fill_manual(values=c(cols, cols))
+  geom_bar(aes(weight = Number,  x=State.Name, fill=Denomination),
+           position="fill") +
+  scale_fill_manual(values=c(cols, cols))
 ```
 
 
@@ -87,28 +107,6 @@ Big picture goals
 - **reproducibility**: can we re-produce results, i.e. images, of the Statistical Atlas based on the resources we have access to today?
 The resources are: ipums, NHGIS, the high resolution images of the digitized version of the Statistical Atlas provided by the National Library of Congress. 
 
-```{r echo = FALSE, message = FALSE}
-library(tidyverse)
-occupation <- read.csv("../Data/occupation.csv")
-occupation$State <- as.character(occupation$Area.name)
-occupation$Territory <- as.logical(gsub(".* Territory", "TRUE", occupation$State))
-occupation$Area.name <- gsub(" Territory", "", occupation$Area.name)
-occupation$Area.name <- gsub(" Department", "", occupation$Area.name)
-occupation$Area.name <- gsub(" Terr.", "", occupation$Area.name)
-
-
-occ2 <- occupation %>% gather(key="Occupation.Gender", value="Number", 2:11, factor_key = TRUE)
-occ2 <- occ2 %>% select(State, Total.Population, Occupation.Gender, Number) %>% 
-  separate(Occupation.Gender, into=c("Occupation", "Gender"))
-occ2 <- occ2 %>% mutate(
-  Occupation = factor(Occupation, levels= c("Agriculture", "Manufacturing",
-                                            "Trade", "Service", "School")),
-  Gender = factor(Gender, levels=c("Male", "Female"))
-)
-occ2 <- occ2 %>% group_by(State) %>% mutate(Total.Employed=sum(Number))
-occ2$Area.Name <- gsub(" Territory","", occ2$State)
-occ2$Area.Name <- gsub(" Terr.","", occ2$Area.Name)
-```
 
 ```{r fig.width=5, fig.height=5.5, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Recreation of the mosaicplot based on gainfully employed population over ten."}
 cols <- c("#333300", "#000066", "#cc9900", "#202060", "#86742d")
@@ -201,55 +199,9 @@ popmap %>% filter(!is.na(Number)) %>% ggplot(aes(x = long, y = lat)) +
   scale_colour_brewer(palette="Dark2", guide="none") +
   scale_fill_manual(values=c("grey80", "grey95")) +
   theme(legend.position="top") +
-  scale_size_manual("Population:", labels=c("100,000","10,000", "1,000"), values=c(1,.5,.25))
+  scale_size_manual("Population:", labels=c("100,000","10,000", "1,000"), values=c(1,.5,.1))
 ```
 
-```{r echo = FALSE, eval = FALSE}
-ipums <- read.csv("../Data/ipums-1870.csv")
-ages <- ipums %>% group_by(STATEICP) %>% summarize(total = n(), above10 = sum(AGE>10))
-ages.sex <- ipums %>% group_by(STATEICP, SEX) %>% summarize(total = n(), above10 = sum(AGE>10))
-write.csv(ages, file="../Data/ages-ipums.csv", row.names=FALSE)
-write.csv(ages.sex, file="../Data/ages-sex-ipums.csv", row.names=FALSE)
-```
-
-```{r echo = FALSE, fig.pos="center", fig.cap="Mosaic plot of the US-wide gender ratio of population over ten years of age in different occupations, school, and others."}
-ages <- read.csv("../Data/ages-ipums.csv")
-ages <- ages %>% mutate(
-  STATEICP = replace(STATEICP, STATEICP == "Louisianna", "Louisiana"),
-  STATEICP = replace(as.character(STATEICP), STATEICP %in% c("South Dakota", "North Dakota"), "Dakota")
-)
-ages <- ages %>% group_by(STATEICP) %>% summarize(total=sum(total), above10 = sum(above10))
-
-ages.sex <- read.csv("../Data/ages-sex-ipums.csv")
-ages.sex <- ages.sex %>% mutate(
-  STATEICP = replace(STATEICP, STATEICP == "Louisianna", "Louisiana"),
-  STATEICP = replace(as.character(STATEICP), STATEICP %in% c("South Dakota", "North Dakota"), "Dakota")
-) %>% group_by(STATEICP, SEX) %>% summarize(above10=sum(above10))
-ages.sex <- ages.sex %>% 
-  spread(key=SEX, value=above10)
-names(ages.sex)[2:3] <- c("above10.Female", "above10.Male")
-
-# all good!
-# anti_join(occupation, ages, by=c("Area.name"="STATEICP")) %>% count(State)
-occupation2 <- left_join(occupation, ages, by=c("Area.name"="STATEICP")) 
-occupation2$Total.Above10.Est <- with(occupation2, above10/total*Total.Population)
-occupation3 <- left_join(occupation2, ages.sex, by=c("Area.name"="STATEICP"))
-occupation3 <- occupation3 %>% mutate(
-  Total.Above10.Female = above10.Female/above10*Total.Above10.Est,
-  Total.Above10.Male = above10.Male/above10*Total.Above10.Est,
-  Employed.Female = Agriculture.Female+Manufacturing.Female+Trade.Female+Service.Female+School.Female,
-  Employed.Male = Agriculture.Male+Manufacturing.Male+Trade.Male+Service.Male+School.Male,
-  Unaccounted.Female = Total.Above10.Female - Employed.Female,
-  Unaccounted.Male = pmax(Total.Above10.Male - Employed.Male,0)
-)
-
-occ3 <- occupation3 %>% gather(key="Occupation.Sex", value="Number", c(2:11,24:25)) %>% separate(Occupation.Sex, into=c("Occupation", "Sex"))
-occ3 <- occ3 %>% mutate(
-  Occupation = factor(Occupation, levels= c("Agriculture", "Manufacturing",
-                                            "Trade", "Service", "School", "Unaccounted")),
-  Sex = factor(Sex, levels=c("Male", "Female"))
-)
-```
 
 
 ```{r echo=FALSE, fig.pos="center", warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). \\label{fig:comparison}"}
