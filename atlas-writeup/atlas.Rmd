@@ -28,7 +28,9 @@ Introduction
 Three times in the past, the US Census Bureau published a Statistical Atlas to map the state of the Union based on data collected in the 9th, 10th, and 11th US census (in 1870, 1880, and 1890). Each of these atlases represents a  masterpiece in science and technology. Here, we want to focus on the ninth Census, supervised by Francis A. Walker. At this time, the United States had a population of about 38.5 million people. The Atlas represents a graphical compendium of the census information prepared in more than 100 lithographic plates. Most of these plates are overlaid maps, but some consist of more abstract and, at that time, novel visualizations.
 Of particular interest are plates #31 and #32. Both of these plates have a very similar structure: they show small multiples, one for each state, of what are now known as mosaic plots or  Marimekko charts.
 
-At the time the Statistical Atlas for the ninth census was created, Mosaic plots were a novel way of visualizing data. Even though area plots as a means of visualizing data had been in use before [@friendly], e.g. Minard's [@minard] plate #3 [@newyork], Mosaic plots in their modern form of use were not published until 1877 [@mayr].
+At the time the Statistical Atlas for the ninth census was created, Mosaic plots were a novel way of visualizing data. Even though area plots as a means of visualizing data had been in use before [@friendly], e.g. Minard's [@minard] plate #3 [@newyork], Mosaic plots in their modern form  of use were not published until 1877 [@mayr]. However,  the descriptions given on both plates #31 and #32 makes it clear that areas are designed to be proportional to the population they represent: "The interior squares represent the proportion of the population which is accounted for as engaged in gainful occupations or as attending school. The shaded intervals between the inner and and outer squares represent the proportion of the population not so accounted for."
+
+
 
 
 XXX What we are planning on doing here
@@ -94,9 +96,9 @@ The chart is set-up in form of small multiples [@tufte], also known as lattice o
 
 ![Plate #32 from the Statistical Atlas of 1874: Gender ratio of population over the age of 10 in different types of occupation. \label{fig:occupation}](images/ca000082.jpg)
 
-With the help of the description and the legend of Figures \ref{fig:header} and \ref{fig:legend}, we can interpret the details of each of the squares at the example of  Figure \ref{fig:us}. This figure shows an overview of type of occupation by gender across the US in 1870. It is essentially a mosaic [@hartigan:1981, @friendly] or Marimekko plot [citation?] of type of occupation (horizontal) and gender (vertical), but with a twist: the grey band around each one of the states' squares is proportional to the number of population "unaccounted" for, i.e. the difference between the total population over the age of ten and the population gainfully employed in one of the five categories or attending school. The choice to show this part of the population by a band around is somewhat unfortunate, as it breaks the overall metaphor of the mosaicplot and thereby prevents any direct comparisons across charts except for area comparisons, which are cognitively harder and more error prone than comparisons of lengths [@cleveland:1984]. It also masks the size of the population that is thus *unaccounted* for by visually cutting it into a quarter of the size it actually is. The percentage of unaccounted individuals is at about 30% nation-wide higher than any of the other groups. It is also made up of about 97% women and girls.
+With the help of the description and the legend of Figures \ref{fig:header} and \ref{fig:legend}, we can interpret the details of each of the squares at the example of  Figure \ref{fig:us}. This figure shows an overview of type of occupation by gender across the US in 1870. It is essentially a mosaic [@hartigan:1981, @friendly, @prodplots] or Marimekko plot [citation?] of type of occupation (horizontal) and gender (vertical), but with a twist: the grey band around each one of the states' squares is proportional to the number of population "unaccounted" for, i.e. the difference between the total population over the age of ten and the population gainfully employed in one of the five categories or attending school. The choice to show this part of the population by a band around is somewhat unfortunate, as it breaks the overall metaphor of the mosaicplot and thereby prevents any direct comparisons across charts except for area comparisons, which are cognitively harder and more error prone than comparisons of lengths [@cleveland:1984]. It also masks the size of the population that is thus *unaccounted* for by visually cutting it into a quarter of the size it actually is. The percentage of unaccounted individuals is at about 30% nation-wide higher than any of the other groups. It is also made up of about 97% women and girls.
 
-![Zoom-in to the description section of plate #32 \label{fig:header}](images/header.png)
+![Zoom-in to the description section of plate #32. \label{fig:header}](images/header.png)
 
 
 ![Zoom-in to the legend section of plate #32 \label{fig:legend}](images/legend.png)
@@ -251,6 +253,14 @@ occ3 %>% filter(Area.name==State) %>% ggplot() +
         axis.title = element_blank(), axis.ticks = element_blank()) 
 ```
 
+Acknowledgment
+===
+
+Software used:
+
+- for creating mosaic plots [@ggmosaic], 
+- for creating charts in general [@ggplot2],
+- for combining the text, data and the code into a single document to ensure a higher chance of future reproducibility [@knitr]
 
 References {#references .unnumbered}
 ==========
