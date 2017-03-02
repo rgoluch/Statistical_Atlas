@@ -69,9 +69,16 @@ px2 <- read.csv("../Data/px2.csv")
 Plate #31: Church Accommodations
 ===
 
-```{r echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 8}
+```{r echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 8, fig.width=10, fig.cap="Proportion of religious sittings by Denomination"}
 library(RColorBrewer)
-cols = brewer.pal(n=12, name="Paired")
+library(munsell)
+cols = c(brewer.pal(n=12, name="Paired")[c(1,3,5,7,9,11)], "grey80")
+colRGB <- t(col2rgb(cols))/256
+colMNSL <- rgb2mnsl(colRGB)
+colMNSL <- c(colMNSL, darker(colMNSL, step=2), darker(colMNSL, step=4))
+colHEX <- mnsl(colMNSL)
+colHEX <- colHEX[rep(0:6, each=3)+c(1,8,15)]
+
 church <- read.csv("../Data/denominations-1874.csv")
 cl <- church %>% gather(key="Denomination", value = "Number", 3:21)
 library(ggmosaic)
@@ -81,7 +88,7 @@ cl %>%
   ggplot() +
   geom_bar(aes(weight = Number,  x=State, fill=Denomination),
            position="fill") +
-  scale_fill_manual(values=c(cols, cols)) + coord_flip() +
+  scale_fill_manual(values=rev(colHEX)[-(1:2)]) + coord_flip() +
   theme(legend.position="bottom") +
   guides(fill = guide_legend(reverse = TRUE))
   
