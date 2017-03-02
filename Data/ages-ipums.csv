@@ -1,49 +1,49 @@
-"STATEICP","total","above10","Total.Population"
-"Alabama",15133,10260,77139
-"Arizona",92,69,149
-"Arkansas",6219,4186,62572
-"California",5531,4183,91176
-"Colorado",380,284,2617
-"Connecticut",5406,4156,99663
-"Delaware",1700,1217,19965
-"District of Columbia",1956,1445,19941
-"Florida",3042,2008,12778
-"Georgia",18027,12032,77493
-"Idaho",157,146,466
-"Illinois",26547,18135,548225
-"Indiana",17455,11929,395263
-"Iowa",11693,7929,306353
-"Kansas",3964,2723,63183
-"Kentucky",16884,11483,181225
-"Louisiana",11564,7973,51259
-"Maine",5919,4599,155140
-"Maryland",10201,7247,105435
-"Massachusetts",14782,11464,287405
-"Michigan",11756,8369,264217
-"Minnesota",4652,3074,96793
-"Mississippi",13107,8645,39141
-"Missouri",19084,12820,324348
-"Montana",168,155,919
-"Nebraska",1153,796,17956
-"Nevada",438,367,2893
-"New Hampshire",3284,2583,65824
-"New Jersey",9493,6904,158099
-"New Mexico",845,558,1889
-"New York",43850,32832,846796
-"North Carolina",15275,10391,65301
-"North Dakota",17,13,NA
-"Ohio",27034,19040,645639
-"Oregon",942,611,18096
-"Pennsylvania",35533,25348,725004
-"Rhode Island",2130,1683,34948
-"South Carolina",11584,7804,41569
-"South Dakota",134,102,NA
-"Tennessee",16834,11338,120710
-"Texas",11123,7325,65205
-"Utah",874,563,14632
-"Vermont",3293,2538,70199
-"Virginia",18678,12885,70871
-"Washington",231,165,3537
-"West Virginia",4703,3175,82193
-"Wisconsin",10444,7126,260732
-"Wyoming",66,63,364
+"STATEICP","total","above10","Area.name","Total.Population"
+"Alabama",15133,10260,"Alabama",996992
+"Arizona",92,69,"Arizona Territory",9658
+"Arkansas",6219,4186,"Arkansas",484471
+"California",5531,4183,"California",560247
+"Colorado",380,284,"Colorado Territory",39864
+"Connecticut",5406,4156,"Connecticut",537454
+"Delaware",1700,1217,"Delaware",125015
+"District of Columbia",1956,1445,"District of Columbia",131700
+"Florida",3042,2008,"Florida",187748
+"Georgia",18027,12032,"Georgia",1184109
+"Idaho",157,146,"Idaho Territory",14999
+"Illinois",26547,18135,"Illinois",2539891
+"Indiana",17455,11929,"Indiana",1680637
+"Iowa",11693,7929,"Iowa",1194020
+"Kansas",3964,2723,"Kansas",364399
+"Kentucky",16884,11483,"Kentucky",1321011
+"Louisiana",11564,7973,"Louisianna",726915
+"Maine",5919,4599,"Maine",626915
+"Maryland",10201,7247,"Maryland",780894
+"Massachusetts",14782,11464,"Massachusetts",1457351
+"Michigan",11756,8369,"Michigan",1184059
+"Minnesota",4652,3074,"Minnesota",439706
+"Mississippi",13107,8645,"Mississippi",827922
+"Missouri",19084,12820,"Missouri",1721295
+"Montana",168,155,"Montana Territory",20595
+"Nebraska",1153,796,"Nebraska",122993
+"Nevada",438,367,"Nevada",42491
+"New Hampshire",3284,2583,"New Hampshire",318300
+"New Jersey",9493,6904,"New Jersey",906096
+"New Mexico",845,558,"New Mexico Territory",91874
+"New York",43850,32832,"New York",4382759
+"North Carolina",15275,10391,"North Carolina",1071361
+"North Dakota",17,13,NA,NA
+"Ohio",27034,19040,"Ohio",2665260
+"Oregon",942,611,"Oregon",90923
+"Pennsylvania",35533,25348,"Pennsylvania",3521951
+"Rhode Island",2130,1683,"Rhode Island",217353
+"South Carolina",11584,7804,"South Carolina",705606
+"South Dakota",134,102,NA,NA
+"Tennessee",16834,11338,"Tennessee",1258520
+"Texas",11123,7325,"Texas",818579
+"Utah",874,563,"Utah Territory",86786
+"Vermont",3293,2538,"Vermont",330551
+"Virginia",18678,12885,"Virginia",1225163
+"Washington",231,165,"Washington Territory",23955
+"West Virginia",4703,3175,"West Virginia",442014
+"Wisconsin",10444,7126,"Wisconsin",1054670
+"Wyoming",66,63,"Wyoming Territory",9118
