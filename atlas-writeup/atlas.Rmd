@@ -44,9 +44,9 @@ Both plates #31 and #32 are based on population totals for the population over 1
 ## Chart Discussion
 The charts in the Statistical Atlas were created using extremely high-precision methods for the time it was published. Color images were produced by Julius Bien's publishing house [@bien,@atlas-review] using lithography. This process involved creating separate plates for each color utilized in the chart by hand, and then lining up each color precisely when the images were printed. Modern methods are much quicker and easier on the visualization designer; we only have to write computer code to describe the plot, and the computer renders the plot in a miniscule fraction of the time it would take to draw the same plot by hand. 
 
-XXX SVP: I'm sure there are better reproducible research references. I don't know about citing the knitr book alone (don't want to be tool specific) but I've added a couple of placeholder references. 
-XXX HH: we probably should include Sweave as well. 
-XXX SVP: added sweave reference
+XXX SVP: I'm sure there are better reproducible research references. I don't know about citing the knitr book alone (don't want to be tool specific) but I've added a couple of placeholder references.      
+XXX HH: we probably should include Sweave as well.     
+XXX SVP: added sweave reference    
 
 Reproducible research is a frequent topic of discussion in data visualization and data science[@donoho-reproducible,@amstat-repro,@knitr,@leisch2002sweave]. This paper sets out to reproduce with as much fidelity as possible the hand-drawn charts of the Statistical Atlas, using modern methods. In some cases, reproducibility focuses on whether the results of a study can be replicated from the exact same data set using the same methods and computer code; this is not the approach we are taking in this paper. Rather, here we are exploring whether it is possible to access the data from the 1870 census (or a sample thereof) and, using that data, re-create some of the charts in the Statistical Atlas using modern methods. In addition to sampled data, we also extrapolate data from digitized versions of the original charts by measuring the geometric objects.
 
