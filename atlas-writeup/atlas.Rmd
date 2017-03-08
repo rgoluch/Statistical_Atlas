@@ -80,6 +80,10 @@ px2 <- read.csv("../Data/px2.csv")
 Plate #31: Church Accommodations
 ===
 
+Figure \ref{fig:denominations} shows a miniature of plate #31 from the Statistical Atlas. This plate shows the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey frame). For each state a square of the same size is drawn. The four most common denomination are shown as colored stripes, the width of which is proprtional to the number of their sittings. Each denomination is shown by one of eleven different colors, all other denominations are represented jointly by a twelfth color. 
+
+![Plate #31 from the Statistical Atlas of 1874: Church accommodation by state and denomination for the population of over ten years of age. \label{fig:denominations}](images/ca000081.jpg)
+
 ```{r echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 8, fig.width=10, fig.cap="Proportion of religious sittings by Denomination"}
 library(RColorBrewer)
 library(munsell)
@@ -112,7 +116,7 @@ Plate #32: Gender Ratio in Agriculture, Trade, Service, Manufacturing, and Schoo
 Figure \ref{fig:occupation} shows a miniature of the chart published as plate #32 in the Statistical Atlas of 1874 [@atlas] produced from data collected in the 9th US Census. 
 The chart is set-up in form of small multiples [@tufte], also known as lattice or trellis plots [@becker:1996], one for each state and an enlarged plot as with an overview of the nation-wide aggregates. States are represented by squares of the same size, representing "the total population over 10 years of age", as detailed in the zoom-in in Figure \ref{fig:header}, which shows the description at the top of the plate. 
 
-![Plate #32 from the Statistical Atlas of 1874: Gender ratio of population over the age of 10 in different types of occupation. \label{fig:occupation}](images/ca000082.jpg)
+![Plate #32 from the Statistical Atlas of 1874: Gender ratio of population over the age of ten in different types of occupation. \label{fig:occupation}](images/ca000082.jpg)
 
 With the help of the description and the legend of Figures \ref{fig:header} and \ref{fig:legend}, we can interpret the details of each of the squares at the example of  Figure \ref{fig:us}. This figure shows an overview of type of occupation by gender across the US in 1870. It is essentially a mosaic [@hartigan:1981, @friendly, @prodplots] or Marimekko plot [citation?] of type of occupation (horizontal) and gender (vertical), but with a twist: the grey band around each one of the states' squares is proportional to the number of population "unaccounted" for, i.e. the difference between the total population over the age of ten and the population gainfully employed in one of the five categories or attending school. The choice to show this part of the population by a band around is somewhat unfortunate, as it breaks the overall metaphor of the mosaicplot and thereby prevents any direct comparisons across charts except for area comparisons, which are cognitively harder and more error prone than comparisons of lengths [@cleveland:1984]. It also masks the size of the population that is thus *unaccounted* for by visually cutting it into a quarter of the size it actually is. The percentage of unaccounted individuals is at about 30% nation-wide higher than any of the other groups. It is also made up of about 97% women and girls.
 
