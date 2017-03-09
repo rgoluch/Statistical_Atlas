@@ -5,6 +5,9 @@ author:
     email: hofmann@mail.iastate.edu
     affiliation: Iowa1
     footnote: Corresponding Author
+  - name: Susan Vander Plas
+    email: srvanderplas@mail.iastate.edu
+    affiliation: Iowa1
   - name: Ryan Goluch
     email: rgoluch@mail.iastate.edu
     affiliation: Iowa2
@@ -12,14 +15,13 @@ address:
   - code: Iowa1
     address: Department of Statistics and Statistical Laboratory, Iowa State University, Ames, IA 50011-1121
   - code: Iowa2
-    address: Department, Iowa State University, Ames, IA 50011-1121
+    address: Department of Software Engineering, Iowa State University, Ames, IA 50011-1121
 abstract: |
   This is the abstract.
 
   It consists of two paragraphs.
-
 bibliography: mybibfile.bib
-output: rticles::elsevier_article
+output: rticles::acm_article
 ---
 
 Introduction
@@ -80,11 +82,13 @@ px2 <- read.csv("../Data/px2.csv")
 Plate #31: Church Accommodations
 ===
 
-Figure \ref{fig:denominations} shows a miniature of plate #31 from the Statistical Atlas. This plate shows the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey frame). For each state a square of the same size is drawn. The four most common denomination are shown as colored stripes, the width of which is proprtional to the number of their sittings. Each denomination is shown by one of eleven different colors, all other denominations are represented jointly by a twelfth color. 
+Figure \ref{fig:denominations} shows a miniature of plate #31 from the Statistical Atlas. This plate shows the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey frame). For each state a square of the same size is drawn. The four most common denomination are shown as colored stripes, the width of which is proprtional to the number of their sittings. Each denomination is shown by one of eleven different colors, all other denominations are represented jointly by a twelfth color. The color scheme chosen in the Statistical Atlas is essentialy that of paired colors, i.e. each hue is represented with a lighter shade (using hatching) and a darker shade. 
 
 ![Plate #31 from the Statistical Atlas of 1874: Church accommodation by state and denomination for the population of over ten years of age. \label{fig:denominations}](images/ca000081.jpg)
 
-```{r echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 8, fig.width=10, fig.cap="Proportion of religious sittings by Denomination"}
+![Zoom-in to the legend section of plate #31. On the right is a copy of the colors using a Deuteranopia filter (Color Oracle). The fully saturated red and green are indistinguishable, as are the fully saturated purple (for Roman Catholic) and the brown (for all other denominations). \label{fig:legend-31}](images/plate31-legend.png)
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(RColorBrewer)
 library(munsell)
 cols = c(brewer.pal(n=12, name="Paired")[c(1,3,5,7,9,11)], "grey80")
@@ -93,23 +97,67 @@ colMNSL <- rgb2mnsl(colRGB)
 colMNSL <- c(colMNSL, darker(colMNSL, step=2), darker(colMNSL, step=4))
 colHEX <- mnsl(colMNSL)
 colHEX <- colHEX[rep(0:6, each=3)+c(1,8,15)]
+colHEX <- c(colHEX, "grey60")
 
 church <- read.csv("../Data/denominations-1874.csv")
-cl <- church %>% gather(key="Denomination", value = "Number", 3:21)
-library(ggmosaic)
+cl <- church %>% gather(key="Denomination", value = "Number", c(3:21, 25))
 cl <- cl %>% mutate(Denomination = reorder(Denomination, Number, na.rm=TRUE))
+cl$Denomination <- factor(cl$Denomination, c("Unaccommodated", levels(cl$Denomination)))
+```
 
-cl %>%
+
+
+```{r echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.cap="US overview", fig.width=8, fig.height=8}
+library(ggmosaic)
+clsmall <- cl %>% filter(Denomination != "Unaccommodated") %>%
+  mutate(Denomination = reorder(Denomination, Number, function(x) -sum(x, na.rm=TRUE)))
+clsmall$Denom10 <- clsmall$Denomination
+levels(clsmall$Denom10) <- c(levels(clsmall$Denomination)[1:8], "Other", "Other", "Other", "Other", "Other", "Other", "Other", "Other", "Other", "Other", "Other", "Other", "Other")
+attr(cl$Denom10, "scores") <- NULL
+
+clsmall <- clsmall %>% group_by(Denom10) %>% summarise(Number = sum(Number, na.rm=TRUE))
+clsmall <- rbind(clsmall, data.frame(Denom10="Unaccommodated", Number=27144037-21665062))
+p <- clsmall %>%
+  ggplot() +
+  geom_mosaic(aes(weight = Number,  x=product(Denom10), fill=product(Denom10)), 
+              offset=0, alpha=1) +
+  scale_fill_manual(values=colHEX[c(7,18,2,15,1,11,10,8,9,19,2,3)]) + 
+  theme_bw() +
+  theme(legend.position="none") + coord_equal() +
+  theme(axis.title = element_blank(),
+      #  axis.text.x =  element_text(angle=90, hjust=1, vjust=0.5),
+        axis.text = element_blank(),
+        axis.ticks = element_blank()) 
+p2 <- ggplot_build(p)$data[[1]]
+p +  geom_text(aes(label = label, x = (xmin+xmax)/2), angle = 90, size =5, colour = "white", y=0.025, data = p2, hjust = 0, vjust=0.5)
+```
+
+
+```{r echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 8, fig.width=10, fig.cap="Proportion of religious sittings by Denomination"}
+
+library(ggmosaic)
+cl %>% filter(Denomination != "Unaccommodated") %>%
   ggplot() +
   geom_bar(aes(weight = Number,  x=State, fill=Denomination),
            position="fill") +
   scale_fill_manual(values=rev(colHEX)[-(1:2)]) + coord_flip() +
   theme(legend.position="bottom") +
-  guides(fill = guide_legend(reverse = TRUE))
+  guides(fill = guide_legend(reverse = TRUE, nrow=3))
   
 ```
 
+```{r echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 8, fig.width=10, fig.cap="Proportion of religious sittings by Denomination including Unaccommodated Population"}
 
+library(ggmosaic)
+cl %>% 
+  ggplot() +
+  geom_bar(aes(weight = Number,  x=State, fill=Denomination),
+           position="fill") +
+  scale_fill_manual(values=rev(colHEX)[-(1:2)]) + coord_flip() +
+  theme(legend.position="bottom") +
+  guides(fill = guide_legend(reverse = TRUE, nrow=3))
+  
+```
 Plate #32: Gender Ratio in Agriculture, Trade, Service, Manufacturing, and Schools
 ===
 
