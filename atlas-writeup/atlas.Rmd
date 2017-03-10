@@ -3,14 +3,14 @@ title: Revisiting two charts of the Statistical Atlas 1874
 author:
   - name: Heike Hofmann
     email: hofmann@mail.iastate.edu
-    affiliation: Iowa1
+    affiliation: Iowa State University
     footnote: Corresponding Author
   - name: Susan Vander Plas
     email: srvanderplas@mail.iastate.edu
-    affiliation: Iowa1
+    affiliation: Iowa State University
   - name: Ryan Goluch
     email: rgoluch@mail.iastate.edu
-    affiliation: Iowa2
+    affiliation: Iowa State University
 address:
   - code: Iowa1
     address: Department of Statistics and Statistical Laboratory, Iowa State University, Ames, IA 50011-1121
@@ -92,9 +92,25 @@ Figure \ref{fig:denominations} shows a miniature of plate #31 from the Statistic
 library(RColorBrewer)
 library(munsell)
 cols = c(brewer.pal(n=12, name="Paired")[c(1,3,5,7,9,11)], "grey80")
+
+#cols <- c("#ffcc80","#ff9900")
+
+
 colRGB <- t(col2rgb(cols))/256
 colMNSL <- rgb2mnsl(colRGB)
-colMNSL <- c(colMNSL, darker(colMNSL, step=2), darker(colMNSL, step=4))
+colMNSL <- c(colMNSL, darker(colMNSL, steps = 2), darker(colMNSL, steps=4))
+
+# colMNSL <- c("10YR 8/8", "10YR 7/12")
+# plot_mnsl(colMNSL)
+# 
+# dframe <- data.frame(steps = 0:19)
+# dframe <- dframe %>% mutate(
+#  cols = steps %>% purrr::map(function(x) rygbp(colMNSL, steps=2*x)) 
+# ) %>% unnest()
+# p <- plot_mnsl(dframe$cols)
+# p + ggplot2::facet_wrap(~ num, ncol = 6)
+# 
+
 colHEX <- mnsl(colMNSL)
 colHEX <- colHEX[rep(0:6, each=3)+c(1,8,15)]
 colHEX <- c(colHEX, "grey60")
@@ -107,7 +123,7 @@ cl$Denomination <- factor(cl$Denomination, c("Unaccommodated", levels(cl$Denomin
 
 
 
-```{r echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.cap="US overview", fig.width=8, fig.height=8}
+```{r echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.cap="US overview of sittings provided by the eight most common denominations, all other denominations and unaccommodated propulation.\\label{fig:us-denominations}", fig.width=6, fig.height=6}
 library(ggmosaic)
 clsmall <- cl %>% filter(Denomination != "Unaccommodated") %>%
   mutate(Denomination = reorder(Denomination, Number, function(x) -sum(x, na.rm=TRUE)))
@@ -132,21 +148,22 @@ p2 <- ggplot_build(p)$data[[1]]
 p +  geom_text(aes(label = label, x = (xmin+xmax)/2), angle = 90, size =5, colour = "white", y=0.025, data = p2, hjust = 0, vjust=0.5)
 ```
 
+We have to still describe figures  \ref{fig:us-denominations}, \ref{fig:state-denominations} and \ref{fig:state-denominations-ua}
 
-```{r echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 8, fig.width=10, fig.cap="Proportion of religious sittings by Denomination"}
+```{r echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 10, fig.width=8, fig.cap="Proportion of religious sittings for each state by denomination \\label{fig:state-denominations}"}
 
 library(ggmosaic)
 cl %>% filter(Denomination != "Unaccommodated") %>%
   ggplot() +
   geom_bar(aes(weight = Number,  x=State, fill=Denomination),
            position="fill") +
-  scale_fill_manual(values=rev(colHEX)[-(1:2)]) + coord_flip() +
-  theme(legend.position="bottom") +
-  guides(fill = guide_legend(reverse = TRUE, nrow=3))
+  scale_fill_manual(values=rev(colHEX)[-c(2:4)]) + coord_flip() +
+  theme(legend.position="bottom") + ylab("") +
+  guides(fill = guide_legend(reverse = TRUE, nrow=6))
   
 ```
 
-```{r echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 8, fig.width=10, fig.cap="Proportion of religious sittings by Denomination including Unaccommodated Population"}
+```{r echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 10, fig.width=8, fig.cap="Proportion of religious sittings for each state by denomination including unaccommodated population\\label{fig:state-denominations-ua}"}
 
 library(ggmosaic)
 cl %>% 
@@ -154,10 +171,11 @@ cl %>%
   geom_bar(aes(weight = Number,  x=State, fill=Denomination),
            position="fill") +
   scale_fill_manual(values=rev(colHEX)[-(1:2)]) + coord_flip() +
-  theme(legend.position="bottom") +
-  guides(fill = guide_legend(reverse = TRUE, nrow=3))
+  theme(legend.position="bottom") + ylab("") +
+  guides(fill = guide_legend(reverse = TRUE, nrow=6))
   
 ```
+
 Plate #32: Gender Ratio in Agriculture, Trade, Service, Manufacturing, and Schools
 ===
 
