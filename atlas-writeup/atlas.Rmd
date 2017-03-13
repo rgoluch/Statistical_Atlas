@@ -86,7 +86,7 @@ Figure \ref{fig:denominations} shows a miniature of plate #31 from the Statistic
 
 ![Plate #31 from the Statistical Atlas of 1874: Church accommodation by state and denomination for the population of over ten years of age. \label{fig:denominations}](images/ca000081.jpg)
 
-![Zoom-in to the legend section of plate #31. On the right is a copy of the colors using a Deuteranopia filter (Color Oracle). The fully saturated red and green are indistinguishable, as are the fully saturated purple (for Roman Catholic) and the brown (for all other denominations). \label{fig:legend-31}](images/plate31-legend.png)
+![Zoom-in to the legend section of plate #31. \label{fig:legend-31}](images/plate31-legend.png)
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(RColorBrewer)
@@ -94,18 +94,27 @@ library(munsell)
 cols = c(brewer.pal(n=12, name="Paired")[c(1,3,5,7,9,11)], "grey80")
 
 #cols <- c("#ffcc80","#ff9900")
-
+#cols <- "#ccf2ff"
 
 colRGB <- t(col2rgb(cols))/256
 colMNSL <- rgb2mnsl(colRGB)
 colMNSL <- c(colMNSL, darker(colMNSL, steps = 2), darker(colMNSL, steps=4))
 
-# colMNSL <- c("10YR 8/8", "10YR 7/12")
+
+# colSequence <- function(cols) {
+#   pbgyr(saturate(darker(cols, steps=1), steps=2), steps=2)
+# }
+# 
+# cols <- c("10YR 8/8")
+# cols <- c("7.5B 8/6")
+# colMNSL <- c(cols, colSequence(cols), colSequence(colSequence(cols)))
+# 
+# 
 # plot_mnsl(colMNSL)
 # 
 # dframe <- data.frame(steps = 0:19)
 # dframe <- dframe %>% mutate(
-#  cols = steps %>% purrr::map(function(x) rygbp(colMNSL, steps=2*x)) 
+#  cols = steps %>% purrr::map(function(x) rygbp(colMNSL, steps=2*x))
 # ) %>% unnest()
 # p <- plot_mnsl(dframe$cols)
 # p + ggplot2::facet_wrap(~ num, ncol = 6)
@@ -118,7 +127,9 @@ colHEX <- c(colHEX, "grey60")
 church <- read.csv("../Data/denominations-1874.csv")
 cl <- church %>% gather(key="Denomination", value = "Number", c(3:21, 25))
 cl <- cl %>% mutate(Denomination = reorder(Denomination, Number, na.rm=TRUE))
+
 cl$Denomination <- factor(cl$Denomination, c("Unaccommodated", levels(cl$Denomination)))
+levels(cl$Denomination) <- gsub("\\.", " ", levels(cl$Denomination))
 ```
 
 
