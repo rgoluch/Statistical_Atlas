@@ -82,13 +82,13 @@ px2 <- read.csv("../Data/px2.csv")
 Plate #31: Church Accommodations
 ===
 
-Figure \ref{fig:denominations} shows a miniature of plate #31 from the Statistical Atlas. This plate shows the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey frame). For each state a square of the same size is drawn. The four most common denomination are shown as colored stripes, the width of which is proprtional to the number of their sittings. Each denomination is shown by one of eleven different colors, all other denominations are represented jointly by a twelfth color. The color scheme chosen in the Statistical Atlas is essentialy that of paired colors, i.e. each hue is represented with a lighter shade (using hatching) and a darker shade. 
+Figure \ref{fig:denominations} shows a miniature of plate #31 from the Statistical Atlas. This plate shows the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey frame). For each state a square of the same size is drawn. The four most common denomination are shown as colored stripes, the width of which is proprtional to the number of their sittings. Each denomination is shown by one of eleven different colors, all other denominations are represented jointly by a twelfth color. The color scheme chosen in the Statistical Atlas is essentially that of paired colors, i.e. each hue is represented with a lighter shade (using hatching) and a darker shade (see zoom-in to the legend of plate #31 in figure \ref{fig:legend-31}). 
 
 ![Plate #31 from the Statistical Atlas of 1874: Church accommodation by state and denomination for the population of over ten years of age. \label{fig:denominations}](images/ca000081.jpg)
 
 ![Zoom-in to the legend section of plate #31. \label{fig:legend-31}](images/plate31-legend.png)
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r data-plate31, echo=FALSE, message=FALSE, warning=FALSE}
 library(RColorBrewer)
 library(munsell)
 cols = c(brewer.pal(n=12, name="Paired")[c(1,3,5,7,9,11)], "grey80")
@@ -132,9 +132,18 @@ cl$Denomination <- factor(cl$Denomination, c("Unaccommodated", levels(cl$Denomin
 levels(cl$Denomination) <- gsub("\\.", " ", levels(cl$Denomination))
 ```
 
+We have to still describe figures  \ref{fig:us-denominations}, \ref{fig:state-denominations} and \ref{fig:state-denominations-ua}
 
+```{r}
+churchPixel <- read.csv("../Data/church_pixels-unaccommodated.csv")
+churchPixel <- churchPixel %>% 
+  select(State.Territory, Border.Area, Total.Area) %>%
+  mutate(
+    UAperc = Border.Area/Total.Area*100
+  )
 
-```{r echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.cap="US overview of sittings provided by the eight most common denominations, all other denominations and unaccommodated propulation.\\label{fig:us-denominations}", fig.width=6, fig.height=6}
+```
+```{r dependson="data-plate31", echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.cap="US overview of sittings provided by the eight most common denominations, all other denominations and unaccommodated propulation.\\label{fig:us-denominations}", fig.width=6, fig.height=6}
 library(ggmosaic)
 clsmall <- cl %>% filter(Denomination != "Unaccommodated") %>%
   mutate(Denomination = reorder(Denomination, Number, function(x) -sum(x, na.rm=TRUE)))
@@ -159,7 +168,6 @@ p2 <- ggplot_build(p)$data[[1]]
 p +  geom_text(aes(label = label, x = (xmin+xmax)/2), angle = 90, size =5, colour = "white", y=0.025, data = p2, hjust = 0, vjust=0.5)
 ```
 
-We have to still describe figures  \ref{fig:us-denominations}, \ref{fig:state-denominations} and \ref{fig:state-denominations-ua}
 
 ```{r echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 10, fig.width=8, fig.cap="Proportion of religious sittings for each state by denomination \\label{fig:state-denominations}"}
 
