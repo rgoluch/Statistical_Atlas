@@ -138,6 +138,8 @@ churchPixel <- churchPixel %>%
     UAperc = Border.Area/Total.Area*100
   )
 
+anti_join(churchPixel, church, by=c("State.Territory"="State"))
+anti_join(church, churchPixel, by=c("State"="State.Territory"))
 ```
 ```{r dependson="data-plate31", echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.cap="US overview of sittings provided by the eight most common denominations, all other denominations and unaccommodated propulation.\\label{fig:us-denominations}", fig.width=6, fig.height=6}
 library(ggmosaic)
