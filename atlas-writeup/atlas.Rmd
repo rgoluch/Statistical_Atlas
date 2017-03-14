@@ -6,7 +6,7 @@ author:
     affiliation: Iowa State University
     footnote: Corresponding Author
   - name: Susan Vander Plas
-    email: srvanderplas@mail.iastate.edu
+    email: skoons@mail.iastate.edu
     affiliation: Iowa State University
   - name: Ryan Goluch
     email: rgoluch@mail.iastate.edu
