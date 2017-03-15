@@ -121,7 +121,7 @@ colHEX <- colHEX[rep(0:6, each=3)+c(1,8,15)]
 colHEX <- c(colHEX, "grey60")
 
 church <- read.csv("../Data/denominations-1874.csv")
-cl <- church %>% gather(key="Denomination", value = "Number", c(3:21, 25))
+cl <- church %>% gather(key="Denomination", value = "Number", c(4:22, 26))
 cl <- cl %>% mutate(Denomination = reorder(Denomination, Number, na.rm=TRUE))
 
 cl$Denomination <- factor(cl$Denomination, c("Unaccommodated", levels(cl$Denomination)))
@@ -131,16 +131,17 @@ levels(cl$Denomination) <- gsub("\\.", " ", levels(cl$Denomination))
 We have to still describe figures  \ref{fig:us-denominations}, \ref{fig:state-denominations} and \ref{fig:state-denominations-ua}
 
 ```{r}
-churchPixel <- read.csv("../Data/church_pixels-unaccommodated.csv")
-churchPixel <- churchPixel %>% 
-  select(State.Territory, Border.Area, Total.Area) %>%
-  mutate(
-    UAperc = Border.Area/Total.Area*100
-  )
-
-anti_join(churchPixel, church, by=c("State.Territory"="State"))
-anti_join(church, churchPixel, by=c("State"="State.Territory"))
+churchPixel <- read.csv("../Data/church_pixel.csv")
+church_noterritories <- churchPixel %>% 
+  filter(!(State.Territory %in% c("SW Territories", "NW Territories")))
+church_noterritories %>% 
+  ggplot(aes(x = UAEstperc, y = UAPixperc)) +
+  geom_abline() +
+  geom_point() + 
+  theme_bw() + 
+  ggrepel::geom_label_repel(aes(label=State.Territory), data=church_noterritories %>% filter(UAPixperc-UAEstperc>10))
 ```
+
 ```{r dependson="data-plate31", echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.cap="US overview of sittings provided by the eight most common denominations, all other denominations and unaccommodated propulation.\\label{fig:us-denominations}", fig.width=6, fig.height=6}
 library(ggmosaic)
 clsmall <- cl %>% filter(Denomination != "Unaccommodated") %>%
