@@ -8,7 +8,7 @@ author:
   - name: Susan Vander Plas
     email: skoons@mail.iastate.edu
     affiliation: Iowa State University
-  - name: Ryan Goluch
+  - name: Ryan C. Goluch
     email: rgoluch@mail.iastate.edu
     affiliation: Iowa State University
 address:
