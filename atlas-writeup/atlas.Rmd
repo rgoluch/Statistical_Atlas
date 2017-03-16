@@ -82,6 +82,7 @@ Figure \ref{fig:denominations} shows a miniature of plate #31 from the Statistic
 
 XXX SVP: Paired color schemes have always been a favorite of mine (easier to see), but they have an additional advantage when printing is done with lithography: the required prints would be much less complex, as it is fairly easy to create a "light" and "dark" version of the same hue (easy for an expert in lithography... idk if I could do it.) If the graphs had used some other color scheme, it would have been necessary to figure out the proportion of each ink color necessary to produce the final color for each of 12+ colors, which I'd imagine would require quite a bit more work and artwork precision than using the same proportions but changing the overall saturation. Though, I'm not sure how much actual calculation would be required and how much would be gut instinct?
 
+
 ![Plate #31 from the Statistical Atlas of 1874: Church accommodation by state and denomination for the population of over ten years of age. \label{fig:denominations}](images/ca000081.jpg)
 
 
