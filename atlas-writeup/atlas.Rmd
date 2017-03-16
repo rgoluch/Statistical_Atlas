@@ -130,7 +130,7 @@ levels(cl$Denomination) <- gsub("\\.", " ", levels(cl$Denomination))
 
 We have to still describe figures  \ref{fig:us-denominations}, \ref{fig:state-denominations} and \ref{fig:state-denominations-ua}
 
-```{r}
+```{r echo = FALSE, fig.width=5, fig.height=5, fig.cap="Percentage of state-wide unaccommodated population based on estimates from the 1% Microsample ($x$-axis) and pixel values measured from the digitized version of plate #31 ($y$-axis).\\label{fig:matches-plate31}"}
 churchPixel <- read.csv("../Data/church_pixel.csv")
 church_noterritories <- churchPixel %>% 
   filter(!(State.Territory %in% c("SW Territories", "NW Territories")))
@@ -139,7 +139,8 @@ church_noterritories %>%
   geom_abline() +
   geom_point() + 
   theme_bw() + 
-  ggrepel::geom_label_repel(aes(label=State.Territory), data=church_noterritories %>% filter(UAPixperc-UAEstperc>10))
+  ggrepel::geom_label_repel(aes(label=State.Territory), data=church_noterritories %>% filter(UAPixperc-UAEstperc>10)) + coord_equal() +
+  geom_smooth(method="lm", se=FALSE, linetype=2, size=.5)
 ```
 
 ```{r dependson="data-plate31", echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.cap="US overview of sittings provided by the eight most common denominations, all other denominations and unaccommodated propulation.\\label{fig:us-denominations}", fig.width=6, fig.height=6}
