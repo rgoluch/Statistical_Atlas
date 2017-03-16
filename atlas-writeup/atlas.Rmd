@@ -78,9 +78,12 @@ px2 <- read.csv("../Data/px2.csv")
 Plate #31: Church Accommodations
 ===
 
-Figure \ref{fig:denominations} shows a miniature of plate #31 from the Statistical Atlas. This plate shows the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey frame). For each state a square of the same size is drawn. The four most common denomination are shown as colored stripes, the width of which is proprtional to the number of their sittings. Each denomination is shown by one of eleven different colors, all other denominations are represented jointly by a twelfth color. The color scheme chosen in the Statistical Atlas is essentially that of paired colors, i.e. each hue is represented with a lighter shade (using hatching) and a darker shade (see zoom-in to the legend of plate #31 in figure \ref{fig:legend-31}). 
+Figure \ref{fig:denominations} shows a miniature of plate #31 from the Statistical Atlas. This plate shows the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey outer frame). For each state a square of the same size is drawn. The four most common denomination are shown as colored stripes, the width of which is proprtional to the number of their sittings. Each denomination is shown by one of eleven different colors, all other denominations are represented jointly by a twelfth color. The color scheme chosen in the Statistical Atlas is essentially that of paired colors, i.e. each hue is represented with a lighter shade (using hatching) and a darker shade (see zoom-in to the legend of plate #31 in figure \ref{fig:legend-31}).
+
+XXX SVP: The paired color scheme has always been one of my favorites, but it has an additional advantage when printing is done with lithography: the required prints are much less complex, as it is fairly easy to create a "light" and "dark" version of the same hue (easy for an expert in lithography... idk if I could do it.) If the graphs had used some other color scheme, it would have been necessary to figure out the proportion of each ink color necessary to produce the final color for each of 12+ colors, which I'd imagine would require quite a bit more work and artwork precision than using the same proportions but changing the overall saturation. 
 
 ![Plate #31 from the Statistical Atlas of 1874: Church accommodation by state and denomination for the population of over ten years of age. \label{fig:denominations}](images/ca000081.jpg)
+
 
 ![Zoom-in to the legend section of plate #31. \label{fig:legend-31}](images/plate31-legend.png)
 
@@ -100,21 +103,21 @@ colMNSL <- c(colMNSL, darker(colMNSL, steps = 2), darker(colMNSL, steps=4))
 # colSequence <- function(cols) {
 #   pbgyr(saturate(darker(cols, steps=1), steps=2), steps=2)
 # }
-# 
+#
 # cols <- c("10YR 8/8")
 # cols <- c("7.5B 8/6")
 # colMNSL <- c(cols, colSequence(cols), colSequence(colSequence(cols)))
-# 
-# 
+#
+#
 # plot_mnsl(colMNSL)
-# 
+#
 # dframe <- data.frame(steps = 0:19)
 # dframe <- dframe %>% mutate(
 #  cols = steps %>% purrr::map(function(x) rygbp(colMNSL, steps=2*x))
 # ) %>% unnest()
 # p <- plot_mnsl(dframe$cols)
 # p + ggplot2::facet_wrap(~ num, ncol = 6)
-# 
+#
 
 colHEX <- mnsl(colMNSL)
 colHEX <- colHEX[rep(0:6, each=3)+c(1,8,15)]
@@ -143,7 +146,9 @@ church_noterritories %>%
   geom_smooth(method="lm", se=FALSE, linetype=2, size=.5)
 ```
 
-```{r dependson="data-plate31", echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.cap="US overview of sittings provided by the eight most common denominations, all other denominations and unaccommodated propulation.\\label{fig:us-denominations}", fig.width=6, fig.height=6}
+XXX SVP: Even excluding Minnesota, there seems to be a slight bias: the pixels over-represent the proportion of unaccommodated population. Could that be because of the border region? Or is it more likely to be a sampling vs. census issue?
+
+```{r dependson="data-plate31", echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.cap="US overview of sittings provided by the eight most common denominations, all other denominations and unaccommodated population.\\label{fig:us-denominations}", fig.width=6, fig.height=6}
 library(ggmosaic)
 clsmall <- cl %>% filter(Denomination != "Unaccommodated") %>%
   mutate(Denomination = reorder(Denomination, Number, function(x) -sum(x, na.rm=TRUE)))
