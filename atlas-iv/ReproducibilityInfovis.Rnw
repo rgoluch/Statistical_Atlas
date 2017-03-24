@@ -117,8 +117,8 @@
 \teaser{
   \centering
   \includegraphics[height=2in]{images/ca000082}
-  \includegraphics[height=2in]{../atlas-writeup/atlas_files/figure-latex/unnamed-chunk-6-1.pdf}
-  \includegraphics[height=2in]{../atlas-writeup/atlas_files/figure-latex/unnamed-chunk-9-1.pdf}
+  \includegraphics[height=2in]{images/unnamed-chunk-6-1.pdf}
+  \includegraphics[height=2in]{images/unnamed-chunk-9-1.pdf}
   \caption{In the Clouds: Vancouver from Cypress Mountain. Note that the teaser may not be wider than the abstract block.}
 	\label{fig:teaser}
 }
@@ -147,246 +147,18 @@
 \maketitle
 
 %% \section{Introduction} %for journal use above \firstsection{..} instead
-This template is for papers of VGTC-sponsored conferences such as IEEE VIS, IEEE VR, and ISMAR which are published as special issues of TVCG. The template does not contain the respective dates of the conference/journal issue, these will be entered by IEEE as part of the publication production process.
+% This template is for papers of VGTC-sponsored conferences such as IEEE VIS, IEEE VR, and ISMAR which are published as special issues of TVCG. The template does not contain the respective dates of the conference/journal issue, these will be entered by IEEE as part of the publication production process.
 
 \section{Reproducibility}
-The charts in the Statistical Atlas were created using extremely high-precision methods for the time it was published. Color images were produced by Julius Bien's publishing house [@bien,@atlas-review] using lithography. This process involved creating separate plates for each color utilized in the chart by hand, and then lining up each color precisely when the images were printed. Modern methods are much quicker and easier on the visualization designer; we only have to write computer code to describe the plot, and the computer renders the plot in a miniscule fraction of the time it would take to draw the same plot by hand.
+The charts in the Statistical Atlas were created using extremely high-precision methods for the time it was published. Color images were produced by Julius Bien's publishing house \cite{bien, atlas-review} using lithography. This process involved creating separate plates for each color utilized in the chart by hand, and then lining up each color precisely when the images were printed. Modern methods are much quicker and easier on the visualization designer; we only have to write computer code to describe the plot, and the computer renders the plot in a miniscule fraction of the time it would take to draw the same plot by hand.
 
-Reproducible research is a frequent topic of discussion in data visualization and data science[@donoho-reproducible,@amstat-repro,@knitr,@leisch2002sweave]. This paper sets out to reproduce with as much fidelity as possible the hand-drawn charts of the Statistical Atlas, using modern methods. In some cases, reproducibility focuses on whether the results of a study can be replicated from the exact same data set using the same methods and computer code; this is not the approach we are taking in this paper. Rather, here we are exploring whether it is possible to access the data from the 1870 census (or a sample thereof) and, using that data, re-create some of the charts in the Statistical Atlas using modern methods. In addition to sampled data, we also extrapolate data from digitized versions of the original charts by measuring the geometric objects. This type of reproducibility might be termed ``translational reproducibility", as it examines whether methodology and data can be translated across more than a century to produce the same results.
+Reproducible research is a frequent topic of discussion in data visualization and data science\cite{donoho-reproducible, amstat-repro, knitr, leisch2002sweave}. This paper sets out to reproduce with as much fidelity as possible the hand-drawn charts of the Statistical Atlas, using modern methods. In some cases, reproducibility focuses on whether the results of a study can be replicated from the exact same data set using the same methods and computer code; this is not the approach we are taking in this paper. Rather, here we are exploring whether it is possible to access the data from the 1870 census (or a sample thereof) and, using that data, re-create some of the charts in the Statistical Atlas using modern methods. In addition to sampled data, we also extrapolate data from digitized versions of the original charts by measuring the geometric objects. This type of reproducibility might be termed ``translational reproducibility", as it examines whether methodology and data can be translated across more than a century to produce the same results.
 
 In addition, it is important to recognize the infrastructure that facilitates this study. The Census Bureau has maintained the data from the 1870 census and IPUMS preserves a 1\% sample of that data, made available online today. The Library of Congress maintains high-resolution scans of the original statistical atlas, which allows us to examine the fine details of the original prints. Reproducibility depends on openness: open data and open publications. Without both repositories of information, it would be difficult or impossible to go back and compare past data visualizations with todays methodology.
 
 This study is intended to examine the persistence of data and methodology across nearly 150 years and several technological revolutions. As the study of statistical visualization has developed considerably over the past 147 years, we also examine the visualization decisions made for the 1870 statistical atlas and create improved graphics which more clearly display the same data. The technological advances since the 1870 census also allow us to more easily add a spatial component, as it is now much easier to display the census data in map form. These improvements allow us to add addiitonal depth to the 1870 statistical atlas graphics without investing hundreds of hours of artistic work for each additional map and chart.
 
 \section{}
-
-\section{Bibliography Instructions}
-
-\begin{itemize}
-\item Sort all bibliographic entries alphabetically but the last name of the first author. This \LaTeX/bib\TeX\ template takes care of this sorting automatically.
-\item Merge multiple references into one; e.\,g., use \cite{Max:1995:OMF,Kitware:2003} (not \cite{Kitware:2003}\cite{Max:1995:OMF}). Within each set of multiple references, the references should be sorted in ascending order. This \LaTeX/bib\TeX\ template takes care of both the merging and the sorting automatically.
-\item Verify all data obtained from digital libraries, even ACM's DL and IEEE Xplore  etc.\ are sometimes wrong or incomplete.
-\item Do not trust bibliographic data from other services such as Mendeley.com, Google Scholar, or similar; these are even more likely to be incorrect or incomplete.
-\item Articles in journal---items to include:
-  \begin{itemize}
-  \item author names
-	\item title
-	\item journal name
-	\item year
-	\item volume
-	\item number
-	\item month of publication as variable name (i.\,e., \{jan\} for January, etc.; month ranges using \{jan \#\{/\}\# feb\} or \{jan \#\{-{}-\}\# feb\})
-  \end{itemize}
-\item use journal names in proper style: correct: ``IEEE Transactions on Visualization and Computer Graphics'', incorrect: ``Visualization and Computer Graphics, IEEE Transactions on''
-\item Papers in proceedings---items to include:
-  \begin{itemize}
-  \item author names
-	\item title
-	\item abbreviated proceedings name: e.\,g., ``Proc.\textbackslash{} CONF\_ACRONYNM'' without the year; example: ``Proc.\textbackslash{} CHI'', ``Proc.\textbackslash{} 3DUI'', ``Proc.\textbackslash{} Eurographics'', ``Proc.\textbackslash{} EuroVis''
-	\item year
-	\item publisher
-	\item town with country of publisher (the town can be abbreviated for well-known towns such as New York or Berlin)
-  \end{itemize}
-\item article/paper title convention: refrain from using curly brackets, except for acronyms/proper names/words following dashes/question marks etc.; example:
-\begin{itemize}
-	\item paper ``Marching Cubes: A High Resolution 3D Surface Construction Algorithm''
-	\item should be entered as ``\{M\}arching \{C\}ubes: A High Resolution \{3D\} Surface Construction Algorithm'' or  ``\{M\}arching \{C\}ubes: A high resolution \{3D\} surface construction algorithm''
-	\item will be typeset as ``Marching Cubes: A high resolution 3D surface construction algorithm''
-\end{itemize}
-\item for all entries
-\begin{itemize}
-	\item DOI can be entered in the DOI field as plain DOI number or as DOI url; alternative: a url in the URL field
-	\item provide full page ranges AA-{}-BB
-\end{itemize}
-\item when citing references, do not use the reference as a sentence object; e.\,g., wrong: ``In \cite{Lorensen:1987:MCA} the authors describe \dots'', correct: ``Lorensen and Cline \cite{Lorensen:1987:MCA} describe \dots''
-\end{itemize}
-
-\section{Example Section}
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam
-voluptua~\cite{Kitware:2003,Max:1995:OMF}. At vero eos et accusam et
-justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est.
-
-\section{Exposition}
-
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse
-molestie consequat, vel illum dolore eu feugiat nulla facilisis at
-vero eros et accumsan et iusto odio dignissim qui blandit praesent
-luptatum zzril delenit augue duis dolore te feugait nulla
-facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna
-aliquam erat volutpat~\cite{Kindlmann:1999:SAG}.
-
-\begin{equation}
-\sum_{j=1}^{z} j = \frac{z(z+1)}{2}
-\end{equation}
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet.
-
-\subsection{Lorem ipsum}
-
-Lorem ipsum dolor sit amet (see \autoref{tab:vis_papers}), consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum.
-
-\begin{table}[tb]
-  \caption{VIS/VisWeek accepted/presented papers: 1990--2015.}
-  \label{tab:vis_papers}
-  \scriptsize%
-	\centering%
-  \begin{tabu}{%
-	r%
-	*{7}{c}%
-	*{2}{r}%
-	}
-  \toprule
-   year & \rotatebox{90}{Vis/SciVis} &   \rotatebox{90}{SciVis conf} &   \rotatebox{90}{InfoVis} &   \rotatebox{90}{VAST} &   \rotatebox{90}{VAST conf} &   \rotatebox{90}{TVCG @ VIS} &   \rotatebox{90}{CG\&A @ VIS} &   \rotatebox{90}{VIS/VisWeek} \rotatebox{90}{incl. TVCG/CG\&A}   &   \rotatebox{90}{VIS/VisWeek} \rotatebox{90}{w/o TVCG/CG\&A}   \\
-  \midrule
-  2015 & 33 & 9 & 38 & 33 & 14 & 17 & 15 & 159 & 127 \\
-  2014 & 34 &   & 45 & 33 & 21 & 20 &   & 153 & 133 \\
-  2013 & 31 &   & 38 & 32 &   & 20 &   & 121 & 101 \\
-  2012 & 42 &   & 44 & 30 &   & 23 &   & 139 & 116 \\
-  2011 & 49 &   & 44 & 26 &   & 20 &   & 139 & 119 \\
-  2010 & 48 &   & 35 & 26 &   &   &   & 109 & 109 \\
-  2009 & 54 &   & 37 & 26 &   &   &   & 117 & 117 \\
-  2008 & 50 &   & 28 & 21 &   &   &   & 99 & 99 \\
-  2007 & 56 &   & 27 & 24 &   &   &   & 107 & 107 \\
-  2006 & 63 &   & 24 & 26 &   &   &   & 113 & 113 \\
-  2005 & 88 &   & 31 &   &   &   &   & 119 & 119 \\
-  2004 & 70 &   & 27 &   &   &   &   & 97 & 97 \\
-  2003 & 74 &   & 29 &   &   &   &   & 103 & 103 \\
-  2002 & 78 &   & 23 &   &   &   &   & 101 & 101 \\
-  2001 & 74 &   & 22 &   &   &   &   & 96 & 96 \\
-  2000 & 73 &   & 20 &   &   &   &   & 93 & 93 \\
-  1999 & 69 &   & 19 &   &   &   &   & 88 & 88 \\
-  1998 & 72 &   & 18 &   &   &   &   & 90 & 90 \\
-  1997 & 72 &   & 16 &   &   &   &   & 88 & 88 \\
-  1996 & 65 &   & 12 &   &   &   &   & 77 & 77 \\
-  1995 & 56 &   & 18 &   &   &   &   & 74 & 74 \\
-  1994 & 53 &   &   &   &   &   &   & 53 & 53 \\
-  1993 & 55 &   &   &   &   &   &   & 55 & 55 \\
-  1992 & 53 &   &   &   &   &   &   & 53 & 53 \\
-  1991 & 50 &   &   &   &   &   &   & 50 & 50 \\
-  1990 & 53 &   &   &   &   &   &   & 53 & 53 \\
-  \midrule
-  \textbf{sum} & \textbf{1515} & \textbf{9} & \textbf{595} & \textbf{277} & \textbf{35} & \textbf{100} & \textbf{15} & \textbf{2546} & \textbf{2431} \\
-  \bottomrule
-  \end{tabu}%
-\end{table}
-
-\subsection{Mezcal Head}
-
-Lorem ipsum dolor sit amet (see \autoref{fig:sample}), consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet.
-
-\subsubsection{Duis Autem}
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem
-ipsum dolor sit amet.
-
-\begin{figure}[tb]
- \centering % avoid the use of \begin{center}...\end{center} and use \centering instead (more compact)
- \includegraphics[width=\columnwidth]{paper-count-w-2015-new}
- \caption{A visualization of the data from \autoref{tab:vis_papers}. The image is from \cite{Isenberg:2017:VMC} and is in the public domain.}
- \label{fig:sample}
-\end{figure}
-
-\subsubsection{Ejector Seat Reservation}
-
-Duis autem~\cite{Lorensen:1987:MCA}\footnote{The algorithm behind
-Marching Cubes \cite{Lorensen:1987:MCA} had already been
-described by Wyvill et al. \cite{Wyvill:1986:DSS} a year
-earlier.} vel eum iriure dolor in hendrerit
-in vulputate velit esse molestie consequat,\footnote{Footnotes
-appear at the bottom of the column.} vel illum dolore eu
-feugiat nulla facilisis at vero eros et accumsan et iusto odio
-dignissim qui blandit praesent luptatum zzril delenit augue duis
-dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,
-consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
-ut laoreet dolore magna aliquam erat volutpat.
-
-
-\paragraph{Confirmed Ejector Seat Reservation}
-
-Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-suscipit lobortis nisl ut aliquip ex ea commodo
-consequat~\cite{Nielson:1991:TAD}. Duis autem vel eum iriure dolor in
-hendrerit in vulputate velit esse molestie consequat, vel illum dolore
-eu feugiat nulla facilisis at vero eros et accumsan et iusto odio
-dignissim qui blandit praesent luptatum zzril delenit augue duis
-dolore te feugait nulla facilisi.
-
-\paragraph{Rejected Ejector Seat Reservation}
-
-Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem
-vel eum iriure dolor in hendrerit in vulputate velit esse molestie
-
-
-\section{Conclusion}
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum.
-
 
 %% if specified like this the section will be committed in review mode
 \acknowledgments{
