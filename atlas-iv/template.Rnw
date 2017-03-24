@@ -146,6 +146,21 @@
 
 \maketitle
 
+Plan:
+
+\begin{enumerate}
+\item What is computational reproducibility - and how can we implement it
+\item Translational reproducibility: using other means to reproduce a particular result. Keith Baggerly uses this approach in what he calls `forensic bioinformatics'.
+\item Two examples of translational reproducibility:
+\begin{itemize}
+\item first: discussion of tools used, mosaicplots in general
+\item discuss, recreate and redesign both of plates \#31 and \#32
+\item three stories: (1) design choice makes us underestimate the `unaccommodated`/`unemployed` population. (2) Most of the unemployed population are women.
+(3) Minnesota has a very different unaccommodated population.
+\end{itemize}
+\end{enumerate}
+
+
 %% \section{Introduction} %for journal use above \firstsection{..} instead
 This template is for papers of VGTC-sponsored conferences such as IEEE VIS, IEEE VR, and ISMAR which are published as special issues of TVCG. The template does not contain the respective dates of the conference/journal issue, these will be entered by IEEE as part of the publication production process.
 
