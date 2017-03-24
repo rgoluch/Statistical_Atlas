@@ -1,0 +1,21 @@
+denominations <- read.csv("../Data/denominations-1874.csv")
+totals <- read.csv("../Data/ages-ipums.csv")
+totals <- totals %>% mutate(
+  Area.name = as.character(Area.name),
+  Area.name = replace(Area.name, Area.name=="Louisianna", "Louisiana")
+)
+
+library(tidyverse)
+denominations %>% anti_join(totals[,c("STATEICP", "Area.name", "Total.above10.est")],
+                            by=c("State"="Area.name"))
+
+anti_join(totals[,c("STATEICP", "Area.name", "Total.above10.est")], denominations,
+                            by=c("Area.name"="State"))
+
+denominations <- denominations %>% left_join(totals[,c("STATEICP", "Area.name", "Total.above10.est")],
+                            by=c("State"="Area.name"))
+denominations <- denominations %>% mutate(
+  Unaccommodated = pmax(0, Total.above10.est - Total)
+) %>% unique()
+
+write.csv(denominations, file="../Data/denominations-1874.csv", row.names=FALSE)
