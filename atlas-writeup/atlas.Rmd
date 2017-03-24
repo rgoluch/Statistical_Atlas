@@ -17,9 +17,7 @@ address:
   - code: Iowa2
     address: Department of Software Engineering, Iowa State University, Ames, IA 50011-1121
 abstract: |
-  This is the abstract.
-
-  It consists of two paragraphs.
+  Computational Reproducibility is a fundamental aspect of the scientific method. One question that we need to therefore ask ourselves is  "how reproducible are our charts?". Recent developments have made it much easier to ensure computational reproducibility of results and visualizations. In this paper, we investigate reproducibility of charts created almost 150 years ago based on data collected from the US census in 1870. Three times in the past, the US Census Bureau published a Statistical Atlas to map the state of the Union based on data collected in the 9th, 10th, and 11th US census.  Each of these atlases represents a  masterpiece in science and technology. The atlases also introduced novel ways of visualizing data.  In this paper, we *discuss* two plates of the Statistical Atlas of 1874, show a way to *re-create* the charts using modern tools and freely accessible data, and *re-display* the data to emphasize missing values.
 bibliography: mybibfile.bib
 output: rticles::acm_article
 ---
@@ -334,7 +332,7 @@ px2 %>%
   geom_abline() + geom_point() + 
   facet_wrap(~Occupation) + theme_bw() +
   xlab("Percentages of occupation based on Plate #32") +
-  ylab("Percentages based on Census Data")
+  ylab("Percentages based on Census Estimates")
 ```
 
 ```{r echo = FALSE, fig.pos="center", fig.cap="Mosaicplot of the gender ratio in different occupations of the population ten years of age and above."}
