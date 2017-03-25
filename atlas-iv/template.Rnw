@@ -102,7 +102,7 @@
 
 %% Keywords that describe your work. Will show as 'Index Terms' in journal
 %% please capitalize first letter and insert punctuation after last keyword
-\keywords{Mosaic plots, .}
+\keywords{Mosaic plots, translational reproducibility, statistical graphics, Census Bureau.}
 
 %% ACM Computing Classification System (CCS).
 %% See <http://www.acm.org/class/1998/> for details.
@@ -163,8 +163,10 @@
 Plan:
 
 \begin{enumerate}
-\item What is computational reproducibility - and how can we implement it
-\item Translational reproducibility: using other means to reproduce a particular result. Keith Baggerly uses this approach in what he calls `forensic bioinformatics'.
+\item What is computational reproducibility: Donoho \cite{donoho-reproducible} and Buckheit and Donoho \cite{Buckheit1995} state: ``an article [...] is advertising, not scholarship. The actual scholarship is the full software environment, code and data, that produced the result."
+\item How can we implement computational reproducibility:
+Sandve et al \cite{sandve:2013} propose `ten simple rules for computational reproducibility`. Successful computational reproducibility is rooted in the ideas of literate programming (cite Knuth). R has a history of aiming for computational reproducibility (with Sweave - fritz). Recent developments (knitr, rmarkdown, rweave) make it possible to implement all suggestions made by Sandve. (XXX Jenny Bryan's contribution)
+\item Translational reproducibility: using other means to reproduce a particular result. Keith Baggerly \cite{baggerly2009} uses this approach in what he calls `forensic bioinformatics'.
 \item Two examples of translational reproducibility:
 \begin{itemize}
 \item first: discussion of tools used, mosaicplots in general

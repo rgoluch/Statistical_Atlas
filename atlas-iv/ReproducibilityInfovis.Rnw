@@ -101,7 +101,7 @@
 
 %% Keywords that describe your work. Will show as 'Index Terms' in journal
 %% please capitalize first letter and insert punctuation after last keyword
-\keywords{Mosaic plots, .}
+\keywords{Mosaic plots, translational reproducibility, statistical graphics, Census Bureau.}
 
 %% ACM Computing Classification System (CCS).
 %% See <http://www.acm.org/class/1998/> for details.
@@ -162,8 +162,10 @@
 Plan:
 
 \begin{enumerate}
-\item What is computational reproducibility - and how can we implement it
-\item Translational reproducibility: using other means to reproduce a particular result. Keith Baggerly uses this approach in what he calls `forensic bioinformatics'.
+\item What is computational reproducibility: Donoho \cite{donoho-reproducible} and Buckheit and Donoho \cite{Buckheit1995} state: ``an article [...] is advertising, not scholarship. The actual scholarship is the full software environment, code and data, that produced the result."
+\item How can we implement computational reproducibility:
+Sandve et al \cite{sandve:2013} propose `ten simple rules for computational reproducibility`. Successful computational reproducibility is rooted in the ideas of literate programming (cite Knuth). R has a history of aiming for computational reproducibility (with Sweave - fritz). Recent developments (knitr, rmarkdown, rweave) make it possible to implement all suggestions made by Sandve. (XXX Jenny Bryan's contribution)
+\item Translational reproducibility: using other means to reproduce a particular result. Keith Baggerly \cite{baggerly2009} uses this approach in what he calls `forensic bioinformatics'.
 \item Two examples of translational reproducibility:
 \begin{itemize}
 \item first: discussion of tools used, mosaicplots in general
@@ -173,15 +175,14 @@ Plan:
 \end{itemize}
 \end{enumerate}
 
-
 XXX from the style file guide: use ``\texttt{\textbackslash autoref\{reference\}}''
 
 
 Three times in the past, the US Census Bureau published a Statistical Atlas to map the state of the Union based on data collected in the 9th, 10th, and 11th US census (in 1870, 1880, and 1890). Each of these atlases represents a  masterpiece in science and technology. Here, we want to focus on the ninth Census, supervised by Francis A. Walker. At this time, the United States had a population of about 38.5 million people. The Atlas represents a graphical compendium of the census information prepared in more than 100 lithographic plates. Most of these plates are overlaid maps, but some consist of more abstract and, at that time, novel visualizations.
-Of particular interest are plates #31 and #32. Both of these plates have a very similar structure: they show small multiples, one for each state, of what are now known as mosaic plots or  Marimekko charts.
+Of particular interest are plates \#31 and \#32. Both of these plates have a very similar structure: they show small multiples, one for each state, of what are now known as mosaic plots or  Marimekko charts.
 
 \section{Reproducibility}
-The charts in the Statistical Atlas were created using extremely high-precision methods for the time it was published. Color images were produced by Julius Bien's publishing house \cite{bien, atlas-review} using lithography. This process involved creating separate plates for each color utilized in the chart by hand, and then lining up each color precisely when the images were printed. Modern methods are much quicker and easier on the visualization designer; we only have to write computer code to describe the plot, and the computer renders the plot in a miniscule fraction of the time it would take to draw the same plot by hand.
+The charts in the Statistical Atlas were created using extremely high-precision methods for the time it was published. Color images were produced by Julius Bien's publishing house~\cite{@bien,@atlas-review} using lithography. This process involved creating separate plates for each color utilized in the chart by hand, and then lining up each color precisely when the images were printed. Modern methods are much quicker and easier on the visualization designer; we only have to write computer code to describe the plot, and the computer renders the plot in a miniscule fraction of the time it would take to draw the same plot by hand.
 
 Reproducible research is a frequent topic of discussion in data visualization and data science\cite{donoho-reproducible, amstat-repro, knitr, leisch2002sweave}. This paper sets out to reproduce with as much fidelity as possible the hand-drawn charts of the Statistical Atlas, using modern methods. In some cases, reproducibility focuses on whether the results of a study can be replicated from the exact same data set using the same methods and computer code; this is not the approach we are taking in this paper. Rather, here we are exploring whether it is possible to access the data from the 1870 census (or a sample thereof) and, using that data, re-create some of the charts in the Statistical Atlas using modern methods. In addition to sampled data, we also extrapolate data from digitized versions of the original charts by measuring the geometric objects. This type of reproducibility might be termed ``translational reproducibility", as it examines whether methodology and data can be translated across more than a century to produce the same results.
 
