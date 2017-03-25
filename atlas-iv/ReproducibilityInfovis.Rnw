@@ -116,10 +116,23 @@
 %% Uncomment below to include a teaser figure.
 \teaser{
   \centering
-  \includegraphics[height=2in]{images/ca000082}
-  \includegraphics[height=2in]{images/unnamed-chunk-6-1.pdf}
-  \includegraphics[height=2in]{images/unnamed-chunk-9-1.pdf}
-  \caption{In the Clouds: Vancouver from Cypress Mountain. Note that the teaser may not be wider than the abstract block.}
+    \begin{subfigure}[t]{0.24\textwidth}
+        \centering
+        \includegraphics[height=2in]{images/ca000082}
+        \caption{Miniature of plate \#32 of the Statistical Atlas. \label{fig:plate32}}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.24\textwidth}
+        \centering
+        \includegraphics[height=2in]{../atlas-writeup/atlas_files/figure-latex/unnamed-chunk-6-1.pdf}
+        \caption{Reproduction of plate \#32.\label{fig:plate32-repro}}
+    \end{subfigure}
+\begin{subfigure}[t]{0.49\textwidth}
+        \centering
+\includegraphics[height=2in]{../atlas-writeup/atlas_files/figure-latex/unnamed-chunk-9-1.pdf}
+        \caption{Differences/similarities between numbers from the Statistical Atlas and the modern reproduction.\label{fig:plate32-similarities}}
+    \end{subfigure}
+
+  \caption{Example of translational reproducibility: from left to right we have the original chart in \autoref{fig:plate32}, its reproduction in \autoref{fig:plate32-repro}, and the number differences between the two in \autoref{fig:plate32-similarities}.}
 	\label{fig:teaser}
 }
 
@@ -146,8 +159,26 @@
 
 \maketitle
 
-%% \section{Introduction} %for journal use above \firstsection{..} instead
-% This template is for papers of VGTC-sponsored conferences such as IEEE VIS, IEEE VR, and ISMAR which are published as special issues of TVCG. The template does not contain the respective dates of the conference/journal issue, these will be entered by IEEE as part of the publication production process.
+Plan:
+
+\begin{enumerate}
+\item What is computational reproducibility - and how can we implement it
+\item Translational reproducibility: using other means to reproduce a particular result. Keith Baggerly uses this approach in what he calls `forensic bioinformatics'.
+\item Two examples of translational reproducibility:
+\begin{itemize}
+\item first: discussion of tools used, mosaicplots in general
+\item discuss, recreate and redesign both of plates \#31 and \#32
+\item three stories: (1) design choice makes us underestimate the `unaccommodated`/`unemployed` population. (2) Most of the unemployed population are women.
+(3) Minnesota has a very different unaccommodated population.
+\end{itemize}
+\end{enumerate}
+
+
+XXX from the style file guide: use ``\texttt{\textbackslash autoref\{reference\}}''
+
+
+Three times in the past, the US Census Bureau published a Statistical Atlas to map the state of the Union based on data collected in the 9th, 10th, and 11th US census (in 1870, 1880, and 1890). Each of these atlases represents a  masterpiece in science and technology. Here, we want to focus on the ninth Census, supervised by Francis A. Walker. At this time, the United States had a population of about 38.5 million people. The Atlas represents a graphical compendium of the census information prepared in more than 100 lithographic plates. Most of these plates are overlaid maps, but some consist of more abstract and, at that time, novel visualizations.
+Of particular interest are plates #31 and #32. Both of these plates have a very similar structure: they show small multiples, one for each state, of what are now known as mosaic plots or  Marimekko charts.
 
 \section{Reproducibility}
 The charts in the Statistical Atlas were created using extremely high-precision methods for the time it was published. Color images were produced by Julius Bien's publishing house \cite{bien, atlas-review} using lithography. This process involved creating separate plates for each color utilized in the chart by hand, and then lining up each color precisely when the images were printed. Modern methods are much quicker and easier on the visualization designer; we only have to write computer code to describe the plot, and the computer renders the plot in a miniscule fraction of the time it would take to draw the same plot by hand.
@@ -165,11 +196,7 @@ This study is intended to examine the persistence of data and methodology across
 The authors wish to thank A, B, C. This work was supported in part by
 a grant from XYZ.}
 
-%\bibliographystyle{abbrv}
 \bibliographystyle{abbrv-doi}
-%\bibliographystyle{abbrv-doi-narrow}
-%\bibliographystyle{abbrv-doi-hyperref}
-%\bibliographystyle{abbrv-doi-hyperref-narrow}
 
 \bibliography{mybibfile}
 \end{document}
