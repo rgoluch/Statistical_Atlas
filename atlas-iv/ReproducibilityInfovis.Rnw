@@ -193,6 +193,22 @@ Sandve et al \cite{sandve:2013} propose `ten simple rules for computational repr
 XXX from the style file guide: use ``\texttt{\textbackslash autoref\{reference\}}''
 
 
+<<plate32-scatterplot, results='hide', echo=FALSE, fig.pos="center", fig.width = 7, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). \\label{fig:plate32-similarities}", warning=FALSE, message=FALSE>>=
+# only run this once
+if (!file.exists("images/plate32-scatterplot-1.pdf")) {
+library(tidyverse)
+
+px2 <- read.csv("../Data/px2.csv")
+px2 %>%
+  ggplot(aes(x = PixPercent, y = CensusPercent)) +
+  geom_abline() + geom_point() +
+  facet_wrap(~Occupation) + theme_bw() +
+  xlab("Percentages of occupation based on Plate #32") +
+  ylab("Percentages based on Census Estimates") + coord_equal()
+}
+@
+
+
 Three times in the past, the US Census Bureau published a Statistical Atlas to map the state of the Union based on data collected in the 9th, 10th, and 11th US census (in 1870, 1880, and 1890). Each of these atlases represents a  masterpiece in science and technology. Here, we want to focus on the ninth Census, supervised by Francis A. Walker. At this time, the United States had a population of about 38.5 million people. The Atlas represents a graphical compendium of the census information prepared in more than 100 lithographic plates. Most of these plates are overlaid maps, but some consist of more abstract and, at that time, novel visualizations.
 Of particular interest are plates \#31 and \#32. Both of these plates have a very similar structure: they show small multiples, one for each state, of what are now known as mosaic plots or  Marimekko charts.
 
@@ -207,7 +223,7 @@ An article about computational science in a scientific publication is not the sc
 \end{quotation}
 
 Extending this, scholarship in information visualization is then the combination of data (and data collection framework, environment, and methodology), the software and code used to analyze the data and generate results, and the final collection of interpretations and ``advertisement" that summarizes the results in publication form.
- Reproducing scholarship from almost 150 years ago relies heavily on the preservation of critical infrastructure used to generate the original images in the 1870 Statistical Atlas. The Library of Congress preserved the original ``advertisement": the pages of the Statistical Atlas, available online through very high-resolution scans. The Census Bureau has preserved the data from the 1870 census, but equally importantly, they have also preserved the basic framework for data collection, which is still used today to compile the modern census (the questions have changed a bit, and the country has expanded considerably, but the basic goal of the census has not changed). While researchers do not have access to the full 1870 census data, the Integrated Public Use Microdata Series (IPUMS-USA) provided through the Minnesota Population Center \cite{ipums} releases a 1\% microsample for research purposes. This sample allows us to reproduce the graphics in the Statistical Atlas using data read from the original prints as well as from a 1\% sample of the data. By duplicating the graphics using both methods, we can compare the data to the final product, examining the fidelity of the printed result compared to the recorded data.
+ Reproducing scholarship from almost 150 years ago relies heavily on the preservation of critical infrastructure used to generate the original images in the 1870 Statistical Atlas. The Library of Congress preserved the original ``advertisement": the pages of the Statistical Atlas, available online through very high-resolution scans. The Census Bureau has preserved the data from the 1870 census, but equally importantly, they have also preserved the basic framework for data collection, which is still used today to compile the modern census (the questions have changed a bit, and the country has expanded considerably, but the basic goal of the census has not changed). While researchers do not have access to the full 1870 census data, the Integrated Public Use Microdata Series (IPUMS-USA) provided through the Minnesota Population Center \cite{ipums} releases a 1\% microsample for research purposes. This sample allows us to reproduce the graphics in the Statistical Atlas using data read from the original prints as well as from estimates extrapolated from the 1\% sample of the data. By duplicating the graphics using both methods, we are able to compare the data to the final product, examining the fidelity of the printed result compared to the recorded data.
 
 Reproducibility depends on openness: open data and open publications. Without both repositories of information, it would be difficult or impossible to go back and compare past data visualizations with todays methodology.
 
@@ -238,8 +254,9 @@ occ3 <- occ3 %>% mutate(
   Area.name = as.character(Area.name)
 )
 
-px2 <- read.csv("../Data/px2.csv")
 @
+
+
 
 \section{Methodology} % This needs a better name
 
@@ -384,13 +401,13 @@ cl %>%
 \section{Case Study 2: Gender Ratio in Agriculture, Trade, Service, Manufacturing, and Schools}
 
 
-Figure~\autoref{fig:occupation} shows a miniature of the chart published as plate \#32 in the Statistical Atlas of 1874 \cite{atlas} produced from data collected in the 9th US Census.
+Figure~\autoref{fig:plate32} shows a miniature of the chart published as plate \#32 in the Statistical Atlas of 1874 \cite{atlas} produced from data collected in the 9th US Census. The chart shows the gender ratio of population over the age of ten in different types of occupations.
 The chart is set-up in form of small multiples \cite{tufte}, also known as lattice or trellis plots \cite{becker:1996}, one for each state and an enlarged plot as with an overview of the nation-wide aggregates. States are represented by squares of the same size, representing "the total population over 10 years of age", as detailed in the zoom-in in \autoref{fig:header}, which shows the description at the top of the plate.
-\comment{all of this also applies to plate \#31... Maybe should move it up to a general discussion?}
-\begin{figure}
-\includegraphics[width=\columnwidth]{images/ca000082.jpg}
-\caption{Plate \#32 from the Statistical Atlas of 1874: Gender ratio of population over the age of ten in different types of occupations.\label{fig:occupation}}
-\end{figure}
+\comment{all of this also applies to plate \#31... Maybe should move it up to a general discussion? HH: yes, I'm all for that}
+% \begin{figure}
+% \includegraphics[width=\columnwidth]{images/ca000082.jpg}
+% \caption{Plate \#32 from the Statistical Atlas of 1874: Gender ratio of population over the age of ten in different types of occupations.\label{fig:plate32}}
+% \end{figure}
 
 
 With the help of the description and the legend of \autoref{fig:header} and \autoref{fig:legend}, we can interpret the details of each of the squares at the example of \autoref{fig:us}. This figure shows an overview of type of occupation by gender across the US in 1870. It is essentially a mosaic \cite{hartigan:1981, friendly, prodplots} or Marimekko plot \cite{marimekkochart} of type of occupation (horizontal) and gender (vertical), but with a twist: the grey band around each one of the states' squares is proportional to the number of population "unaccounted" for, i.e. the difference between the total population over the age of ten and the population gainfully employed in one of the five categories or attending school. The choice to show this part of the population by a band around is somewhat unfortunate, as it breaks the overall metaphor of the mosaicplot and thereby prevents any direct comparisons across charts except for area comparisons, which are cognitively harder and more error prone than comparisons of lengths \cite{cleveland:1984}. It also masks the size of the population that is thus *unaccounted* for by visually cutting it into a quarter of the size it actually is. The percentage of unaccounted individuals is at about 30\% nation-wide higher than any of the other groups. It is also made up of about 97\% women and girls.
@@ -466,14 +483,7 @@ occ2 %>% filter(Area.Name != State) %>% ggplot() +
 @
 
 
-<<plate32-scatterplot, results = 'hide', echo=FALSE, fig.pos="center", fig.width = 7, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). \\label{fig:plate32-similarities}">>=
-px2 %>%
-  ggplot(aes(x = PixPercent, y = CensusPercent)) +
-  geom_abline() + geom_point() +
-  facet_wrap(~Occupation) + theme_bw() +
-  xlab("Percentages of occupation based on Plate #32") +
-  ylab("Percentages based on Census Estimates") + coord_equal()
-@
+
 
 <<overall-work-mosaic-unaccommodated, echo = FALSE, fig.pos="center", fig.cap="Mosaicplot of the gender ratio in different occupations of the population ten years of age and above.">>=
 cols <- c("#333300", "#000066", "#cc9900", "#202060", "#86742d", "grey40")
