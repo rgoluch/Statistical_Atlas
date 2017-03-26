@@ -137,7 +137,7 @@
     \end{subfigure}
     \begin{subfigure}[t]{0.24\textwidth}
         \centering
-        \includegraphics[height=2in]{unnamed-chunk-5-1.pdf}
+        \includegraphics[height=2in]{state-work-mosaic-1.pdf}
         \caption{Reproduction of plate \#32.\label{fig:plate32-repro}}
     \end{subfigure}
 \begin{subfigure}[t]{0.49\textwidth}
@@ -309,7 +309,7 @@ church_noterritories %>%
 
 \comment{SVP: Even excluding Minnesota, there seems to be a slight bias: the pixels over-represent the proportion of unaccommodated population. Could that be because of the border region? Or is it more likely to be a sampling vs. census issue?}
 
-<<dependson="data-plate31", echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.cap="US overview of sittings provided by the eight most common denominations, all other denominations and unaccommodated population.\\label{fig:us-denominations}", fig.width=6, fig.height=6>>=
+<<overall-religious-plot, dependson="data-plate31", echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.cap="US overview of sittings provided by the eight most common denominations, all other denominations and unaccommodated population.\\label{fig:us-denominations}", fig.width=6, fig.height=6>>=
 library(ggmosaic)
 clsmall <- cl %>% filter(Denomination != "Unaccommodated") %>%
   mutate(Denomination = reorder(Denomination, Number, function(x) -sum(x, na.rm = TRUE)))
@@ -334,7 +334,7 @@ p2 <- ggplot_build(p)$data[[1]]
 p +  geom_text(aes(label = label, x = (xmin+xmax)/2), angle = 90, size =5, colour = "white", y=0.025, data = p2, hjust = 0, vjust=0.5)
 @
 
-<<echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 10, fig.width=8, fig.cap="Proportion of religious sittings for each state by denomination \\label{fig:state-denominations}">>=
+<<onepanel-state-plot, echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 10, fig.width=8, fig.cap="Proportion of religious sittings for each state by denomination \\label{fig:state-denominations}">>=
 
 library(ggmosaic)
 cl %>% filter(Denomination != "Unaccommodated") %>%
@@ -347,8 +347,7 @@ cl %>% filter(Denomination != "Unaccommodated") %>%
 @
 
 
-<<echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 10, fig.width=8, fig.cap="Proportion of religious sittings for each state by denomination including unaccommodated population.\\label{fig:state-denominations-ua}">>=
-
+<<onepanel-state-plot-unaccommodated, echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 10, fig.width=8, fig.cap="Proportion of religious sittings for each state by denomination including unaccommodated population.\\label{fig:state-denominations-ua}">>=
 library(ggmosaic)
 cl %>%
   ggplot() +
@@ -394,7 +393,7 @@ Figure \ref{fig:comparison} shows that the numbers combined from NT13 and the mi
 
 
 
-<<fig.width=5, fig.height=5.5, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Recreation of the mosaicplot based on gainfully employed population over ten.">>=
+<<overall-work-plot, fig.width=5, fig.height=5.5, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Recreation of the mosaicplot based on gainfully employed population over ten.">>=
 cols <- c("#333300", "#000066", "#cc9900", "#202060", "#86742d")
 library(ggmosaic)
 occ2 %>% filter(State==Area.Name) %>% ggplot() +
@@ -411,7 +410,7 @@ occ2 %>% filter(State==Area.Name) %>% ggplot() +
 @
 
 
-<<fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center", fig.cap="Recreation of mosaics of gainful occupation by states.">>=
+<<state-work-mosaics, fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center", fig.cap="Recreation of mosaics of gainful occupation by states.">>=
 occ2 %>% filter(Area.Name==State) %>% ggplot() +
   geom_mosaic(aes(x = product(Gender, Occupation),
                   fill=Occupation, alpha = Gender, weight = Number),
@@ -427,7 +426,7 @@ occ2 %>% filter(Area.Name==State) %>% ggplot() +
 @
 
 
-<<fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Mosaics of gainful occupation by territories.">>=
+<<territory-work-mosaics, fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Mosaics of gainful occupation by territories.">>=
 occ2 %>% filter(Area.Name != State) %>% ggplot() +
   geom_mosaic(aes(x = product(Gender, Occupation),
                   fill=Occupation, alpha = Gender, weight = Number),
@@ -452,22 +451,22 @@ px2 %>%
   ylab("Percentages based on Census Estimates")
 @
 
-<<echo = FALSE, fig.pos="center", fig.cap="Mosaicplot of the gender ratio in different occupations of the population ten years of age and above.">>=
+<<overall-work-mosaic-unaccommodated, echo = FALSE, fig.pos="center", fig.cap="Mosaicplot of the gender ratio in different occupations of the population ten years of age and above.">>=
 cols <- c("#333300", "#000066", "#cc9900", "#202060", "#86742d", "grey40")
-occ3 %>% filter(Area.name==State) %>% ggplot() +
+occ3 %>% filter(Area.name == State) %>% ggplot() +
   geom_mosaic(aes(x = product(Sex, Occupation),
-                  fill=Occupation, alpha = Sex, weight = Number),
+                  fill = Occupation, alpha = Sex, weight = Number),
               offset = 0.005) +
-  scale_fill_manual(values=cols) + theme_bw() +
-  scale_alpha_manual(values=c(0.8,1)) +
+  scale_fill_manual(values = cols) + theme_bw() +
+  scale_alpha_manual(values = c(0.8,1)) +
   theme(legend.position = "top") +
   coord_equal() +
-    theme(axis.line=element_blank(), axis.text=element_blank(),
+    theme(axis.line = element_blank(), axis.text = element_blank(),
         axis.title.y = element_blank(), axis.ticks = element_blank()) +
   xlab("The United States")
 @
 
-<<fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Mosaics of gainful occupation by territories including population not employed.">>=
+<<territory-work-mosaic-unemployed, fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Mosaics of gainful occupation by territories including population not employed.">>=
 occ3 %>% filter(Area.name==State) %>% ggplot() +
   geom_mosaic(aes(x = product(Sex, Occupation),
                   fill=Occupation, alpha = Sex, weight = Number),
