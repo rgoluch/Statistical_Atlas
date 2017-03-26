@@ -413,7 +413,7 @@ With the help of the description and the legend of \autoref{fig:header} and \aut
 
 The data used to recreate the visualization of plate \#32 is retrieved from \cite{NHGIS}, in particular, from table NT13 on ``Employed Population by Occupation by Age by Sex". These numbers are state-level aggregates of population numbers by occupation, gender, and sex. We aggregate across ages to get the values included here.
  The size of the population not ``gainfully employed" or attending school is based on estimates based on the 1\% IPUMS sample.
-Figure \ref{fig:comparison} shows that the numbers combined from NT13 and the microsample closely match the information on plate \#32. For all occupation levels and school attendance the numbers are *very* close. For population not accounted for, the numbers are estimated from the 1\% IPUMS microsample. This inflates the variability in these numbers, but the relationship to the visual measurements is still very strong.
+Figure \ref{fig:plate32-similarities} shows that the numbers combined from NT13 and the microsample closely match the information on plate \#32. For all occupation levels and school attendance the numbers are *very* close. For population not accounted for, the numbers are estimated from the 1\% IPUMS microsample. This inflates the variability in these numbers, but the relationship to the visual measurements is still very strong.
 
 
 
@@ -466,7 +466,7 @@ occ2 %>% filter(Area.Name != State) %>% ggplot() +
 @
 
 
-<<plate32-scatterplot, echo=FALSE, fig.pos="center", fig.width = 7, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). \\label{fig:comparison}">>=
+<<plate32-scatterplot, results = 'hide', echo=FALSE, fig.pos="center", fig.width = 7, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). \\label{fig:plate32-similarities}">>=
 px2 %>%
   ggplot(aes(x = PixPercent, y = CensusPercent)) +
   geom_abline() + geom_point() +
@@ -490,7 +490,7 @@ occ3 %>% filter(Area.name == State) %>% ggplot() +
   xlab("The United States")
 @
 
-<<territory-work-mosaic-unemployed, fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Mosaics of gainful occupation by territories including population not employed.">>=
+<<territory-work-mosaic-unemployed, results = 'hide', fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Mosaics of gainful occupation by territories including population not employed.">>=
 occ3 %>% filter(Area.name==State) %>% ggplot() +
   geom_mosaic(aes(x = product(Sex, Occupation),
                   fill=Occupation, alpha = Sex, weight = Number),
