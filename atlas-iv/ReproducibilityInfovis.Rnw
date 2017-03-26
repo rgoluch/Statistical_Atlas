@@ -466,13 +466,13 @@ occ2 %>% filter(Area.Name != State) %>% ggplot() +
 @
 
 
-<<plate32-scatterplot, echo=FALSE, fig.pos="center", warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). \\label{fig:comparison}">>=
+<<plate32-scatterplot, echo=FALSE, fig.pos="center", fig.width = 7, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). \\label{fig:comparison}">>=
 px2 %>%
   ggplot(aes(x = PixPercent, y = CensusPercent)) +
   geom_abline() + geom_point() +
   facet_wrap(~Occupation) + theme_bw() +
   xlab("Percentages of occupation based on Plate #32") +
-  ylab("Percentages based on Census Estimates")
+  ylab("Percentages based on Census Estimates") + coord_equal()
 @
 
 <<overall-work-mosaic-unaccommodated, echo = FALSE, fig.pos="center", fig.cap="Mosaicplot of the gender ratio in different occupations of the population ten years of age and above.">>=
