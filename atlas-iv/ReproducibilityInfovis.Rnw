@@ -312,7 +312,24 @@ church_noterritories %>%
 
 \comment{SVP: Even excluding Minnesota, there seems to be a slight bias: the pixels over-represent the proportion of unaccommodated population. Could that be because of the border region? Or is it more likely to be a sampling vs. census issue?}
 
-<<overall-religious-plot, dependson="data-plate31", echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.cap="US overview of sittings provided by the eight most common denominations, all other denominations and unaccommodated population.\\label{fig:us-denominations}", fig.width=6, fig.height=6>>=
+<<minnesota-plot, dependson="data-plate31", echo = F, message = F, warning = F, include = F>>=
+library(ggmosaic)
+cl %>%
+  filter(State == "Minnesota") %>%
+  filter(Number > 0) %>%
+  arrange(desc(Number)) %>%
+  mutate(group = c(as.character(Denomination[1:5]), rep("Other", n() - 5))) %>%
+  mutate(group = factor(group, levels = c("Unaccommodated", "Other", "Roman Catholic", "Methodist", "Lutheran", "Presbyterian"), ordered = T)) %>%
+  ggplot() +
+  geom_bar(aes(weight = Number,  x = State, fill = group),
+           position = "fill") +
+  scale_fill_manual("Denomination", values = rev(colHEX)[-c(2:4)]) + coord_flip() +
+  theme(legend.position = "bottom", axis.ticks.y = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank(), plot.title = element_text(hjust = 0.5)) + ylab("") +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  ggtitle("Minnesota")
+@
+
+<<overall-religious-plot, dependson="data-plate31", echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.cap="US overview of sittings provided by the eight most common denominations, all other denominations and unaccommodated population.\\label{fig:us-denominations}", fig.width=6, fig.height=6, eval = F, include = F>>=
 library(ggmosaic)
 clsmall <- cl %>% filter(Denomination != "Unaccommodated") %>%
   mutate(Denomination = reorder(Denomination, Number, function(x) -sum(x, na.rm = TRUE)))
@@ -337,7 +354,7 @@ p2 <- ggplot_build(p)$data[[1]]
 p +  geom_text(aes(label = label, x = (xmin+xmax)/2), angle = 90, size =5, colour = "white", y=0.025, data = p2, hjust = 0, vjust=0.5)
 @
 
-<<onepanel-state-plot, echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 10, fig.width=8, fig.cap="Proportion of religious sittings for each state by denomination \\label{fig:state-denominations}">>=
+<<onepanel-state-plot, echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 10, fig.width=8, fig.cap="Proportion of religious sittings for each state by denomination \\label{fig:state-denominations}", include = F, eval = F>>=
 
 library(ggmosaic)
 cl %>% filter(Denomination != "Unaccommodated") %>%
@@ -382,7 +399,7 @@ With the help of the description and the legend of \autoref{fig:header} and \aut
 
 \begin{figure}
 \includegraphics[width=\columnwidth]{images/legend.png}
-\caption{Zoom-in to the legend of plate \#32. \label{fig:header}}
+\caption{Zoom-in to the legend of plate \#32. \label{fig:legend}}
 \end{figure}
 
 \begin{figure}
