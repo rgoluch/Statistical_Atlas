@@ -244,7 +244,7 @@ px2 <- read.csv("../Data/px2.csv")
 
 \autoref{fig:denominations} shows a miniature of plate \#31 from the Statistical Atlas. This plate shows the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey outer frame). For each state a square of the same size is drawn. The four most common denomination are shown as colored stripes, the width of which is proprtional to the number of their sittings. Each denomination is shown by one of eleven different colors, all other denominations are represented jointly by a twelfth color. The color scheme chosen in the Statistical Atlas is essentially that of paired colors, i.e.\ each hue is represented with a lighter shade (using hatching) and a darker shade (see zoom-in to the legend of plate \#31 in \autoref{fig:legend-31}).
 
-\comment{SVP: Paired color schemes have always been a favorite of mine (easier to see), but they have an additional advantage when printing is done with lithography: the required prints would be much less complex, as it is fairly easy to create a ``light" and ``dark" version of the same hue (easy for an expert in lithography... idk if I could do it. - XXX that's the munsell color scheme) If the graphs had used some other color scheme, it would have been necessary to figure out the proportion of each ink color necessary to produce the final color for each of 12+ colors, which I'd imagine would require quite a bit more work and artwork precision than using the same proportions but changing the overall saturation. Though, I'm not sure how much actual calculation would be required and how much would be gut instinct?}
+% \comment{SVP: Paired color schemes have always been a favorite of mine (easier to see), but they have an additional advantage when printing is done with lithography: the required prints would be much less complex, as it is fairly easy to create a ``light" and ``dark" version of the same hue (easy for an expert in lithography... idk if I could do it. - XXX that's the munsell color scheme) If the graphs had used some other color scheme, it would have been necessary to figure out the proportion of each ink color necessary to produce the final color for each of 12+ colors, which I'd imagine would require quite a bit more work and artwork precision than using the same proportions but changing the overall saturation. Though, I'm not sure how much actual calculation would be required and how much would be gut instinct?}
 
 \begin{figure}
 \includegraphics[width = \columnwidth]{images/ca000081.jpg}
@@ -364,8 +364,9 @@ cl %>%
 \section{Case Study 2: Gender Ratio in Agriculture, Trade, Service, Manufacturing, and Schools}
 
 
-\autoref{fig:occupation} shows a miniature of the chart published as plate \#32 in the Statistical Atlas of 1874 \cite{atlas} produced from data collected in the 9th US Census.
+Figure~\autoref{fig:occupation} shows a miniature of the chart published as plate \#32 in the Statistical Atlas of 1874 \cite{atlas} produced from data collected in the 9th US Census.
 The chart is set-up in form of small multiples \cite{tufte}, also known as lattice or trellis plots \cite{becker:1996}, one for each state and an enlarged plot as with an overview of the nation-wide aggregates. States are represented by squares of the same size, representing "the total population over 10 years of age", as detailed in the zoom-in in \autoref{fig:header}, which shows the description at the top of the plate.
+\comment{all of this also applies to plate \#31... Maybe should move it up to a general discussion?}
 \begin{figure}
 \includegraphics[width=\columnwidth]{images/ca000082.jpg}
 \caption{Plate \#32 from the Statistical Atlas of 1874: Gender ratio of population over the age of ten in different types of occupations.\label{fig:occupation}}
