@@ -12,7 +12,7 @@ denominations %>% anti_join(totals[,c("STATEICP", "Area.name", "Total.above10.es
 anti_join(totals[,c("STATEICP", "Area.name", "Total.above10.est")], denominations,
                             by=c("Area.name"="State"))
 
-denominations <- denominations %>% left_join(totals[,c("STATEICP", "Area.name", "Total.above10.est")],
+denominations <- denominations %>%  left_join(totals[,c("STATEICP", "Area.name", "Total.above10.est")],
                             by=c("State"="Area.name"))
 denominations <- denominations %>% mutate(
   Unaccommodated = pmax(0, Total.above10.est - Total)

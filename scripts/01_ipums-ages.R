@@ -1,8 +1,8 @@
 library(tidyverse)
 ipums <- read.csv("../Data/ipums-1870.csv")
 
-ages <- ipums %>% group_by(STATEICP) %>% summarize(total = n(), above10 = sum(AGE>10))
-ages.sex <- ipums %>% group_by(STATEICP, SEX) %>% summarize(total = n(), above10 = sum(AGE>10))
+ages <- ipums %>% group_by(STATEICP) %>% summarize(total = n(), above10 = sum(AGE>=10))
+ages.sex <- ipums %>% group_by(STATEICP, SEX) %>% summarize(total = n(), above10 = sum(AGE>=10))
 
 totals <- read.csv("../Data/state-population.csv")
 anti_join(ages, totals, by=c("STATEICP"="State")) # the Dakotas ...

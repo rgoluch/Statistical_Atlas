@@ -316,7 +316,7 @@ levels(cl$Denomination) <- gsub("\\.", " ", levels(cl$Denomination))
 @
 
 <<religious-bias-plot, echo = FALSE, fig.width=5, fig.height=5, fig.cap="Percentage of state-wide unaccommodated population based on estimates from the 1\\% Microsample ($x$-axis) and pixel values measured from the digitized version of plate \\#31 ($y$-axis).\\label{fig:matches-plate31}">>=
-churchPixel <- read.csv("../Data/church_pixel.csv")
+churchPixel <- read.csv("../Data/church_pixel-b.csv")
 church_noterritories <- churchPixel %>%
   filter(!(State.Territory %in% c("SW Territories", "NW Territories")))
 church_noterritories %>%
