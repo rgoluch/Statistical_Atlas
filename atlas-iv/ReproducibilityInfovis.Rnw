@@ -225,7 +225,21 @@ Extending this, scholarship in information visualization is then the combination
 
 Reproducibility depends on openness: open data and open publications. Without both repositories of information, it would be difficult or impossible to go back and compare past data visualizations with todays methodology.
 
-\cite{sandve:2013}
+\cite{sandve:2013} highlights the importance of the entire framework for reproducibility with 10 rules for reproducible computational research:
+\begin{enumerate}
+\item For every result, keep track of how it was produced.
+\item Avoid manual data manipulation steps.
+\item Archive the exact versions of all external programs used.
+\item Version control all custom scripts.
+\item Record all intermediate results, when possible in standardized formats.
+\item For analyses that include randomness, note underlying random seeds.
+\item Always store raw data behind plots.
+\item Generate hierarchical analysis output, allowing layers of increasing detail to be inspected.
+\item Connect textual statements to underlying results.
+\item Provide public access to scripts, runs, and results.
+\end{enumerate}
+
+These rules are focused on the computational era, but many of the underlying ideas can be translated to the creation of the Statistical Atlas. Intermediate results are recorded in tabular summaries of the census data, raw data was stored (though only a 1\% sample is made available to the public), and hierarchical summaries are shown: plates generally include an overview of the country as well as individual states and territories. While the specific method for producing the plots has not (to our knowledge) survived to the modern era, the plots used in the two plates of the Statistical Atlas examined in this paper are fairly easy to reverse-engineer, which allows us to compare the data shown in the plots to the data provided in the 1\% microsample of the 1870 census, resulting in several surprising discoveries. 
 
 This study is intended to examine the persistence of data and methodology across nearly 150 years and several technological revolutions. As the study of statistical visualization has developed considerably over the past 147 years, we also examine the visualization decisions made for the 1870 statistical atlas and create improved graphics which more clearly display the same data. The technological advances since the 1870 census also allow us to more easily add a spatial component, as it is now much easier to display the census data in map form. These improvements allow us to add addiitonal depth to the 1870 statistical atlas graphics without investing hundreds of hours of artistic work for each additional map and chart.
 
