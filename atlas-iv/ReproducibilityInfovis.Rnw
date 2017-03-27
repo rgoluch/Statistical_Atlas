@@ -193,9 +193,12 @@ Sandve et al \cite{sandve:2013} propose `ten simple rules for computational repr
 XXX from the style file guide: use ``\texttt{\textbackslash autoref\{reference\}}''
 
 
+<<<<<<< HEAD
 <<plate32-scatterplot, eval = T, results='hide', echo=FALSE, fig.pos="center", fig.width = 7, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). \\label{fig:plate32-similarities}", warning=FALSE, message=FALSE, include = F>>=
+=======
+<<plate32-scatterplot, eval = TRUE, results='hide', echo=FALSE, fig.pos="center", fig.width = 7, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). \\label{fig:plate32-similarities}", warning=FALSE, message=FALSE>>=
+>>>>>>> more changes
 # only run this once
-if (!file.exists("images/plate32-scatterplot-1.pdf")) {
 library(tidyverse)
 
 px2 <- read.csv("../Data/px2.csv")
@@ -205,7 +208,6 @@ px2 %>%
   facet_wrap(~Occupation) + theme_bw() +
   xlab("Percentages of occupation based on Plate #32") +
   ylab("Percentages based on Census Estimates") + coord_equal()
-}
 @
 
 
@@ -316,7 +318,7 @@ levels(cl$Denomination) <- gsub("\\.", " ", levels(cl$Denomination))
 @
 
 <<religious-bias-plot, echo = FALSE, fig.width=5, fig.height=5, fig.cap="Percentage of state-wide unaccommodated population based on estimates from the 1\\% Microsample ($x$-axis) and pixel values measured from the digitized version of plate \\#31 ($y$-axis).\\label{fig:matches-plate31}">>=
-churchPixel <- read.csv("../Data/church_pixel-b.csv")
+churchPixel <- read.csv("../Data/church_pixel.csv")
 church_noterritories <- churchPixel %>%
   filter(!(State.Territory %in% c("SW Territories", "NW Territories")))
 church_noterritories %>%
