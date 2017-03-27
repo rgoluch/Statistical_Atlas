@@ -193,7 +193,7 @@ Sandve et al \cite{sandve:2013} propose `ten simple rules for computational repr
 XXX from the style file guide: use ``\texttt{\textbackslash autoref\{reference\}}''
 
 
-<<plate32-scatterplot, eval = FALSE, results='hide', echo=FALSE, fig.pos="center", fig.width = 7, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). \\label{fig:plate32-similarities}", warning=FALSE, message=FALSE>>=
+<<plate32-scatterplot, eval = T, results='hide', echo=FALSE, fig.pos="center", fig.width = 7, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). \\label{fig:plate32-similarities}", warning=FALSE, message=FALSE, include = F>>=
 # only run this once
 if (!file.exists("images/plate32-scatterplot-1.pdf")) {
 library(tidyverse)
