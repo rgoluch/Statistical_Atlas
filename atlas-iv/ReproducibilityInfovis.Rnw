@@ -262,13 +262,15 @@ occ3 <- occ3 %>% mutate(
 
 \section{Case Study 1: Church Accommodations by State}
 
-\autoref{fig:denominations} shows a miniature of plate \#31 from the Statistical Atlas. This plate shows the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey outer frame). For each state a square of the same size is drawn. The four most common denomination are shown as colored stripes, the width of which is proprtional to the number of their sittings. Each denomination is shown by one of eleven different colors, all other denominations are represented jointly by a twelfth color. The color scheme chosen in the Statistical Atlas is essentially that of paired colors, i.e.\ each hue is represented with a lighter shade (using hatching) and a darker shade (see zoom-in to the legend of plate \#31 in \autoref{fig:legend-31}).
+\autoref{fig:denominations} shows a miniature of plate \#31 from the Statistical Atlas. This plate shows the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey outer frame). For each state a square of the same size is drawn. The four most common denomination are shown as colored stripes, the width of which is proportional to the number of their sittings. Each denomination is shown by one of eleven different colors, all other denominations are represented jointly by a twelfth color. The color scheme chosen in the Statistical Atlas is essentially that of paired colors, i.e.\ each hue is represented with a lighter shade (using hatching) and a darker shade (see zoom-in to the legend of plate \#31 in \autoref{fig:legend-31}).
 
 % \comment{SVP: Paired color schemes have always been a favorite of mine (easier to see), but they have an additional advantage when printing is done with lithography: the required prints would be much less complex, as it is fairly easy to create a ``light" and ``dark" version of the same hue (easy for an expert in lithography... idk if I could do it. - XXX that's the munsell color scheme) If the graphs had used some other color scheme, it would have been necessary to figure out the proportion of each ink color necessary to produce the final color for each of 12+ colors, which I'd imagine would require quite a bit more work and artwork precision than using the same proportions but changing the overall saturation. Though, I'm not sure how much actual calculation would be required and how much would be gut instinct?}
 
+\comment{HH: dubious design choices: (1) only top four denominations per state and top eight denominations overall are shown. This lets some denominations disappear (e.g. Jews) from the view that have overall more followers than e.g. the Mormon church, yet are not locally as prominent.
+(2) within each state  denominations  are ordered from largest to smallest (with the `all others` category always in fifth position). This does not allow us to compare the makeup between states, as small differences in numbers might result in rather large visual differences. }
 \begin{figure}
 \includegraphics[width = \columnwidth]{images/ca000081.jpg}
-\caption{Plate \#31 from the Statistical Atlas of 1874: Church accommodation by state and denomination for the population of over ten years of age. \label{fig:denominations}}
+\caption{Plate \#31 from the Statistical Atlas of 1874: church accommodation by state and denomination for the population of over ten years of age. \label{fig:denominations}}
 \end{figure}
 
 \begin{figure}
@@ -330,7 +332,11 @@ church_noterritories %>%
   geom_smooth(method = "lm", se = FALSE, linetype = 2, size = .5)
 @
 
-\comment{SVP: Even excluding Minnesota, there seems to be a slight bias: the pixels over-represent the proportion of unaccommodated population. Could that be because of the border region? Or is it more likely to be a sampling vs. census issue?}
+\comment{SVP: Even excluding Minnesota, there seems to be a slight bias: the pixels over-represent the proportion of unaccommodated population. Could that be because of the border region? Or is it more likely to be a sampling vs. census issue?
+
+HH: yes, we have a bias between the two different estimates, and I don't have a good explanation for it - we have re-measured the pixels for each state. I think the best strategy would be to acknowledge its presence.  }
+
+
 
 <<minnesota-plot, dependson="data-plate31", echo = F, message = F, warning = F, include = F>>=
 library(ggmosaic)
