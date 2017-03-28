@@ -165,6 +165,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
+<<setup>>=
+library(ggmosaic)
+library(tidyverse)
+library(dplyr)
+library(magrittr)
+library(ggmapr)
+library(RColorBrewer)
+library(munsell)
+
+library(knitr)
+opts_chunk$set(cache = T, echo = F, autodep = T)
+@
 
 %% The ``\maketitle'' command must be the first command after the
 %% ``\begin{document}'' command. It prepares and prints the title block.
@@ -195,8 +207,6 @@ XXX from the style file guide: use ``\texttt{\textbackslash autoref\{reference\}
 
 <<plate32-scatterplot, eval = TRUE, results='hide', echo=FALSE, fig.pos="center", fig.width = 7, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). ", warning=FALSE, message=FALSE>>=
 # only run this once
-library(tidyverse)
-
 px2 <- read.csv("../Data/px2.csv")
 px2 %>%
   ggplot(aes(x = PixPercent, y = CensusPercent)) +
@@ -239,13 +249,12 @@ Reproducibility depends on openness: open data and open publications. Without bo
 \item Provide public access to scripts, runs, and results.
 \end{enumerate}
 
-These rules are focused on the computational era, but many of the underlying ideas can be translated to the creation of the Statistical Atlas. Intermediate results are recorded in tabular summaries of the census data, raw data was stored (though only a 1\% sample is made available to the public), and hierarchical summaries are shown: plates generally include an overview of the country as well as individual states and territories. While the specific method for producing the plots has not (to our knowledge) survived to the modern era, the plots used in the two plates of the Statistical Atlas examined in this paper are fairly easy to reverse-engineer, which allows us to compare the data shown in the plots to the data provided in the 1\% microsample of the 1870 census, resulting in several surprising discoveries.
+With R and add-on packages (knitr, packrat), it is incredibly easy to implement these 10 suggestions. \texttt{knitr} makes it easy to store code and results while tying computational steps to textual statements, \texttt{packrat} allows researchers to easily archive software, and the use of git with R projects makes version control and intermediate results available to even novice users. The developments in R packages to facilitate reproducible research makes reproducibility much easier for the modern researcher than it would have been for those compiling the 1870 census. These rules are focused on the computational era, but many of the underlying ideas can be translated to the creation of the Statistical Atlas. Intermediate results are recorded in tabular summaries of the census data, raw data was stored (though only a 1\% sample is made available to the public), and hierarchical summaries are shown: plates generally include an overview of the country as well as individual states and territories. While the specific method for producing the plots has not (to our knowledge) survived to the modern era, the plots used in the two plates of the Statistical Atlas examined in this paper are fairly easy to reverse-engineer, which allows us to compare the data shown in the plots to the data provided in the 1\% microsample of the 1870 census, resulting in several surprising discoveries.
 
 This study is intended to examine the persistence of data and methodology across nearly 150 years and several technological revolutions. As the study of statistical visualization has developed considerably over the past 147 years, we also examine the visualization decisions made for the 1870 statistical atlas and create improved graphics which more clearly display the same data. The technological advances since the 1870 census also allow us to more easily add a spatial component, as it is now much easier to display the census data in map form. These improvements allow us to add addiitonal depth to the 1870 statistical atlas graphics without investing hundreds of hours of artistic work for each additional map and chart.
 
 
 <<data-reading, echo=FALSE, message=FALSE, warning=FALSE>>=
-library(tidyverse)
 occ2 <- read.csv("../Data/occ2.csv")
 occ2 <- occ2 %>% mutate(
   Occupation = factor(Occupation, levels =
@@ -300,8 +309,7 @@ darker_steps <- function(x, n) {
   }
   x
 }
-library(RColorBrewer)
-library(munsell)
+
 cols = c(brewer.pal(n = 12, name = "Paired")[c(1,3,5,7,9,11)], "grey80")
 
 #cols <- c("#ffcc80","#ff9900")
@@ -316,7 +324,9 @@ colMNSL <- c(colMNSL,
 colHEX <- mnsl(colMNSL)
 colHEX <- colHEX[rep(0:6, each = 3) + c(1, 8, 15)]
 colHEX <- c(colHEX, "grey60")
+@
 
+<<data-plate31-readin, echo = F, eval = T>>=
 church <- read.csv("../Data/denominations-1874.csv")
 cl <- church %>% gather(key = "Denomination",
                         value = "Number",
@@ -351,7 +361,7 @@ church_noterritories %>%
 HH: yes, we have a bias between the two different estimates, and I don't have a good explanation for it - we have re-measured the pixels for each state. I think the best strategy would be to acknowledge its presence.  }
 
 <<minnesota-plot, dependson="data-plate31", echo = F, message = F, warning = F, include = F>>=
-library(ggmosaic)
+
 cl %>%
   filter(State == "Minnesota") %>%
   filter(Number > 0) %>%
@@ -367,7 +377,6 @@ cl %>%
   ggtitle("Minnesota")
 @
 <<michigan-plot, dependson="data-plate31", echo = F, message = F, warning = F, include = F>>=
-library(ggmosaic)
 cl %>%
   filter(State == "Michigan") %>%
   filter(Number > 0) %>%
@@ -383,7 +392,6 @@ cl %>%
   ggtitle("Michigan")
 @
 <<mississippi-plot, dependson="data-plate31", echo = F, message = F, warning = F, include = F>>=
-library(ggmosaic)
 cl %>%
   filter(State == "Mississippi") %>%
   filter(Number > 0) %>%
@@ -401,7 +409,6 @@ cl %>%
 
 
 <<overall-religious-plot, dependson="data-plate31", echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.cap="US overview of sittings provided by the eight most common denominations, all other denominations and unaccommodated population.\\label{fig:us-denominations}", fig.width=6, fig.height=6, eval = T, include = F>>=
-library(ggmosaic)
 clsmall <- cl %>% filter(Denomination != "Unaccommodated") %>%
   mutate(Denomination = reorder(Denomination, Number, function(x) -sum(x, na.rm = TRUE)))
 clsmall$Denom10 <- clsmall$Denomination
@@ -427,7 +434,6 @@ p +  geom_text(aes(label = label, x = (xmin+xmax)/2), angle = 90, size =5, colou
 
 <<onepanel-state-plot, echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 10, fig.width=8, fig.cap="Proportion of religious sittings for each state by denomination \\label{fig:state-denominations}", include = F, eval = T>>=
 
-library(ggmosaic)
 cl %>% filter(Denomination != "Unaccommodated") %>%
   ggplot() +
   geom_bar(aes(weight = Number,  x = State, fill = Denomination),
@@ -439,7 +445,7 @@ cl %>% filter(Denomination != "Unaccommodated") %>%
 
 
 <<onepanel-state-plot-unaccommodated, echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 10, fig.width=8, fig.cap="Proportion of religious sittings for each state by denomination including unaccommodated population.\\label{fig:state-denominations-ua}">>=
-library(ggmosaic)
+
 cl %>%
   ggplot() +
   geom_bar(aes(weight = Number,  x = State, fill = Denomination),
@@ -487,7 +493,7 @@ Figure \ref{fig:plate32-similarities} shows that the numbers combined from NT13 
 
 <<overall-work-plot, fig.width=5, fig.height=5.5, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Recreation of the mosaicplot based on gainfully employed population over ten.">>=
 cols <- c("#333300", "#000066", "#cc9900", "#202060", "#86742d")
-library(ggmosaic)
+
 occ2 %>% filter(State==Area.Name) %>% ggplot() +
   geom_mosaic(aes(x = product(Gender, Occupation),
                   fill=Occupation, alpha = Gender, weight = Number),
