@@ -58,6 +58,7 @@
 %%%%% Extra Packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{subcaption}
 \usepackage{subfig}
+\usepackage{paralist}
 \usepackage[dvipsnames,svgnames,table]{xcolor}
 \usepackage[colorinlistoftodos]{todonotes}
 %                 Editing Commands
@@ -186,6 +187,7 @@ opts_chunk$set(cache = T, echo = F, autodep = T)
 
 \maketitle
 
+\comment{
 Plan:
 
 \begin{enumerate}
@@ -203,9 +205,9 @@ Sandve et al \cite{sandve:2013} propose `ten simple rules for computational repr
 \end{enumerate}
 
 XXX from the style file guide: use ``\texttt{\textbackslash autoref\{reference\}}''
+}
 
-
-<<plate32-scatterplot, eval = TRUE, results='hide', echo=FALSE, fig.pos="center", fig.width = 7, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). ", warning=FALSE, message=FALSE>>=
+<<plate32-scatterplot, eval = FALSE, results='hide', echo=FALSE, fig.pos="center", fig.width = 7, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). ", warning=FALSE, message=FALSE>>=
 # only run this once
 px2 <- read.csv("../Data/px2.csv")
 px2 %>%
@@ -236,7 +238,7 @@ Extending this, scholarship in information visualization is then the combination
 Reproducibility depends on openness: open data and open publications. Without both repositories of information, it would be difficult or impossible to go back and compare past data visualizations with todays methodology.
 
 \cite{sandve:2013} highlights the importance of the entire framework for reproducibility with ten rules for reproducible computational research:
-\begin{enumerate}
+\begin{compactenum}
 \item For every result, keep track of how it was produced.
 \item Avoid manual data manipulation steps.
 \item Archive the exact versions of all external programs used.
@@ -247,7 +249,7 @@ Reproducibility depends on openness: open data and open publications. Without bo
 \item Generate hierarchical analysis output, allowing layers of increasing detail to be inspected.
 \item Connect textual statements to underlying results.
 \item Provide public access to scripts, runs, and results.
-\end{enumerate}
+\end{compactenum}
 
 With R and add-on packages (knitr, packrat), it is incredibly easy to implement these 10 suggestions. \texttt{knitr} makes it easy to store code and results while tying computational steps to textual statements, \texttt{packrat} allows researchers to easily archive software, and the use of git with R projects makes version control and intermediate results available to even novice users. The developments in R packages to facilitate reproducible research makes reproducibility much easier for the modern researcher than it would have been for those compiling the 1870 census. These rules are focused on the computational era, but many of the underlying ideas can be translated to the creation of the Statistical Atlas. Intermediate results are recorded in tabular summaries of the census data, raw data was stored (though only a 1\% sample is made available to the public), and hierarchical summaries are shown: plates generally include an overview of the country as well as individual states and territories. While the specific method for producing the plots has not (to our knowledge) survived to the modern era, the plots used in the two plates of the Statistical Atlas examined in this paper are fairly easy to reverse-engineer, which allows us to compare the data shown in the plots to the data provided in the 1\% microsample of the 1870 census, resulting in several surprising discoveries.
 
@@ -281,7 +283,136 @@ occ3 <- occ3 %>% mutate(
 
 \section{Methodology} % This needs a better name
 
-\section{Case Study 1: Church Accommodations by State}
+Most of the plates of the Statistical Atlas are overlaid maps, but some consist of more abstract and, at that time, novel visualizations.
+Of particular interest for us are plates #31 and #32. Both of these plates have a very similar structure: they show small multiples, one for each state, of what are now known as mosaic plots or  Marimekko charts.
+
+At the time the Statistical Atlas for the ninth census was created, Mosaic plots were a novel way of visualizing data. Even though area plots as a means of visualizing data had been in use before \cite{friendly}, e.g.\ Minard's \cite{minard} plate \#3 \cite{newyork}, Mosaic plots in their modern form  of use were not published until 1877 \cite{mayr}. However,  the descriptions given on both plates #31 and #32 makes it clear that areas are designed to be proportional to the population they represent:
+\begin{quotation}
+The interior squares represent the proportion of the population which is accounted for as engaged in gainful occupations or as attending school. The shaded intervals between the inner and and outer squares represent the proportion of the population not so accounted for.
+\end{quotation}
+
+Both plates #31 and #32 are based on population totals for (as stated on the legend, see \autoref{fig:header}) ``the total population over 10 years of age". Because state-level aggregates of the number of total population above the age of ten are not available directly; instead we are extra-polating these numbers based on the 1\% microsample of the ninth census provided by the Integrated Public Use Microdata Series (IPUMS-USA) provided through the Minnesota Population Center \cite{ipums}. Using the small sample, we get counts of the male and female population above ten as well as state totals. This allows us to get estimates for the size of the male and female population above ten for each state by extrapolating from the sample proportions.
+
+\comment{same thing in mathematical notation? plus an estimate of the standard deviation?}
+
+\section{Case Study 1: Gender Ratio in Agriculture, Trade, Service, Manufacturing, and Schools}
+
+
+Figure~\autoref{fig:plate32} shows a miniature of the chart published as plate \#32 in the Statistical Atlas of 1874 \cite{atlas} produced from data collected in the 9th US Census. The chart shows the gender ratio of population over the age of ten in different types of occupations.
+The chart is set-up in form of small multiples \cite{tufte}, also known as lattice or trellis plots \cite{becker:1996}, one for each state and an enlarged plot as with an overview of the nation-wide aggregates. States are represented by squares of the same size, representing "the total population over 10 years of age", as detailed in the zoom-in in \autoref{fig:header}, which shows the description at the top of the plate.
+\comment{all of this also applies to plate \#31... Maybe should move it up to a general discussion? HH: yes, I'm all for that}
+% \begin{figure}
+% \includegraphics[width=\columnwidth]{images/ca000082.jpg}
+% \caption{Plate \#32 from the Statistical Atlas of 1874: Gender ratio of population over the age of ten in different types of occupations.\label{fig:plate32}}
+% \end{figure}
+
+
+With the help of the description and the legend of \autoref{fig:header} and \autoref{fig:legend}, we can interpret the details of each of the squares at the example of \autoref{fig:us}. This figure shows an overview of type of occupation by gender across the US in 1870. It is essentially a mosaic \cite{hartigan:1981, friendly, prodplots} or Marimekko plot \cite{marimekkochart} of type of occupation (horizontal) and gender (vertical), but with a twist: the grey band around each one of the states' squares is proportional to the number of population "unaccounted" for, i.e. the difference between the total population over the age of ten and the population gainfully employed in one of the five categories or attending school. The choice to show this part of the population by a band around is somewhat unfortunate, as it breaks the overall metaphor of the mosaicplot and thereby prevents any direct comparisons across charts except for area comparisons, which are cognitively harder and more error prone than comparisons of lengths \cite{cleveland:1984}. It also masks the size of the population that is thus *unaccounted* for by visually cutting it into a quarter of the size it actually is. The percentage of unaccounted individuals is at about 30\% nation-wide higher than any of the other groups. It is also made up of about 97\% women and girls.
+
+\begin{figure}
+\includegraphics[width=\columnwidth]{images/header.png}
+\caption{Zoom-in to the description section of plate \#32. \label{fig:header}}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=\columnwidth]{images/legend.png}
+\caption{Zoom-in to the legend of plate \#32. \label{fig:legend}}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=\columnwidth]{images/occupations-us.png}
+\caption{Zoom-in to the overview of the US wide distribution of genders across occupations. \label{fig:us}}
+\end{figure}
+
+
+The data used to recreate the visualization of plate \#32 is retrieved from \cite{NHGIS}, in particular, from table NT13 on ``Employed Population by Occupation by Age by Sex". These numbers are state-level aggregates of population numbers by occupation, gender, and sex. We aggregate across ages to get the values included here.
+ The size of the population not ``gainfully employed" or attending school is based on estimates based on the 1\% IPUMS sample.
+Figure \ref{fig:plate32-similarities} shows that the numbers combined from NT13 and the microsample closely match the information on plate \#32. For all occupation levels and school attendance the numbers are {\emph very} close. For population not accounted for, the numbers are estimated from the 1\% IPUMS microsample. This inflates the variability in these numbers, but the relationship to the visual measurements is still very strong.
+
+
+
+<<overall-work-plot, fig.width=5, fig.height=5.5, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Recreation of the mosaicplot based on gainfully employed population over ten.">>=
+cols <- c("#333300", "#000066", "#cc9900", "#202060", "#86742d")
+library(ggmosaic)
+occ2 %>% filter(State==Area.Name) %>% ggplot() +
+  geom_mosaic(aes(x = product(Gender, Occupation),
+                  fill=Occupation, alpha = Gender, weight = Number),
+              offset = 0.005) +
+  scale_fill_manual(values=cols) + theme_bw() +
+  scale_alpha_manual(values=c(0.8,1)) +
+  theme(legend.position = "top") +
+  coord_equal() +
+    theme(axis.line=element_blank(), axis.text=element_blank(),
+        axis.title.y = element_blank(), axis.ticks = element_blank()) +
+  xlab("The United States")
+@
+
+
+<<state-work-mosaics, fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center", fig.cap="Recreation of mosaics of gainful occupation by states.">>=
+occ2 %>% filter(Area.Name==State) %>% ggplot() +
+  geom_mosaic(aes(x = product(Gender, Occupation),
+                  fill=Occupation, alpha = Gender, weight = Number),
+              offset = 0.005) +
+  scale_fill_manual(values=cols) + theme_bw() +
+  scale_alpha_manual(values=c(0.8,1)) +
+  theme(legend.position = "top") +
+  facet_wrap(~State, ncol=6) +
+#  coord_equal() +
+  theme(axis.line=element_blank(), axis.text=element_blank(),
+        axis.title = element_blank(), axis.ticks = element_blank(),
+        aspect.ratio=1)
+@
+
+
+<<territory-work-mosaics, fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Mosaics of gainful occupation by territories.">>=
+occ2 %>% filter(Area.Name != State) %>% ggplot() +
+  geom_mosaic(aes(x = product(Gender, Occupation),
+                  fill=Occupation, alpha = Gender, weight = Number),
+              offset = 0.005) +
+  scale_fill_manual(values=cols) + theme_bw() +
+  scale_alpha_manual(values=c(0.8,1)) +
+  theme(legend.position = "top") +
+  facet_wrap(~State, ncol=6) +
+#  coord_equal() +
+  theme(axis.line=element_blank(), axis.text=element_blank(),
+        axis.title = element_blank(), axis.ticks = element_blank(),
+        aspect.ratio=1)
+@
+
+
+
+
+<<overall-work-mosaic-unaccommodated, echo = FALSE, fig.pos="center", fig.cap="Mosaicplot of the gender ratio in different occupations of the population ten years of age and above.">>=
+cols <- c("#333300", "#000066", "#cc9900", "#202060", "#86742d", "grey40")
+occ3 %>% filter(Area.name == State) %>% ggplot() +
+  geom_mosaic(aes(x = product(Sex, Occupation),
+                  fill = Occupation, alpha = Sex, weight = Number),
+              offset = 0.005) +
+  scale_fill_manual(values = cols) + theme_bw() +
+  scale_alpha_manual(values = c(0.8,1)) +
+  theme(legend.position = "top") +
+  coord_equal() +
+    theme(axis.line = element_blank(), axis.text = element_blank(),
+        axis.title.y = element_blank(), axis.ticks = element_blank()) +
+  xlab("The United States")
+@
+
+<<territory-work-mosaic-unemployed, results = 'hide', fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Mosaics of gainful occupation by territories including population not employed.">>=
+occ3 %>% filter(Area.name==State) %>% ggplot() +
+  geom_mosaic(aes(x = product(Sex, Occupation),
+                  fill=Occupation, alpha = Sex, weight = Number),
+              offset = 0.005) +
+  scale_fill_manual(values=cols) + theme_bw() +
+  scale_alpha_manual(values=c(0.8,1)) +
+  theme(legend.position = "top") +
+  facet_wrap(~State, ncol=6) +
+  coord_equal() +
+    theme(axis.line=element_blank(), axis.text=element_blank(),
+        axis.title = element_blank(), axis.ticks = element_blank())
+@
+
+
+\section{Case Study 2: Church Accommodations by State}
 
 \autoref{fig:denominations} shows a miniature of plate \#31 from the Statistical Atlas. This plate shows the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey outer frame). For each state a square of the same size is drawn. The four most common denomination are shown as colored stripes, the width of which is proportional to the number of their sittings. Each denomination is shown by one of eleven different colors, all other denominations are represented jointly by a twelfth color. The color scheme chosen in the Statistical Atlas is essentially that of paired colors, i.e.\ each hue is represented with a lighter shade (using hatching) and a darker shade (see zoom-in to the legend of plate \#31 in \autoref{fig:legend-31}).
 
