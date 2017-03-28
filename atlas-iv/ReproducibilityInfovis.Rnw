@@ -491,7 +491,9 @@ church_noterritories %>%
 \comment{SVP: Even excluding Minnesota, there seems to be a slight bias: the pixels over-represent the proportion of unaccommodated population. Could that be because of the border region? Or is it more likely to be a sampling vs. census issue?
 
 HH: yes, we have a bias between the two different estimates, and I don't have a good explanation for it - we have re-measured the pixels for each state. I think the best strategy would be to acknowledge its presence.  }
+\comment{SVP: Need to make the denominational colors different, instead of using the same 4 colors each time. Maybe use scale_identity and merge that information in?
 
+Side note: I don't really understand the code to generate the color scheme. there aren't 21 different color values in this plot.}
 <<minnesota-plot, dependson="data-plate31", echo = F, message = F, warning = F, include = F>>=
 
 cl %>%
