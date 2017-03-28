@@ -1,5 +1,5 @@
 church <- read.csv("../Data/denominations-1874.csv")
-churchPixel <- read.csv("../Data/church_accomodations-w-percent-unacomodated-area.csv")
+churchPixel <- read.csv("../Data-raw/church_accomodations-w-percent-unacomodated-area.csv")
 churchPixel <- churchPixel %>%
   separate(Square.Outside, into=c("out.width", "out.height"), sep="x", convert=TRUE) %>%
   separate(Square.Inside, into=c("in.width", "in.height"), sep="x", convert=TRUE) %>%

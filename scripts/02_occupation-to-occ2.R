@@ -1,5 +1,5 @@
 library(tidyverse)
-occupation <- read.csv("../Data/occupation.csv")
+occupation <- read.csv("../Data-raw/occupation.csv")
 occupation$State <- as.character(occupation$Area.name)
 occupation$Territory <- as.logical(gsub(".* Territory", "TRUE", occupation$State))
 occupation$Area.name <- gsub(" Territory", "", occupation$Area.name)

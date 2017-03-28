@@ -1,4 +1,4 @@
-pixels2 <- read.csv("../Data/pixel-values.csv")
+pixels2 <- read.csv("../Data-raw/pixel-values.csv")
 pixels2$Unaccounted <- (451^2 - (451-2*pixels2$Unaccounted)^2)/451
 
 px1 <- pixels2 %>% select(State, Agriculture, Manufacturing, Trade, Service, School, Unaccounted) %>% gather(key="Occupation", value="Pixels", -State, factor_key=TRUE)

@@ -1,4 +1,4 @@
-denominations <- read.csv("../Data/denominations-1874.csv")
+denominations <- read.csv("../Data-raw/denominations-1874.csv")
 totals <- read.csv("../Data/ages-ipums.csv")
 totals <- totals %>% mutate(
   Area.name = as.character(Area.name),
