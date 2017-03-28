@@ -296,6 +296,13 @@ Both plates #31 and #32 are based on population totals for (as stated on the leg
 
 \comment{same thing in mathematical notation? plus an estimate of the standard deviation?}
 
+Let $n_{UA}^{(\text{XY})}$ be the (unfortunately unkown) size of the unaccounted population of state {\it XY} and $n^{(\text{XY})}$ the same state's total population. Then we have the relationship
+\[
+n_{UA}^{(\text{XY})} = n^{(\text{XY})} \cdot p_{UA}^{(\text{XY})},
+\]
+where $p_{UA}^{(\text{XY})} \in [0,1]$ is the proportion of the  population in state {\it XY} not accounted for.
+
+
 \section{Case Study 1: Gender Ratio in Agriculture, Trade, Service, Manufacturing, and Schools}
 
 
