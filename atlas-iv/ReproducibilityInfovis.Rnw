@@ -166,7 +166,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
-<<setup>>=
+<<setup, echo = F, include = F, eval = T>>=
 library(ggmosaic)
 library(tidyverse)
 library(dplyr)
@@ -176,7 +176,7 @@ library(RColorBrewer)
 library(munsell)
 
 library(knitr)
-opts_chunk$set(cache = T, echo = F, autodep = T)
+opts_chunk$set(cache = T, echo = F, autodep = T, warning = F, message = F)
 @
 
 %% The ``\maketitle'' command must be the first command after the
