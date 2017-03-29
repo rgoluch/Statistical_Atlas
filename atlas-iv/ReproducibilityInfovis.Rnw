@@ -208,7 +208,7 @@ Sandve et al \cite{sandve:2013} propose `ten simple rules for computational repr
 XXX from the style file guide: use ``\texttt{\textbackslash autoref\{reference\}}''
 }
 
-<<plate32-scatterplot, eval = TRUE, results='hide', echo=FALSE, fig.pos="center", fig.width = 7.5, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). ", warning=FALSE, message=FALSE>>=
+<<plate32-scatterplot, eval = FALSE, results='hide', echo=FALSE, fig.pos="center", fig.width = 7.5, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). ", warning=FALSE, message=FALSE>>=
 # only run this once
 px2 <- read.csv("../Data/px2.csv")
 seframe = data.frame(x =seq(0,50))
@@ -296,18 +296,19 @@ occ3 <- occ3 %>% mutate(
 \section{Statistical Archaeology} % This needs a better name
 
 Most of the plates of the Statistical Atlas are overlaid maps, but some consist of more abstract and, at that time, novel visualizations.
-Of particular interest for us are plates #31 and #32. Both of these plates have a very similar structure: they show small multiples, one for each state, of what are now known as mosaic plots or  Marimekko charts.
+Of particular interest for us are plates \#31 (see \autoref{fig:plate31}) and \#32 (see \autoref{fig:plate32}). Both of these plates have a very similar setup and structure: at the top of the chart we find an in-depth description (see zoom-ins in \autoref{fig:header} and ???) and a legend detailing the color choices (see \autoref{fig:legend}). The structure of the visualization is that we have a big square in the top left with an US-wide aggregate of the situation, and a series of small multiples \cite{tufte} or trellis plots \cite{becker:1996}, one for each state, of what are now known as mosaic \cite{hartigan:1981, friendly, prodplots} or Marimekko plots \cite{marimekkochart}.
 
-At the time the Statistical Atlas for the ninth census was created, Mosaic plots were a novel way of visualizing data. Even though area plots as a means of visualizing data had been in use before \cite{friendly}, e.g.\ Minard's \cite{minard} plate \#3 \cite{newyork}, Mosaic plots in their modern form  of use were not published until 1877 \cite{mayr}. However,  the descriptions given on both plates #31 and #32 makes it clear that areas are designed to be proportional to the population they represent:
+\comment{but with a twist: the grey band around each one of the states' squares is proportional to the number of population ``unaccounted" for, i.e.\ the difference between the total population over the age of ten and the population gainfully employed in one of the five categories or attending school.}
+
+
+At the time the Statistical Atlas for the ninth census was created, Mosaic plots were a novel way of visualizing data. Even though area plots as a means of visualizing data had been in use before \cite{friendly}, e.g.\ Minard's \cite{minard} plate \#3 \cite{newyork}, Mosaic plots in their modern form  of use were not published until 1877 \cite{mayr}. However,  the descriptions given on both plates \#31 and \#32 clearly state the intention of their creators  that areas are designed to be proportional to the population they represent:
 \begin{quotation}
 The interior squares represent the proportion of the population which is accounted for as engaged in gainful occupations or as attending school. The shaded intervals between the inner and and outer squares represent the proportion of the population not so accounted for.
 \end{quotation}
 
-Both plates #31 and #32 are based on population totals for (as stated on the legend, see \autoref{fig:header}) ``the total population over 10 years of age". Because state-level aggregates of the number of total population above the age of ten are not available directly; instead we are extra-polating these numbers based on the 1\% microsample of the ninth census provided by the Integrated Public Use Microdata Series (IPUMS-USA) provided through the Minnesota Population Center \cite{ipums}. Using the small sample, we get counts of the male and female population above ten as well as state totals. This allows us to get estimates for the size of the male and female population above ten for each state by extrapolating from the sample proportions.
+Both plates \#31 and \#32 are based on population totals for (as stated on the legend, see \autoref{fig:header}) ``the total population over 10 years of age". Because state-level aggregates of the number of total population above the age of ten are not available directly; instead we are extra-polating these numbers based on the 1\% microsample of the ninth census provided by the Integrated Public Use Microdata Series (IPUMS-USA) provided through the Minnesota Population Center \cite{ipums}. Using the small sample, we get counts of the male and female population above ten as well as state totals. This allows us to get estimates for the size of the male and female population above ten for each state by extrapolating from the sample proportions.
 
-\comment{same thing in mathematical notation? plus an estimate of the standard deviation?}
-
-Let $n_{UA}^{(\text{XY})}$ be the (unfortunately unkown) size of the unaccounted population of state {\it XY}. Then we have the relationship
+Let $n_{UA}^{(\text{XY})}$ be the --unfortunately unkown-- size of the unaccounted population of state {\it XY}. Then we have the relationship
 \begin{equation}\label{eq:nUA}
 n_{UA}^{(\text{XY})} = n_{\text{AGE}\ge 10}^{(\text{XY})}  - n_{\text{acc}}^{(XY)},
 \end{equation}
@@ -324,12 +325,16 @@ Piecing this result back into \autoref{eq:nUA}, we get both estimates for the si
 \widehat{n_{UA}}^{(\text{XY})} &=& n_\text{total}^{(\text{XY})} \cdot \widehat{p_{\text{AGE}\ge 10}}^{(\text{XY})}  - n_{\text{acc}}^{(XY)}, \\
 s.e.(\widehat{n_{UA}}^{(\text{XY})})^2 &=& \widehat{p_{\text{AGE}\ge 10}} \cdot \left( 1- \widehat{p_{\text{AGE}\ge 10}}\right) n_\text{total}^{(\text{XY})}.
 \end{eqnarray}
+Estimates for the number of unaccounted women and men over ten years of age in each state can be achieved similarly. We also use these results get estimates and standard errors for the size of the religiously unaccommodated population over ten years of age in case study 2.
+
+
+
 
 \section{Case Study 1: Gender Ratio in Agriculture, Trade, Service, Manufacturing, and Schools}
 
 \comment{SVP: autoref doesn't seem to be working. This renders as fig. 1a1, which just looks odd.}
 Figure~\autoref{fig:plate32} shows a miniature of the chart published as plate \#32 in the Statistical Atlas of 1874 \cite{atlas} produced from data collected in the 9th US Census. The chart shows the gender ratio of population over the age of ten in different types of occupations.
-The chart is set-up in form of small multiples \cite{tufte}, also known as lattice or trellis plots \cite{becker:1996}, one for each state and an enlarged plot as with an overview of the nation-wide aggregates. States are represented by squares of the same size, representing "the total population over 10 years of age", as detailed in the zoom-in in \autoref{fig:header}, which shows the description at the top of the plate.
+States are represented by squares of the same size, representing ``the total population over 10 years of age", as detailed in the zoom-in in \autoref{fig:header}, which shows the description at the top of the plate.
 \comment{all of this also applies to plate \#31... Maybe should move it up to a general discussion? HH: yes, I'm all for that}
 % \begin{figure}
 % \includegraphics[width=\columnwidth]{images/ca000082.jpg}
@@ -337,7 +342,7 @@ The chart is set-up in form of small multiples \cite{tufte}, also known as latti
 % \end{figure}
 
 
-With the help of the description and the legend of \autoref{fig:header} and \autoref{fig:legend}, we can interpret the details of each of the squares at the example of \autoref{fig:us}. This figure shows an overview of type of occupation by gender across the US in 1870. It is essentially a mosaic \cite{hartigan:1981, friendly, prodplots} or Marimekko plot \cite{marimekkochart} of type of occupation (horizontal) and gender (vertical), but with a twist: the grey band around each one of the states' squares is proportional to the number of population "unaccounted" for, i.e. the difference between the total population over the age of ten and the population gainfully employed in one of the five categories or attending school. The choice to show this part of the population by a band around is somewhat unfortunate, as it breaks the overall metaphor of the mosaicplot and thereby prevents any direct comparisons across charts except for area comparisons, which are cognitively harder and more error prone than comparisons of lengths \cite{cleveland:1984}. It also masks the size of the population that is thus *unaccounted* for by visually cutting it into a quarter of the size it actually is. The percentage of unaccounted individuals is at about 30\% nation-wide higher than any of the other groups. It is also made up of about 97\% women and girls.
+With the help of the description and the legend of \autoref{fig:header} and \autoref{fig:legend}, we can interpret the details of each of the squares at the example of \autoref{fig:us}. This figure shows an overview of type of occupation by gender across the US in 1870. It is essentially a mosaic \cite{hartigan:1981, friendly, prodplots} or Marimekko plot \cite{marimekkochart} of type of occupation (horizontal) and gender (vertical), but with a twist: the grey band around each one of the states' squares is proportional to the number of population ``unaccounted" for, i.e.\ the difference between the total population over the age of ten and the population gainfully employed in one of the five categories or attending school. The choice to show this part of the population by a band around is somewhat unfortunate, as it breaks the overall metaphor of the mosaicplot and thereby prevents any direct comparisons across charts except for area comparisons, which are cognitively harder and more error prone than comparisons of lengths \cite{cleveland:1984}. It also masks the size of the population that is thus *unaccounted* for by visually cutting it into a quarter of the size it actually is. The percentage of unaccounted individuals is at about 30\% nation-wide higher than any of the other groups. It is also made up of about 97\% women and girls.
 
 \begin{figure}
 \includegraphics[width=\columnwidth]{images/header.png}
@@ -357,7 +362,7 @@ With the help of the description and the legend of \autoref{fig:header} and \aut
 
 The data used to recreate the visualization of plate \#32 is retrieved from \cite{NHGIS}, in particular, from table NT13 on ``Employed Population by Occupation by Age by Sex". These numbers are state-level aggregates of population numbers by occupation, gender, and sex. We aggregate across ages to get the values included here.
  The size of the population not ``gainfully employed" or attending school is based on estimates based on the 1\% IPUMS sample.
-Figure \ref{fig:plate32-similarities} shows that the numbers combined from NT13 and the microsample closely match the information on plate \#32; the regions are based on point-wise Agresti-Coull confidence intervals \cite{agresti:1998}. For all occupation levels and school attendance the numbers are {\emph very} close. For population not accounted for, the numbers are estimated from the 1\% IPUMS microsample. This inflates the variability in these numbers, but the relationship to the visual measurements is still very strong.
+Figure \ref{fig:plate32-similarities} shows that the numbers combined from NT13 and the microsample closely match the information on plate \#32; the regions are based on point-wise Agresti-Coull 95\% confidence intervals \cite{agresti:1998}. For all occupation levels and school attendance the numbers are {\emph very} close. For population not accounted for, the numbers are estimated from the 1\% IPUMS microsample. This inflates the variability in these numbers, but the relationship to the visual measurements is still very strong.
 
 
 
@@ -444,7 +449,7 @@ occ3 %>% filter(Area.name==State) %>% ggplot() +
 
 \section{Case Study 2: Church Accommodations by State}
 
-\autoref{fig:denominations} shows a miniature of plate \#31 from the Statistical Atlas. This plate shows the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey outer frame). For each state a square of the same size is drawn. The four most common denomination are shown as colored stripes, the width of which is proportional to the number of their sittings. Each denomination is shown by one of eleven different colors, all other denominations are represented jointly by a twelfth color. The color scheme chosen in the Statistical Atlas is essentially that of paired colors, i.e.\ each hue is represented with a lighter shade (using hatching) and a darker shade (see zoom-in to the legend of plate \#31 in \autoref{fig:legend-31}).
+\autoref{fig:plate31} shows a miniature of plate \#31 from the Statistical Atlas. This plate shows the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey outer frame). For each state a square of the same size is drawn. The four most common denomination are shown as colored stripes, the width of which is proportional to the number of their sittings. Each denomination is shown by one of eleven different colors, all other denominations are represented jointly by a twelfth color. The color scheme chosen in the Statistical Atlas is essentially that of paired colors, i.e.\ each hue is represented with a lighter shade (using hatching) and a darker shade (see zoom-in to the legend of plate \#31 in \autoref{fig:legend-31}).
 
 The inside squares of plate~\#31 are rotated stacked barcharts or spine plots \cite{hummel:1996}.
 
@@ -454,7 +459,7 @@ The inside squares of plate~\#31 are rotated stacked barcharts or spine plots \c
 (2) within each state  denominations  are ordered from largest to smallest (with the `all others` category always in fifth position). This does not allow us to compare the makeup between states, as small differences in numbers might result in rather large visual differences. }
 \begin{figure}
 \includegraphics[width = \columnwidth]{images/ca000081.jpg}
-\caption{Plate \#31 from the Statistical Atlas of 1874: church accommodation by state and denomination for the population of over ten years of age. \label{fig:denominations}}
+\caption{Plate \#31 from the Statistical Atlas of 1874: church accommodation by state and denomination for the population of over ten years of age. \label{fig:plate31}}
 \end{figure}
 
 \begin{figure}
