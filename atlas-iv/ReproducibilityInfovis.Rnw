@@ -299,7 +299,7 @@ Most of the plates of the Statistical Atlas are overlaid maps, but some consist 
 Of particular interest for us are plates \#31  and \#32 . Plate \#31 (see \autoref{fig:plate31}) gives an overview of the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey outer frame), plate \#32 (see \autoref{fig:plate32}) shows the gender ratio of the population over the age of ten in different types of occupations.  Both of these plates have a very similar setup and structure: at the top of the chart we find an in-depth description (see zoom-ins in \autoref{fig:header} and ???) and a legend detailing the color choices (see \autoref{fig:legend}). The structure of the visualization is that we have a big square in the top left with an US-wide aggregate of the situation, and a series of small multiples \cite{tufte} or trellis plots \cite{becker:1996}, one for each state, of what are now known as mosaic \cite{hartigan:1981, friendly, prodplots} or Marimekko plots \cite{marimekkochart}.
 There is a twist to both plates, though: a grey band is drawn around each one of the states' squares representing essentially missing information. In case study 1 the grey band is proportional to the number of population ``unaccounted" for, i.e.\ the difference between the total population over the age of ten and the population gainfully employed in one of the five categories or attending school.
 In the second case study, the grey band represents the size of religiously unaccommodated population over the age of ten.
-The choice to show the unaccounted/unaccommodated part of the population by a grey band around the square is somewhat unfortunate, as it breaks the overall metaphor of the mosaicplot and thereby prevents any direct comparisons across charts except for area comparisons, which are cognitively harder and more error prone than comparisons of lengths \cite{cleveland:1984}. It also masks the size of the population that is thus unaccounted/unaccommodated for by visually cutting it into  quarters.
+The choice to show the unaccounted/unaccommodated part of the population by a grey band around the square is somewhat unfortunate, as it breaks the overall metaphor of the mosaicplot and thereby prevents any direct comparisons across charts except for area comparisons, which are cognitively harder and more error prone than comparisons of lengths \cite{cleveland:1984}. It also masks the size of the population that is thus unaccounted/unaccommodated for by visually cutting it into  quarters. This is one of the design choices that we re-visit in our re-creation of the chart.
 
 At the time the Statistical Atlas for the ninth census was created, Mosaic plots were a novel way of visualizing data. Even though area plots as a means of visualizing data had been in use before \cite{friendly}, e.g.\ Minard's \cite{minard} plate \#3 \cite{newyork}, Mosaic plots in their modern form  of use were not published until 1877 \cite{mayr}. However,  the descriptions given on both plates \#31 and \#32 clearly state the intention of their creators  that areas are designed to be proportional to the population they represent:
 \begin{quotation}
@@ -330,7 +330,7 @@ Estimates for the number of unaccounted women and men over ten years of age in e
 
 
 
-\section{Case Study 1: Gender Ratio in Agriculture, Trade, Service, Manufacturing, and Schools}
+\subsection{Case Study 1: Gender Ratio in Agriculture, Trade, Service, Manufacturing, and Schools}
 
 \comment{SVP: autoref doesn't seem to be working. This renders as fig. 1a1, which just looks odd.}
 Figure~\autoref{fig:plate32} shows a miniature of the chart published as plate \#32 in the Statistical Atlas of 1874 \cite{atlas} produced from data collected in the 9th US Census. The chart shows the gender ratio of population over the age of ten in different types of occupations.
@@ -445,7 +445,7 @@ occ3 %>% filter(Area.name==State) %>% ggplot() +
 @
 
 
-\section{Case Study 2: Church Accommodations by State}
+\subsection{Case Study 2: Church Accommodations by State}
 
 \autoref{fig:plate31} shows a miniature of plate \#31 from the Statistical Atlas. This plate shows the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey outer frame). For each state a square of the same size is drawn. The four most common denomination are shown as colored stripes, the width of which is proportional to the number of their sittings. Each denomination is shown by one of eleven different colors, all other denominations are represented jointly by a twelfth color. The color scheme chosen in the Statistical Atlas is essentially that of paired colors, i.e.\ each hue is represented with a lighter shade (using hatching) and a darker shade (see zoom-in to the legend of plate \#31 in \autoref{fig:legend-31}).
 
@@ -525,7 +525,12 @@ church_noterritories %>%
 HH: yes, we have a bias between the two different estimates, and I don't have a good explanation for it - we have re-measured the pixels for each state. I think the best strategy would be to acknowledge its presence.  }
 \comment{SVP: Need to make the denominational colors different, instead of using the same 4 colors each time. Maybe use scale_identity and merge that information in?
 
-Side note: I don't really understand the code to generate the color scheme. there aren't 21 different color values in this plot.}
+Side note: I don't really understand the code to generate the color scheme. there aren't 21 different color values in this plot.
+HH: ah, so much for my clever color scheme. The way it's generated is that we are starting with six hues, and darken each hue twice. Then I'm adding some grey shades in the back. The idea was to create a ``triple" scheme - for a paired color scheme I am running out of distinguishable hues. So you are seeing four colors? }
+
+
+
+
 <<minnesota-plot, dependson="data-plate31", echo = F, message = F, warning = F, include = F>>=
 
 cl %>%
@@ -613,13 +618,13 @@ cl %>%
   group_by(State) %>%
   mutate(group = c(as.character(Denomination[1:5]), rep("Other", n() - 5))) %>%
   ungroup() %>%
-  mutate(group = factor(group, levels = c("Unaccommodated", "Other", "Roman Catholic", "Episcopal", "Methodist", "Lutheran", "Baptist", "Presbyterian"), ordered = T)) %>%
+#  mutate(group = factor(group, levels = c("Unaccommodated", "Other", "Roman Catholic", "Episcopal", "Methodist", "Lutheran", "Baptist", "Presbyterian"), ordered = T)) %>%
   ggplot() +
   geom_bar(aes(weight = Number,  x = 1, fill = group),
            position = "fill") +
   scale_fill_manual("Denomination", values = rev(colHEX)[-c(2:4)]) + coord_flip() +
   theme(legend.position = "bottom", axis.ticks.y = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank(), plot.title = element_text(hjust = 0.5)) + ylab("") +
-  guides(fill = guide_legend(reverse = TRUE)) + 
+  guides(fill = guide_legend(reverse = TRUE)) +
     facet_wrap(~State)
 @
 
