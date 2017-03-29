@@ -208,14 +208,23 @@ Sandve et al \cite{sandve:2013} propose `ten simple rules for computational repr
 XXX from the style file guide: use ``\texttt{\textbackslash autoref\{reference\}}''
 }
 
-<<plate32-scatterplot, eval = FALSE, results='hide', echo=FALSE, fig.pos="center", fig.width = 7, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). ", warning=FALSE, message=FALSE>>=
+<<plate32-scatterplot, eval = TRUE, results='hide', echo=FALSE, fig.pos="center", fig.width = 7, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). ", warning=FALSE, message=FALSE>>=
 # only run this once
 px2 <- read.csv("../Data/px2.csv")
+seframe = data.frame(x =seq(0,50))
+seframe$p <- with(seframe, (x+3)/(100+3))
+seframe$se <- with(seframe, sqrt(p*(1-p))*10)
+
+sepolygon <- with(seframe, data.frame(x = c(x, rev(x)), y = c(x-1.96*se, rev(x+1.96*se))))
+
+
 px2 %>%
   ggplot(aes(x = PixPercent, y = CensusPercent)) +
-  geom_abline() + geom_point() +
+  geom_polygon(aes(x = x, y = y), fill="steelblue",
+               alpha = 0.5, data = sepolygon) +
+  geom_abline(colour="grey60") + geom_point() +
   facet_wrap(~Occupation) + theme_bw() +
-  xlab("Percentages of occupation based on Plate #32") +
+  xlab("Percentages of occupation based on measurements in Plate #32") +
   ylab("Percentages based on Census Estimates") + coord_equal()
 @
 
@@ -312,7 +321,7 @@ where $p_{\text{AGE}\ge 10}^{(\text{XY})} \in [0,1]$ is the proportion of the  p
 Piecing this result back into \autoref{eq:nUA}, we get both estimates for the size of the unaccounted population as well as a standard error for it:
 \begin{eqnarray}
 \widehat{n_{UA}}^{(\text{XY})} &=& n_\text{total}^{(\text{XY})} \cdot \widehat{p_{\text{AGE}\ge 10}}^{(\text{XY})}  - n_{\text{acc}}^{(XY)}, \\
-s.e.(\widehat{n_{UA}}^{(\text{XY})}) &=& \widehat{p_{\text{AGE}\ge 10}} \cdot \left( 1- \widehat{p_{\text{AGE}\ge 10}}\right) n_\text{total}^{(\text{XY})}.
+s.e.(\widehat{n_{UA}}^{(\text{XY})})^2 &=& \widehat{p_{\text{AGE}\ge 10}} \cdot \left( 1- \widehat{p_{\text{AGE}\ge 10}}\right) n_\text{total}^{(\text{XY})}.
 \end{eqnarray}
 
 \section{Case Study 1: Gender Ratio in Agriculture, Trade, Service, Manufacturing, and Schools}
@@ -347,7 +356,7 @@ With the help of the description and the legend of \autoref{fig:header} and \aut
 
 The data used to recreate the visualization of plate \#32 is retrieved from \cite{NHGIS}, in particular, from table NT13 on ``Employed Population by Occupation by Age by Sex". These numbers are state-level aggregates of population numbers by occupation, gender, and sex. We aggregate across ages to get the values included here.
  The size of the population not ``gainfully employed" or attending school is based on estimates based on the 1\% IPUMS sample.
-Figure \ref{fig:plate32-similarities} shows that the numbers combined from NT13 and the microsample closely match the information on plate \#32. For all occupation levels and school attendance the numbers are {\emph very} close. For population not accounted for, the numbers are estimated from the 1\% IPUMS microsample. This inflates the variability in these numbers, but the relationship to the visual measurements is still very strong.
+Figure \ref{fig:plate32-similarities} shows that the numbers combined from NT13 and the microsample closely match the information on plate \#32; the regions are based on point-wise Agresti-Coull confidence intervals \cite{agresti:1998}. For all occupation levels and school attendance the numbers are {\emph very} close. For population not accounted for, the numbers are estimated from the 1\% IPUMS microsample. This inflates the variability in these numbers, but the relationship to the visual measurements is still very strong.
 
 
 
