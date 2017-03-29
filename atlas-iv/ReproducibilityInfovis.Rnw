@@ -172,7 +172,7 @@ library(ggmosaic)
 library(tidyverse)
 library(dplyr)
 library(magrittr)
-library(ggmapr)
+# library(ggmapr)
 library(RColorBrewer)
 library(munsell)
 
@@ -293,7 +293,7 @@ occ3 <- occ3 %>% mutate(
 
 
 
-\section{Methodology} % This needs a better name
+\section{Statistical Archaeology} % This needs a better name
 
 Most of the plates of the Statistical Atlas are overlaid maps, but some consist of more abstract and, at that time, novel visualizations.
 Of particular interest for us are plates #31 and #32. Both of these plates have a very similar structure: they show small multiples, one for each state, of what are now known as mosaic plots or  Marimekko charts.
@@ -327,7 +327,7 @@ s.e.(\widehat{n_{UA}}^{(\text{XY})})^2 &=& \widehat{p_{\text{AGE}\ge 10}} \cdot 
 
 \section{Case Study 1: Gender Ratio in Agriculture, Trade, Service, Manufacturing, and Schools}
 
-
+\comment{SVP: autoref doesn't seem to be working. This renders as fig. 1a1, which just looks odd.}
 Figure~\autoref{fig:plate32} shows a miniature of the chart published as plate \#32 in the Statistical Atlas of 1874 \cite{atlas} produced from data collected in the 9th US Census. The chart shows the gender ratio of population over the age of ten in different types of occupations.
 The chart is set-up in form of small multiples \cite{tufte}, also known as lattice or trellis plots \cite{becker:1996}, one for each state and an enlarged plot as with an overview of the nation-wide aggregates. States are represented by squares of the same size, representing "the total population over 10 years of age", as detailed in the zoom-in in \autoref{fig:header}, which shows the description at the top of the plate.
 \comment{all of this also applies to plate \#31... Maybe should move it up to a general discussion? HH: yes, I'm all for that}
