@@ -208,7 +208,7 @@ Sandve et al \cite{sandve:2013} propose `ten simple rules for computational repr
 XXX from the style file guide: use ``\texttt{\textbackslash autoref\{reference\}}''
 }
 
-<<plate32-scatterplot, eval = TRUE, results='hide', echo=FALSE, fig.pos="center", fig.width = 7, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). ", warning=FALSE, message=FALSE>>=
+<<plate32-scatterplot, eval = TRUE, results='hide', echo=FALSE, fig.pos="center", fig.width = 7.5, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). ", warning=FALSE, message=FALSE>>=
 # only run this once
 px2 <- read.csv("../Data/px2.csv")
 seframe = data.frame(x =seq(0,50))
@@ -225,7 +225,8 @@ px2 %>%
   geom_abline(colour="grey60") + geom_point() +
   facet_wrap(~Occupation) + theme_bw() +
   xlab("Percentages of occupation based on measurements in Plate #32") +
-  ylab("Percentages based on Census Estimates") + coord_equal()
+  ylab("Percentages based on Census Estimates")
+#+ coord_equal()
 @
 
 
