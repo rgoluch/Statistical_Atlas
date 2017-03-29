@@ -59,6 +59,7 @@
 \usepackage{subcaption}
 \usepackage{subfig}
 \usepackage{paralist}
+\usepackage{amsmath}
 \usepackage[dvipsnames,svgnames,table]{xcolor}
 \usepackage[colorinlistoftodos]{todonotes}
 %                 Editing Commands
@@ -296,12 +297,23 @@ Both plates #31 and #32 are based on population totals for (as stated on the leg
 
 \comment{same thing in mathematical notation? plus an estimate of the standard deviation?}
 
-Let $n_{UA}^{(\text{XY})}$ be the (unfortunately unkown) size of the unaccounted population of state {\it XY} and $n^{(\text{XY})}$ the same state's total population. Then we have the relationship
+Let $n_{UA}^{(\text{XY})}$ be the (unfortunately unkown) size of the unaccounted population of state {\it XY}. Then we have the relationship
+\begin{equation}\label{eq:nUA}
+n_{UA}^{(\text{XY})} = n_{\text{AGE}\ge 10}^{(\text{XY})}  - n_{\text{acc}}^{(XY)},
+\end{equation}
+where $n_{\text{AGE}\ge 10}^{(\text{XY})}$ is the number of over ten year olds in the state, and $n_{\text{acc}}^{(XY)}$ is the size of the population accounted for (i.e. gainfully employed or going to school). $n_{\text{acc}}^{(XY)}$ is known for each state from table NT13 on ``Employed Population by Occupation by Age by Sex" from the 1870 Census: Religious Bodies, Occupation \& Government Data (1870\_sROG) provided by the National Historical Geographic Information System (NHGIS) \cite{NHGIS}. Unfortunately, the total number of over ten year olds in each state $n_{\text{AGE}\ge 10}^{(\text{XY})}$ is not known. We do have the relationship to $n_\text{total}^{(\text{XY})}$, the total population size of state {\it XY}:
 \[
-n_{UA}^{(\text{XY})} = n^{(\text{XY})} \cdot p_{UA}^{(\text{XY})},
+n_{\text{AGE}\ge 10}^{(\text{XY})} = n_\text{total}^{(\text{XY})} \cdot p_{\text{AGE}\ge 10}^{(\text{XY})}.
 \]
-where $p_{UA}^{(\text{XY})} \in [0,1]$ is the proportion of the  population in state {\it XY} not accounted for.
-
+where $p_{\text{AGE}\ge 10}^{(\text{XY})} \in [0,1]$ is the proportion of the  population in state {\it XY} who is over ten years of age. While this proportion is also not known, we can estimate it from the 1\% microsample as the ratio of individuals over ten and the total number of individuals in the state.
+\[
+\widehat{p_{\text{AGE}\ge 10}}^{(\text{XY})} &=& \frac{\text{\# individuals age ten and over in state } XY}{\text{\# individuals in state } XY}.
+\]
+Piecing this result back into \autoref{eq:nUA}, we get both estimates for the size of the unaccounted population as well as a standard error for it:
+\begin{eqnarray}
+\widehat{n_{UA}}^{(\text{XY})} &=& n_\text{total}^{(\text{XY})} \cdot \widehat{p_{\text{AGE}\ge 10}}^{(\text{XY})}  - n_{\text{acc}}^{(XY)}, \\
+s.e.(\widehat{n_{UA}}^{(\text{XY})}) &=& \widehat{p_{\text{AGE}\ge 10}} \cdot \left( 1- \widehat{p_{\text{AGE}\ge 10}}\right) n_\text{total}^{(\text{XY})}.
+\end{eqnarray}
 
 \section{Case Study 1: Gender Ratio in Agriculture, Trade, Service, Manufacturing, and Schools}
 
@@ -483,7 +495,7 @@ churchPixel <- read.csv("../Data/church_pixel.csv")
 church_noterritories <- churchPixel %>%
   filter(!(State.Territory %in% c("SW Territories", "NW Territories")))
 church_noterritories %>%
-  ggplot(aes(x = UAEstperc, y = UAPixperc)) +
+  ggplot(aes(y = UAEstperc, x = UAPixperc)) +
   geom_abline() +
   geom_point() +
   theme_bw() +
