@@ -519,13 +519,12 @@ church_noterritories %>%
   geom_smooth(method = "lm", se = FALSE, linetype = 2, size = .5)
 @
 
-\comment{SVP: Even excluding Minnesota, there seems to be a slight bias: the pixels over-represent the proportion of unaccommodated population. Could that be because of the border region? Or is it more likely to be a sampling vs. census issue?
-
-HH: yes, we have a bias between the two different estimates, and I don't have a good explanation for it - we have re-measured the pixels for each state. I think the best strategy would be to acknowledge its presence.  }
 \comment{SVP: Need to make the denominational colors different, instead of using the same 4 colors each time. Maybe use scale_identity and merge that information in?
 
 Side note: I don't really understand the code to generate the color scheme. there aren't 21 different color values in this plot.
-HH: ah, so much for my clever color scheme. The way it's generated is that we are starting with six hues, and darken each hue twice. Then I'm adding some grey shades in the back. The idea was to create a ``triple" scheme - for a paired color scheme I am running out of distinguishable hues. So you are seeing four colors? }
+HH: ah, so much for my clever color scheme. The way it's generated is that we are starting with six hues, and darken each hue twice. Then I'm adding some grey shades in the back. The idea was to create a ``triple" scheme - for a paired color scheme I am running out of distinguishable hues. So you are seeing four colors? 
+
+SVP: I guess my problem is that there aren't 6x3 denominations shown in the plot :-p. As a result, I'm having trouble mapping them accurately. I can see the 3 shades of purple in the recreated plot, though.}
 
 
 
