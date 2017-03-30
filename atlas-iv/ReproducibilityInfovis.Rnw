@@ -100,9 +100,9 @@
 \authorfooter{
 %% insert punctuation at end of each item
 \item
- Heike Hofmann is with the Department of Statistics and Statistical Laboratory, Iowa State University. E-mail: hofmann@mail.iastate.edu.
+ Heike Hofmann is with the Department of Statistics and member of the Human Computer Interaction Program, Iowa State University. E-mail: hofmann@mail.iastate.edu.
 \item
- Susan R VanderPlas is with the Department of Statistics and Statistical Laboratory, Iowa State University. E-mail: skoons@iastate.edu.
+ Susan R VanderPlas is with the Department of Statistics, Iowa State University. E-mail: skoons@iastate.edu.
 \item
  Ryan C Goluch is with the Department of Software Engineering, Iowa State University. E-mail: rgoluch@iastate.edu
 }
