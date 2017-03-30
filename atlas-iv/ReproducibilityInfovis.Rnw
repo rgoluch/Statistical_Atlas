@@ -467,12 +467,9 @@ occ3 %>% filter(Area.name==State) %>% ggplot() +
 
 \autoref{fig:plate31} shows a miniature of plate \#31 from the Statistical Atlas. This plate shows the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey outer frame). For each state a square of the same size is drawn. The four most common denomination are shown as colored stripes, the width of which is proportional to the number of their sittings. Each denomination is shown by one of eleven different colors, all other denominations are represented jointly by a twelfth color. The color scheme chosen in the Statistical Atlas is essentially that of paired colors, i.e.\ each hue is represented with a lighter shade (using hatching) and a darker shade (see zoom-in to the legend of plate \#31 in \autoref{fig:legend-31}).
 
-The inside squares of plate~\#31 are rotated stacked barcharts or spine plots \cite{hummel:1996}.
+The inside squares of plate~\#31 are rotated stacked barcharts or spine plots \cite{hummel:1996}. Due to the decision to show only the four most common denominations for each state, denominations such as Judaism which are a small proportion of each state (but have an overall larger population) do not appear in any state plot, while denominations which are extremely concentrated in a single state (such as Mormons in Utah) but have fewer members overall are shown. In addition, as denominations are ordered from largest to smallest within each state, making cross-state comparisons is difficult, as the denominations are in a different order in each sub-plot.
 
-% \comment{SVP: Paired color schemes have always been a favorite of mine (easier to see), but they have an additional advantage when printing is done with lithography: the required prints would be much less complex, as it is fairly easy to create a ``light" and ``dark" version of the same hue (easy for an expert in lithography... idk if I could do it. - XXX that's the munsell color scheme) If the graphs had used some other color scheme, it would have been necessary to figure out the proportion of each ink color necessary to produce the final color for each of 12+ colors, which I'd imagine would require quite a bit more work and artwork precision than using the same proportions but changing the overall saturation. Though, I'm not sure how much actual calculation would be required and how much would be gut instinct?}
-
-\comment{HH: dubious design choices: (1) only top four denominations per state and top eight denominations overall are shown. This lets some denominations disappear (e.g. Jews) from the view that have overall more followers than e.g. the Mormon church, yet are not locally as prominent.
-(2) within each state  denominations  are ordered from largest to smallest (with the `all others` category always in fifth position). This does not allow us to compare the makeup between states, as small differences in numbers might result in rather large visual differences. }
+A close examination of plate \#31 will also reveal that the different color layers of the lithographic prints are not as well aligned. In addition, the state plots are much more variable in size in plate \#31 than in plate \#32. These differences suggest that plate \#31 might have been created by a less experienced lithographer than plate \#32.
 \begin{figure}
 \includegraphics[width = \columnwidth]{images/ca000081.jpg}
 \caption{Plate \#31 from the Statistical Atlas of 1874: church accommodation by state and denomination for the population of over ten years of age. \label{fig:plate31}}
@@ -483,7 +480,10 @@ The inside squares of plate~\#31 are rotated stacked barcharts or spine plots \c
 \caption{Zoom-in to the legend section of plate \#31.\label{fig:legend-31}}
 \end{figure}
 
+\comment{HH: dubious design choices: (1) only top four denominations per state and top eight denominations overall are shown. This lets some denominations disappear (e.g. Jews) from the view that have overall more followers than e.g. the Mormon church, yet are not locally as prominent.
+(2) within each state  denominations  are ordered from largest to smallest (with the `all others` category always in fifth position). This does not allow us to compare the makeup between states, as small differences in numbers might result in rather large visual differences. }
 
+When we compare the proportions of state populations shown in the Statistical Atlas and the proportions of different denominations in the 1\% microsample data, another interesting anomaly emerges. The proportion of unaccommodated individuals in Minnesota is much higher in the Statistical Atlas plot than it is in the 1\% microsample, while the proportions are comparable for every other state. Figure~\autoref{fig:matches-plate31} shows the relationship between the 1\% microsample population and the pixel proportions in plate \#31. The most likely explanation for this large discrepancy is that the lithographer made an error when creating the state sub-plot for Minnesota.
 <<data-plate31, echo=FALSE, message=FALSE, warning=FALSE>>=
 darker_steps <- function(x, n) {
   for (i in 1:n) {
@@ -538,7 +538,7 @@ church_noterritories %>%
   geom_smooth(method = "lm", se = FALSE, linetype = 2, size = .5)
 @
 
-\comment{SVP: Need to make the denominational colors different, instead of using the same 4 colors each time. Maybe use scale_identity and merge that information in?
+\comment{SVP: Need to make the denominational colors different, instead of using the same 4 colors each time. Maybe use scale\_identity and merge that information in?
 
 Side note: I don't really understand the code to generate the color scheme. there aren't 21 different color values in this plot.
 HH: ah, so much for my clever color scheme. The way it's generated is that we are starting with six hues, and darken each hue twice. Then I'm adding some grey shades in the back. The idea was to create a ``triple" scheme - for a paired color scheme I am running out of distinguishable hues. So you are seeing four colors?
