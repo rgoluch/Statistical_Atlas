@@ -71,6 +71,17 @@
 \newcommand{\newdo}[1]{\todo[inline, color=Lime]{#1}} % new to do item
 
 
+\renewcommand{\topfraction}{.85}
+\renewcommand{\bottomfraction}{.7}
+\renewcommand{\textfraction}{.05}
+\renewcommand{\floatpagefraction}{.99}
+\renewcommand{\dbltopfraction}{.99}
+\renewcommand{\dblfloatpagefraction}{.99}
+\setcounter{topnumber}{8}
+\setcounter{bottomnumber}{8}
+\setcounter{totalnumber}{8}
+
+
 %% In preprint mode you may define your own headline.
 %\preprinttext{To appear in IEEE Transactions on Visualization and Computer Graphics.}
 
@@ -530,7 +541,7 @@ church_noterritories %>%
 \comment{SVP: Need to make the denominational colors different, instead of using the same 4 colors each time. Maybe use scale_identity and merge that information in?
 
 Side note: I don't really understand the code to generate the color scheme. there aren't 21 different color values in this plot.
-HH: ah, so much for my clever color scheme. The way it's generated is that we are starting with six hues, and darken each hue twice. Then I'm adding some grey shades in the back. The idea was to create a ``triple" scheme - for a paired color scheme I am running out of distinguishable hues. So you are seeing four colors? 
+HH: ah, so much for my clever color scheme. The way it's generated is that we are starting with six hues, and darken each hue twice. Then I'm adding some grey shades in the back. The idea was to create a ``triple" scheme - for a paired color scheme I am running out of distinguishable hues. So you are seeing four colors?
 
 SVP: I guess my problem is that there aren't 6x3 denominations shown in the plot :-p. As a result, I'm having trouble mapping them accurately. I can see the 3 shades of purple in the recreated plot, though.}
 
