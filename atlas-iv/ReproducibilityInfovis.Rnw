@@ -404,17 +404,11 @@ With the help of the description and the legend of \autoref{fig:header} and \aut
 This figure reveals another previously hidden finding:
 about 97\% of the unaccounted population are women and girls!
 %
-Note that using our estimation method outlined in \autoref{eq:nUA2, eq:seUA}, we are able to get estimates for the size of the unaccounted population by gender. This information is not shown on plate \#32, but must have been available to the creators of the chart at the time. Clearly the gender breakdown here is of huge interest to us now.
+Note that using our estimation method outlined in \autoref{eq:nUA2} and \autoref{eq:seUA}, we are able to get estimates for the size of the unaccounted population by gender. This information is not shown on plate \#32, but must have been available to the creators of the chart at the time. Clearly the gender breakdown here is of huge interest to us now.
 
-\comment{XXXX argh missing words: the decision to not include the gender ratio for the unaccounted population is curious. A simple and innocent explanation would be that the design decision to show unaccounted for population as a grey frame led to the decision to not include the gender ratio. It might also be a reflection of the attitude towards women at the time: `keeping house' is an occupation that is not being paid for (if it is, it would fall under the `Services' category), and is therefore also not seen.  }
-
-
-Visual inspection tells us that the data used to render the nation-wide overview in \autoref{fig:us-plate32-redo} and the state-level aggregates in \autoref{fig:plate32-redo} is ``the right one", i.e.\ the figures are similar to the charts shown in plate \#32. A more precise evaluation of the similarity between the old and the new figures can be achieved by using pixel measurements of the high-resolution digitized image of plate \#32 and directly compare the percentages for each of the occupations.
+Visual inspection tells us that the data used to render the nation-wide overview in \autoref{fig:us-plate32-redo} and the state-level aggregates in \autoref{fig:plate32-repro} is ``the right one", i.e.\ the figures are similar to the charts shown in plate \#32. A more precise evaluation of the similarity between the old and the new figures can be achieved by using pixel measurements of the high-resolution digitized image of plate \#32 and directly compare the percentages for each of the occupations.
 \autoref{fig:plate32-similarities} shows this comparison:  for each of the occupations we draw a scatterplot of the percentages calculated from the pixel measurements ($x$-axis) and compare them to the  percentages obtained from NT13 and  the 1\% microsample ($y$-axis). We can see in \autoref{fig:plate32-similarities}
 that the numbers closely match; the regions in blue are based on point-wise Agresti-Coull 95\% confidence intervals \cite{agresti:1998}. None of the points are outside these confidence bands. For all occupation levels and school attendance the numbers are {\emph very} close. For population not accounted for, the numbers are estimated from the 1\% microsample. This increases the variability of the estimates, but the relationship to the pixel measurements is still very strong.
-
-
-
 
 <<state-work-mosaics, include=FALSE, fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center", fig.cap="Recreation of mosaics of gainful occupation by states.">>=
 occ2 %>% filter(Area.Name==State) %>% ggplot() +
@@ -431,47 +425,14 @@ occ2 %>% filter(Area.Name==State) %>% ggplot() +
         aspect.ratio=1)
 @
 
-
-<<territory-work-mosaics, fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Mosaics of gainful occupation by territories.">>=
-occ2 %>% filter(Area.Name != State) %>% ggplot() +
-  geom_mosaic(aes(x = product(Gender, Occupation),
-                  fill=Occupation, alpha = Gender, weight = Number),
-              offset = 0.005) +
-  scale_fill_manual(values=cols) + theme_bw() +
-  scale_alpha_manual(values=c(0.8,1)) +
-  theme(legend.position = "top") +
-  facet_wrap(~State, ncol=6) +
-#  coord_equal() +
-  theme(axis.line=element_blank(), axis.text=element_blank(),
-        axis.title = element_blank(), axis.ticks = element_blank(),
-        aspect.ratio=1)
-@
-
-
-
-
-
-
-<<territory-work-mosaic-unemployed, results = 'hide', fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Mosaics of gainful occupation by territories including population not employed.">>=
-occ3 %>% filter(Area.name==State) %>% ggplot() +
-  geom_mosaic(aes(x = product(Sex, Occupation),
-                  fill=Occupation, alpha = Sex, weight = Number),
-              offset = 0.005) +
-  scale_fill_manual(values=cols) + theme_bw() +
-  scale_alpha_manual(values=c(0.8,1)) +
-  theme(legend.position = "top") +
-  facet_wrap(~State, ncol=6) +
-  coord_equal() +
-    theme(axis.line=element_blank(), axis.text=element_blank(),
-        axis.title = element_blank(), axis.ticks = element_blank())
-@
+On another note: the Census information about territories is available at a higher resolution than shown on plate \#32. Charts with mosaicplots of all territories are available in the online supplement.
 
 
 \subsection{Case Study 2: Church Accommodations by State}
 
-\autoref{fig:plate31} shows a miniature of plate \#31 from the Statistical Atlas. This plate shows the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey outer frame). For each state a square of the same size is drawn. The four most common denomination are shown as colored stripes, the width of which is proportional to the number of their sittings. Each denomination is shown by one of eleven different colors, all other denominations are represented jointly by a twelfth color. The color scheme chosen in the Statistical Atlas is essentially that of paired colors, i.e.\ each hue is represented with a lighter shade (using hatching) and a darker shade (see zoom-in to the legend of plate \#31 in \autoref{fig:legend-31}).
+\autoref{fig:plate31} shows a miniature of plate \#31 from the Statistical Atlas. This plate shows the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey outer frame). For each state a square of the same size is drawn. The four most common denominations are shown as colored stripes, the width of each is proportional to the number of their sittings. Each denomination is shown by one of eleven different colors, all other denominations are represented jointly by a twelfth color. The color scheme chosen in the Statistical Atlas is essentially that of paired colors, i.e.\ each hue is represented with a lighter shade (using hatching) and a darker shade (see zoom-in to the legend of plate \#31 in \autoref{fig:legend-31}).
 
-The inside squares of plate~\#31 are rotated stacked barcharts or spine plots \cite{hummel:1996}. Due to the decision to show only the four most common denominations for each state, denominations such as Judaism which are a small proportion of each state (but have an overall larger population) do not appear in any state plot, while denominations which are extremely concentrated in a single state (such as Mormons in Utah) but have fewer members overall are shown. In addition, as denominations are ordered from largest to smallest within each state, making cross-state comparisons is difficult, as the denominations are in a different order in each sub-plot.
+The inside squares of plate~\#31 are simpler structured than those of plate \#32 -- they are one-dimensional mosaicplots, also known as rotated stacked barcharts or spine plots \cite{hummel:1996}. XXX next sentence is a bit strange XXX Due to the decision to show only the four most common denominations for each state, denominations such as Judaism which have a small proportion in each state (but have an overall larger population) do not appear in any state plot, while denominations which are extremely concentrated in some states (such as the Mormon church in Utah) but have fewer members overall are shown. In addition, as denominations are ordered from largest to smallest within each state, making cross-state comparisons difficult, as the denominations are in a different order in each sub-plot.
 
 A close examination of plate \#31 will also reveal that the different color layers of the lithographic prints are not as well aligned. In addition, the state plots are much more variable in size in plate \#31 than in plate \#32. These differences suggest that plate \#31 might have been created by a less experienced lithographer than plate \#32.
 \begin{figure}
@@ -480,7 +441,8 @@ A close examination of plate \#31 will also reveal that the different color laye
 \end{figure}
 
 \begin{figure}
-\includegraphics[width=\columnwidth]{images/plate31-legend.png}
+\centering
+\includegraphics[width=.7\columnwidth]{images/plate31-legend.png}
 \caption{Zoom-in to the legend section of plate \#31.\label{fig:legend-31}}
 \end{figure}
 
@@ -488,7 +450,7 @@ A close examination of plate \#31 will also reveal that the different color laye
 (2) within each state  denominations  are ordered from largest to smallest (with the `all others` category always in fifth position). This does not allow us to compare the makeup between states, as small differences in numbers might result in rather large visual differences. }
 
 When we compare the proportions of state populations shown in the Statistical Atlas and the proportions of different denominations in the 1\% microsample data, another interesting anomaly emerges. The proportion of unaccommodated individuals in Minnesota is much higher in the Statistical Atlas plot than it is in the 1\% microsample, while the proportions are comparable for every other state. Figure~\autoref{fig:matches-plate31} shows the relationship between the 1\% microsample population and the pixel proportions in plate \#31. The most likely explanation for this large discrepancy is that the lithographer made an error when creating the state sub-plot for Minnesota.
-<<data-plate31, echo=FALSE, message=FALSE, warning=FALSE>>=
+<<data-plate31-colors, echo=FALSE, message=FALSE, warning=FALSE>>=
 darker_steps <- function(x, n) {
   for (i in 1:n) {
     x <- darker(x)
@@ -686,6 +648,9 @@ Women were not seen?
 Mosaic plots only feature in this Statistical Atas. In the Atlas accompanying the 1880 US decennial survey they are replaced by pie charts (link to the same theme chart with pies?).
 }
 
+\comment{Some hypothesizing as to the reasons for some of the decision choices: The decision to not include the gender ratio for the unaccounted population is curious. A simple and innocent explanation would be that the design decision to show unaccounted for population as a grey frame led to the decision to not include the gender ratio. It might also be a reflection of the attitude towards women at the time: `keeping house' is an occupation that is not being paid for (if it is, it would fall under the `Services' category), and is therefore also not seen.  }
+
+
 %% if specified like this the section will be committed in review mode
 % \acknowledgments{
 % The authors wish to thank A, B, C. This work was supported in part by
@@ -696,3 +661,39 @@ Mosaic plots only feature in this Statistical Atas. In the Atlas accompanying th
 \bibliography{mybibfile}
 \end{document}
 
+
+Needs to go into a supplement
+
+<<territory-work-mosaics, fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Mosaics of gainful occupation by territories.">>=
+occ2 %>% filter(Area.Name != State) %>% ggplot() +
+  geom_mosaic(aes(x = product(Gender, Occupation),
+                  fill=Occupation, alpha = Gender, weight = Number),
+              offset = 0.005) +
+  scale_fill_manual(values=cols) + theme_bw() +
+  scale_alpha_manual(values=c(0.8,1)) +
+  theme(legend.position = "top") +
+  facet_wrap(~State, ncol=6) +
+#  coord_equal() +
+  theme(axis.line=element_blank(), axis.text=element_blank(),
+        axis.title = element_blank(), axis.ticks = element_blank(),
+        aspect.ratio=1)
+@
+
+
+
+
+
+
+<<territory-work-mosaic-unemployed, results = 'hide', fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Mosaics of gainful occupation by territories including population not employed.">>=
+occ3 %>% filter(Area.name==State) %>% ggplot() +
+  geom_mosaic(aes(x = product(Sex, Occupation),
+                  fill=Occupation, alpha = Sex, weight = Number),
+              offset = 0.005) +
+  scale_fill_manual(values=cols) + theme_bw() +
+  scale_alpha_manual(values=c(0.8,1)) +
+  theme(legend.position = "top") +
+  facet_wrap(~State, ncol=6) +
+  coord_equal() +
+    theme(axis.line=element_blank(), axis.text=element_blank(),
+        axis.title = element_blank(), axis.ticks = element_blank())
+@
