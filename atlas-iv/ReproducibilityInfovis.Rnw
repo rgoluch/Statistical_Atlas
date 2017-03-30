@@ -100,7 +100,7 @@
 \authorfooter{
 %% insert punctuation at end of each item
 \item
- Heike Hofmann is with the Department of Statistics and member of the Human Computer Interaction Program, Iowa State University. E-mail: hofmann@mail.iastate.edu.
+ Heike Hofmann is with the Department of Statistics and faculty member of the Human Computer Interaction Program, Iowa State University. E-mail: hofmann@mail.iastate.edu.
 \item
  Susan R VanderPlas is with the Department of Statistics, Iowa State University. E-mail: skoons@iastate.edu.
 \item
@@ -208,7 +208,7 @@ Sandve et al \cite{sandve:2013} propose `ten simple rules for computational repr
 XXX from the style file guide: use ``\texttt{\textbackslash autoref\{reference\}}''
 }
 
-<<plate32-scatterplot, eval = FALSE, results='hide', echo=FALSE, fig.pos="center", fig.width = 7.5, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). ", warning=FALSE, message=FALSE>>=
+<<plate32-scatterplot, include=FALSE, results='hide', echo=FALSE, fig.pos="center", fig.width = 7.5, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). ", warning=FALSE, message=FALSE>>=
 # only run this once
 px2 <- read.csv("../Data/px2.csv")
 seframe = data.frame(x =seq(0,50))
@@ -350,19 +350,7 @@ Estimates for the number of unaccounted women and men over ten years of age in e
 %\comment{SVP: autoref doesn't seem to be working. This renders as fig. 1a1, which just looks odd.}
 \autoref{fig:plate32} shows a miniature of the chart published as plate \#32 in the Statistical Atlas of 1874 \cite{atlas} produced from data collected in the 9th US Census. The chart shows the gender ratio of population over the age of ten in different types of occupations.
 
-With the help of the description and the legend of \autoref{fig:header} and \autoref{fig:legend}, we can interpret the details of each of the squares at the example of \autoref{fig:us}. This figure shows an overview of type of occupation by gender across the US in 1870. The percentage of population in a particular type of occupation is shown as the widths of the rectangles, the heights are proportional to the percentage of gender, with men shown in the bottom rectangle and women in the top rectangle. The grey band around each one of the states' squares is proportional to the number of population ``unaccounted" for, i.e.\ the difference between the total population over the age of ten and the population gainfully employed in one of the five categories or attending school. Showing the unaccounted population as a frame masks the size of the corresponding population by visually cutting it into quarters. The percentage of unaccounted individuals nation-wide is about 30\%. This number is  higher than any of the other groups. While it is cognitively hard to assess the size of the unaccounted population in form of the area of the grey frame, it is much easier, if we incorporate the information directly into the mosaicplot, as shown in \autoref{fig:us-plate32-redo}.
-It is also made up of about 97\% women and girls.
-
-
-
-
-%The data used to recreate the visualization of plate \#32 is retrieved from \cite{NHGIS}, in particular, from table NT13 on ``Employed Population by Occupation by Age by Sex". These numbers are state-level aggregates of population numbers by occupation, gender, and sex. We aggregate across ages to get the values included here.
-% The size of the population not ``gainfully employed" or attending school is based on estimates based on the 1\% IPUMS sample.
-%Figure \ref{fig:plate32-similarities} shows that the numbers combined from NT13 and the microsample closely match the information on plate \#32; the regions are based on point-wise Agresti-Coull 95\% confidence intervals \cite{agresti:1998}. For all occupation levels and school attendance the numbers are {\emph very} close. For population not accounted for, the numbers are estimated from the 1\% IPUMS microsample. This inflates the variability in these numbers, but the relationship to the visual measurements is still very strong.
-
-
-
-<<overall-work-plot, out.width='.7\\columnwidth', fig.width=5, fig.height=5.5, echo = FALSE, message=FALSE, fig.pos="center", fig.cap="Recreation of the mosaicplot based on gainfully employed population over ten.\\label{fig:us-plate32-redo}">>=
+<<overall-work-plot, eval=FALSE, out.width='.7\\columnwidth', fig.width=5, fig.height=5.5, echo = FALSE, message=FALSE, fig.pos="center", fig.cap="Recreation of the mosaicplot based on gainfully employed population over ten.\\label{fig:us-plate32-redo}">>=
 cols <- c("#333300", "#000066", "#cc9900", "#202060", "#86742d")
 library(ggmosaic)
 occ2 %>% filter(State==Area.Name) %>% ggplot() +
@@ -379,8 +367,41 @@ occ2 %>% filter(State==Area.Name) %>% ggplot() +
   xlab("The United States")
 @
 
+<<overall-work-mosaic-unaccommodated, echo = FALSE, include=FALSE, fig.cap="Recreation of the mosaicplot nation-wide overview of gender ratio by occupation based on gainfully employed population over ten. \\label{fig:us-plate32-redo}", out.width='.75\\columnwidth', fig.width=5, fig.height=6>>=
+cols <- c("#333300", "#000066", "#cc9900", "#202060", "#86742d", "grey40")
+occ3 %>% filter(Area.name == State) %>% ggplot() +
+  geom_mosaic(aes(x = product(Sex, Occupation),
+                  fill = Occupation, alpha = Sex, weight = Number),
+              offset = 0.005) +
+  scale_fill_manual(values = cols) + theme_bw() +
+  scale_alpha_manual(values = c(0.8,1)) +
+  theme(legend.position = "top", legend.box = "vertical") +
+  coord_equal() +
+    theme(axis.line = element_blank(), axis.text = element_blank(),
+        axis.title.y = element_blank(), axis.ticks = element_blank()) +
+  xlab("The United States")
+@
 
-<<state-work-mosaics, fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center", fig.cap="Recreation of mosaics of gainful occupation by states.">>=
+\begin{figure}
+  \centering
+    \includegraphics[width=0.75\columnwidth]{figure/overall-work-mosaic-unaccommodated-1.pdf}
+    \caption{Recreation of the mosaicplot nation-wide overview of gender ratio by occupation based on gainfully employed population over ten. \label{fig:us-plate32-redo}}
+\end{figure}
+
+
+With the help of the description and the legend of \autoref{fig:header} and \autoref{fig:legend}, we can interpret the details of each of the squares at the example of \autoref{fig:us}. This figure shows an overview of type of occupation by gender across the US in 1870. The percentage of population in a particular type of occupation is shown as the widths of the rectangles, the heights are proportional to the percentage of gender, with men shown in the bottom rectangle and women in the top rectangle. The grey band around each one of the states' squares is proportional to the number of population ``unaccounted" for, i.e.\ the difference between the total population over the age of ten and the population gainfully employed in one of the five categories or attending school. Showing the unaccounted population as a frame masks the size of the corresponding population by visually cutting it into quarters. The percentage of unaccounted individuals nation-wide is about 30\%. This number is  higher than any of the other groups. Assessing the size of the unaccounted population in form of the area of the grey frame is cognitively a hard task. The task becomes much easier, if we incorporate the information directly into the mosaicplot, as shown in \autoref{fig:us-plate32-redo}.
+This figure reveals another previously hidden finding:
+about 97\% of the unaccounted population are women and girls!
+
+Visual inspection tells us that the data used to render the nation-wide overview in \autoref{fig:us-plate32-redo} and the state-level aggregates in \autoref{fig:plate32-redo} is `the right one`, i.e.\ the figures are similar to the charts shown in plate \#32. A more precise evaluation of the similarity between the old and the new figures can be achieved by using pixel measurements of the high-resolution digitized image of plate \#32 and directly compare the percentages for each of the occupations.
+\autoref{fig:plate32-similarities} shows this comparison:  for each of the occupations we draw a scatterplot of the percentages calculated from the pixel measurements ($x$-axis) and compare them to the  percentages obtained from NT13 and  the 1\% microsample ($y$-axis). We can see in \autoref{fig:plate32-similarities}
+that the numbers closely match; the regions in blue are based on point-wise Agresti-Coull 95\% confidence intervals \cite{agresti:1998}. None of the points fall outside these confidence bands. For all occupation levels and school attendance the numbers are {\emph very} close. For population not accounted for, the numbers are estimated from the 1\% microsample. This increases the variability of the estimates, but the relationship to the pixel measurements is still very strong.
+
+
+
+
+
+<<state-work-mosaics, include=FALSE, fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center", fig.cap="Recreation of mosaics of gainful occupation by states.">>=
 occ2 %>% filter(Area.Name==State) %>% ggplot() +
   geom_mosaic(aes(x = product(Gender, Occupation),
                   fill=Occupation, alpha = Gender, weight = Number),
@@ -414,20 +435,7 @@ occ2 %>% filter(Area.Name != State) %>% ggplot() +
 
 
 
-<<overall-work-mosaic-unaccommodated, echo = FALSE, fig.pos="center", fig.cap="Mosaicplot of the gender ratio in different occupations of the population ten years of age and above.">>=
-cols <- c("#333300", "#000066", "#cc9900", "#202060", "#86742d", "grey40")
-occ3 %>% filter(Area.name == State) %>% ggplot() +
-  geom_mosaic(aes(x = product(Sex, Occupation),
-                  fill = Occupation, alpha = Sex, weight = Number),
-              offset = 0.005) +
-  scale_fill_manual(values = cols) + theme_bw() +
-  scale_alpha_manual(values = c(0.8,1)) +
-  theme(legend.position = "top") +
-  coord_equal() +
-    theme(axis.line = element_blank(), axis.text = element_blank(),
-        axis.title.y = element_blank(), axis.ticks = element_blank()) +
-  xlab("The United States")
-@
+
 
 <<territory-work-mosaic-unemployed, results = 'hide', fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Mosaics of gainful occupation by territories including population not employed.">>=
 occ3 %>% filter(Area.name==State) %>% ggplot() +
@@ -649,6 +657,19 @@ cl %>%
   guides(fill = guide_legend(reverse = TRUE, nrow = 6))
 @
 
+\section{Discussion}
+
+\comment{talking points: plates \#31 and \# 32 of the statistical atlas *are* reproducible, or at least reproducible enough. This is only possible because of the infrastructure put into place by the US Censs Bureau a long time ago, which has been maintained and updated to fit with modern technology. The US Census Bureau is the one place in the nation with a mission directed by the Constitution of the United States.
+
+If we loose this data, we loose an important piece of history.
+
+Charts made today probably don't have the longevity of charts made in 1870.
+
+Is it a coincidence that the missing values were treated differently?
+Women were not seen?
+
+Mosaic plots only feature in this Statistical Atas. In the Atlas accompanying the 1880 US decennial survey they are replaced by pie charts (link to the same theme chart with pies?).
+}
 
 %% if specified like this the section will be committed in review mode
 % \acknowledgments{
