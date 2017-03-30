@@ -332,8 +332,8 @@ where $p_{\text{AGE}\ge 10}^{(\text{XY})} \in [0,1]$ is the proportion of the  p
 \widehat{p_{\text{AGE}\ge 10}}^{(\text{XY})} &=& \frac{\text{\# individuals age ten and over in state } XY}{\text{\# individuals in state } XY}.
 \]
 Piecing this result back into \autoref{eq:nUA}, we get both estimates for the size of the unaccounted population as well as a standard error for it:
-\begin{eqnarray}
-\widehat{n_{UA}}^{(\text{XY})} &=& n_\text{total}^{(\text{XY})} \cdot \widehat{p_{\text{AGE}\ge 10}}^{(\text{XY})}  - n_{\text{acc}}^{(XY)}, \\
+\begin{eqnarray}\label{eq:nUA2}
+\widehat{n_{UA}}^{(\text{XY})} &=& n_\text{total}^{(\text{XY})} \cdot \widehat{p_{\text{AGE}\ge 10}}^{(\text{XY})}  - n_{\text{acc}}^{(XY)}, \\ \label{eq:seUA}
 s.e.(\widehat{n_{UA}}^{(\text{XY})})^2 &=& \widehat{p_{\text{AGE}\ge 10}} \cdot \left( 1- \widehat{p_{\text{AGE}\ge 10}}\right) n_\text{total}^{(\text{XY})}.
 \end{eqnarray}
 Estimates for the number of unaccounted women and men over ten years of age in each state can be achieved similarly. We also use these results get estimates and standard errors for the size of the religiously unaccommodated population over ten years of age in case study 2.
@@ -403,11 +403,15 @@ occ3 %>% filter(Area.name == State) %>% ggplot() +
 With the help of the description and the legend of \autoref{fig:header} and \autoref{fig:legend}, we can interpret the details of each of the squares at the example of \autoref{fig:us}. This figure shows an overview of type of occupation by gender across the US in 1870. The percentage of population in a particular type of occupation is shown as the widths of the rectangles, the heights are proportional to the percentage of gender, with men shown in the bottom rectangle and women in the top rectangle. The grey band around each one of the states' squares is proportional to the number of population ``unaccounted" for, i.e.\ the difference between the total population over the age of ten and the population gainfully employed in one of the five categories or attending school. Showing the unaccounted population as a frame masks the size of the corresponding population by visually cutting it into quarters. The percentage of unaccounted individuals nation-wide is about 30\%. This number is  higher than any of the other groups. Assessing the size of the unaccounted population in form of the area of the grey frame is cognitively a hard task. The task becomes much easier, if we incorporate the information directly into the mosaicplot, as shown in \autoref{fig:us-plate32-redo}.
 This figure reveals another previously hidden finding:
 about 97\% of the unaccounted population are women and girls!
+%
+Note that using our estimation method outlined in \autoref{eq:nUA2, eq:seUA}, we are able to get estimates for the size of the unaccounted population by gender. This information is not shown on plate \#32, but must have been available to the creators of the chart at the time. Clearly the gender breakdown here is of huge interest to us now.
 
-Visual inspection tells us that the data used to render the nation-wide overview in \autoref{fig:us-plate32-redo} and the state-level aggregates in \autoref{fig:plate32-redo} is `the right one`, i.e.\ the figures are similar to the charts shown in plate \#32. A more precise evaluation of the similarity between the old and the new figures can be achieved by using pixel measurements of the high-resolution digitized image of plate \#32 and directly compare the percentages for each of the occupations.
+\comment{XXXX argh missing words: the decision to not include the gender ratio for the unaccounted population is curious. A simple and innocent explanation would be that the design decision to show unaccounted for population as a grey frame led to the decision to not include the gender ratio. It might also be a reflection of the attitude towards women at the time: `keeping house' is an occupation that is not being paid for (if it is, it would fall under the `Services' category), and is therefore also not seen.  }
+
+
+Visual inspection tells us that the data used to render the nation-wide overview in \autoref{fig:us-plate32-redo} and the state-level aggregates in \autoref{fig:plate32-redo} is ``the right one", i.e.\ the figures are similar to the charts shown in plate \#32. A more precise evaluation of the similarity between the old and the new figures can be achieved by using pixel measurements of the high-resolution digitized image of plate \#32 and directly compare the percentages for each of the occupations.
 \autoref{fig:plate32-similarities} shows this comparison:  for each of the occupations we draw a scatterplot of the percentages calculated from the pixel measurements ($x$-axis) and compare them to the  percentages obtained from NT13 and  the 1\% microsample ($y$-axis). We can see in \autoref{fig:plate32-similarities}
-that the numbers closely match; the regions in blue are based on point-wise Agresti-Coull 95\% confidence intervals \cite{agresti:1998}. None of the points fall outside these confidence bands. For all occupation levels and school attendance the numbers are {\emph very} close. For population not accounted for, the numbers are estimated from the 1\% microsample. This increases the variability of the estimates, but the relationship to the pixel measurements is still very strong.
-
+that the numbers closely match; the regions in blue are based on point-wise Agresti-Coull 95\% confidence intervals \cite{agresti:1998}. None of the points are outside these confidence bands. For all occupation levels and school attendance the numbers are {\emph very} close. For population not accounted for, the numbers are estimated from the 1\% microsample. This increases the variability of the estimates, but the relationship to the pixel measurements is still very strong.
 
 
 
