@@ -609,7 +609,7 @@ p +  geom_text(aes(label = label, x = (xmin+xmax)/2), angle = 90, size =5, colou
 \caption{Panels from 3 states, Michigan, Minnesota, and Mississippi.\label{orig-state-plots-church}}
 \end{figure}
 
-<<state-church-plot, dependson="data-plate31", echo = F, message = F, warning = F, include = T, fig.width = 8, fig.height = 3, out.width = "\\columnwidth", fig.cap = "State religious accommodation plots generated with ggplot2.">>=
+<<state-church-plot, dependson="data-plate31", echo = F, message = F, warning = F, include = T, fig.width = 8, fig.height = 4, out.width = "\\columnwidth", fig.cap = "State religious accommodation plots generated with ggplot2.">>=
 
 cl %>%
   filter(State %in% c("Michigan", "Minnesota", "Mississippi")) %>%
