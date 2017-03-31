@@ -649,7 +649,7 @@ Mosaic plots only feature in this Statistical Atas. In the Atlas accompanying th
 }
 
 \comment{Some hypothesizing as to the reasons for some of the decision choices: The decision to not include the gender ratio for the unaccounted population is curious. A simple and innocent explanation would be that the design decision to show unaccounted for population as a grey frame led to the decision to not include the gender ratio. It might also be a reflection of the attitude towards women at the time: `keeping house' is an occupation that is not being paid for (if it is, it would fall under the `Services' category), and is therefore also not seen.  }
-
+\meh{I don't think that last part has changed much :(}
 
 %% if specified like this the section will be committed in review mode
 % \acknowledgments{
