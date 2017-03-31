@@ -630,6 +630,7 @@ p +  geom_text(aes(label = label, x = (xmin+xmax)/2), angle = 90, size =5, colou
 \caption{Panels from three states: Michigan, Minnesota, and Mississippi.\label{orig-state-plots-church}}
 \end{figure}
 
+Figure~\autoref{orig-state-plots-church} shows 3 sub plots from the 1874 Statistical Atlas; figure~\autoref{state-church-plot-1} shows an improved version of the same plots. We have added an additional bar for the proportion of the population which is unaccomodated, and we have included all denominations which were part of the 1870 census. These changes produce much more complicated plots, but allow us to notice that Mississippi is much more religiously homogeneous than Michigan or Minnesota, and also that Mississippi has significantly fewer unaccommodated persons. We can also see that Minnesota has a higher proportion of Lutheran church accommodations than Michigan, but the same denominations seem to be present in both states. These details were much less obvious on the original plots due to the choice to show only 4 denominations surrounded by a rectangle representing unaccomodated persons.
 
 <<state-church-plot, dependson="data-plate31", echo = F, message = F, warning = F, include = T, fig.width = 8, fig.height = 3, out.width = "\\columnwidth", fig.cap = "State religious accommodation plots generated with ggplot2\\cite{ggplot2}.">>=
 
