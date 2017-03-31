@@ -434,9 +434,10 @@ On another note: the Census information about territories is available at a high
 
 The inside squares of plate~\#31 are simpler structured than those of plate \#32 -- they are one-dimensional mosaicplots, also known as rotated stacked barcharts or spine plots \cite{hummel:1996}. As in the previous example, a grey frame is drawn with an area proportional to the size of the unaccommodated population over the age of ten. This is one design choice, that we are going to address in our reproduction of it. However, there are other design choices that have questionable(?) consequences:
 \begin{compactitem}
-\item Probably for simplifying the resulting visualization the decision was made to only show the top four denominations in each state and the top eight denominations overall. This has the effect, that some denominations are shown but others are not, even though the ones not shown have an overall higher number of sittings. For example, Judaism is nation-wide the ninth largest
+\item[\bf Top four only:] Probably for simplifying the resulting visualization XXX technical reasons?XXX the decision was made to only show the top four denominations in each state and the top eight denominations overall. This has the effect, that some denominations are shown but others are not, even though the ones not shown have an overall higher number of sittings. For example, the Reformed Late Germans have in 1870 nation-wide 431,700 sittings, which puts them into tenth place However, they are not mentioned in plate \#32, whereas the Mormon Church is locally (Utah Territory) strong enough to get featured, even though it is with 87,838 sittings far behind the German Reformed Church in a nation-wide 17th place.
+\item[\bf Re-ordering:] Within each state denominations are ordered from largest to smallest. This makes comparisons of the state-wide religious makeup between states  cognitively more difficult, as it re-orders the colors in the barcode-like color strips representing each state.
 \end{compactitem}
-XXX next sentence is a bit strange XXX Due to the decision to show only the four most common denominations for each state, denominations such as Judaism which have a small proportion in each state (but have an overall larger population) do not appear in any state plot, while denominations which are extremely concentrated in some states (such as the Mormon church in Utah) but have fewer members overall are shown. In addition, as denominations are ordered from largest to smallest within each state, making cross-state comparisons difficult, as the denominations are in a different order in each sub-plot.
+%XXX next sentence is a bit strange XXX Due to the decision to show only the four most common denominations for each state, denominations such as Judaism which have a small proportion in each state (but have an overall larger population) do not appear in any state plot, while denominations which are extremely concentrated in some states (such as the Mormon church in Utah) but have fewer members overall are shown. In addition, as denominations are ordered from largest to smallest within each state, making cross-state comparisons difficult, as the denominations are in a different order in each sub-plot.
 
 \begin{figure}
 \includegraphics[width = \columnwidth]{images/ca000081.jpg}
@@ -651,6 +652,7 @@ Mosaic plots only feature in this Statistical Atas. In the Atlas accompanying th
 
 \comment{Some hypothesizing as to the reasons for some of the decision choices: The decision to not include the gender ratio for the unaccounted population is curious. A simple and innocent explanation would be that the design decision to show unaccounted for population as a grey frame led to the decision to not include the gender ratio. It might also be a reflection of the attitude towards women at the time: `keeping house' is an occupation that is not being paid for (if it is, it would fall under the `Services' category), and is therefore also not seen.  }
 \meh{I don't think that last part has changed much :(}
+
 
 %% if specified like this the section will be committed in review mode
 % \acknowledgments{
