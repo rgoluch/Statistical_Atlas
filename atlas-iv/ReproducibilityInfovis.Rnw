@@ -707,19 +707,19 @@ The actual Enumeration shall be made within three Years after the first Meeting 
 \end{quote}
 The Census Bureau's dedication to preserving the historical data and images from the statistical atlas make it possible to reproduce the charts from plate \# 31 and \# 32, but most charts created today do not have the same commitment to historical preservation. It is not hard to imagine that most charts we create today will not be easily reproduced in 150 years - the code that we write will almost certainly not run on the operating systems which might be in use then; and our digitally stored data files may not be decodable either. We do not advocate for storing data on stone tablets, but we have made our code and aggregated data available on \href{https://github.com/srvanderplas/InfovisStatisticalAtlas}{github} to ensure at least near-term reproducibility. We have also opted to utilize packrat\cite{packrat}, which preserves the software package versions used to create this report. While these methods may not ensure reproducibility for 150 years, they should provide the ability for others to exactly replicate the steps we have taken for the next 5-10 years at least. Reproducibility longer-term requires a commitment to maintaining archival information in currently-readable formats in perpetuity, and this commitment is (at this point) best left to governments, libraries, and other archives.
 
-\comment{talking points: plates \#31 and \# 32 of the statistical atlas *are* reproducible, or at least reproducible enough. This is only possible because of the infrastructure put into place by the US Census Bureau a long time ago, which has been maintained and updated to fit with modern technology.
+% \comment{talking points: plates \#31 and \# 32 of the statistical atlas *are* reproducible, or at least reproducible enough. This is only possible because of the infrastructure put into place by the US Census Bureau a long time ago, which has been maintained and updated to fit with modern technology.
+%
+% If we loose this data, we loose an important piece of history.
+%
+% Charts made today probably don't have the longevity of charts made in 1870.
+%
+% Is it a coincidence that the missing values were treated differently?
+% Women were not seen?
+%
+% Mosaic plots only feature in this Statistical Atlas. In the Atlas accompanying the 1880 US decennial survey they are replaced by pie charts (link to the same theme chart with pies?).
+% }
 
-If we loose this data, we loose an important piece of history.
-
-Charts made today probably don't have the longevity of charts made in 1870.
-
-Is it a coincidence that the missing values were treated differently?
-Women were not seen?
-
-Mosaic plots only feature in this Statistical Atlas. In the Atlas accompanying the 1880 US decennial survey they are replaced by pie charts (link to the same theme chart with pies?).
-}
-
-\comment{Some hypothesizing as to the reasons for some of the decision choices: The decision to not include the gender ratio for the unaccounted population is curious. A simple and innocent explanation would be that the design decision to show unaccounted for population as a grey frame led to the decision to not include the gender ratio. It might also be a reflection of the attitude towards women at the time: `keeping house' is an occupation that is not being paid for (if it is, it would fall under the `Services' category), and is therefore also not seen.  }
+% \comment{Some hypothesizing as to the reasons for some of the decision choices: The decision to not include the gender ratio for the unaccounted population is curious. A simple and innocent explanation would be that the design decision to show unaccounted for population as a grey frame led to the decision to not include the gender ratio. It might also be a reflection of the attitude towards women at the time: `keeping house' is an occupation that is not being paid for (if it is, it would fall under the `Services' category), and is therefore also not seen.  }
 
 
 
