@@ -426,9 +426,19 @@ The inside squares of plate~\#31 are simpler structured than those of plate \#32
 \end{figure}
 
 \begin{figure}
+  \centering
+    \begin{subfigure}[t]{0.24\textwidth}
 \centering
-\includegraphics[width=.5\columnwidth]{images/plate31-legend.png}
+\includegraphics[height=\columnwidth]{images/plate31-legend.png}
 \caption{Zoom-in to the legend section of plate \#31.\label{fig:legend-31}}
+ \end{subfigure}
+ \begin{subfigure}[t]{0.24\textwidth}
+\centering
+\includegraphics[height=\columnwidth]{figure/barchart-denominations-1}
+\caption{Church sittings by denomination. \label{fig:barchart-31}}
+ \end{subfigure}
+\caption{Old and new side-by-side: XXX color scheme XXX. On the right we see that the number of unaccommodated people over the age of ten is higher than the number of sittings in any of the denominations.}
+
 \end{figure}
 
 
@@ -473,15 +483,18 @@ cl$Denomination <- factor(cl$Denomination,
 levels(cl$Denomination) <- gsub("\\.", " ", levels(cl$Denomination))
 @
 
-<<barchart-31, echo = FALSE, fig.width=5, fig.height=5, fig.cap="Some text\\label{fig:barchart-31}">>=
-cl %>% ggplot(aes(x = Denomination, weight=Number, fill=Denomination)) +
+
+
+<<barchart-denominations, include=F, out.width='.7\\columnwidth', echo = FALSE, fig.width=3.3, fig.height=3.85, fig.cap="Church sittings by denomination, ordering from top to bottom by number of nation-wide sittings. The number of unaccommodated people over the age of ten is higher than the number of sittings in any of the denominations.\\label{fig:barchart-31}">>=
+cl %>% ggplot(aes(x = Denomination, weight=Number/10^6, fill=Denomination)) +
   geom_bar() + theme_bw() + coord_flip() +
   scale_fill_manual(values=rev(colHEX)[-c(3:4)]) +
   theme(legend.position="none") +
-  annotate(geom="text", x = 1:20, y=6.5e+6, label=levels(cl$Denomination),
+  annotate(geom="text", x = 1:20, y=6.5, label=levels(cl$Denomination),
            hjust=1, size=3, colour = "grey30") +
-  ylab("Number of nation-wide sittings") +
-  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
+  ylab("Number of nation-wide sittings (in Million)") +
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(),
+        axis.title.y = element_blank())
 @
 
 %\comment{HH: dubious design choices: (1) only top four denominations per state and top eight denominations overall are shown. This lets some denominations disappear (e.g. Jews) from the view that have overall more followers than e.g. the Mormon church, yet are not locally as prominent.
