@@ -539,7 +539,9 @@ church_noterritories %>%
     data = church_noterritories %>%
       filter(UAPixperc - UAEstperc > 10)) +
   coord_equal() +
-  geom_smooth(method = "lm", se = FALSE, linetype = 2, size = .5)
+  geom_smooth(method = "lm", se = FALSE, linetype = 2, size = .5) +
+  scale_x_continuous("Estimated Unaccomodated Population, 1% microsample") +
+  scale_y_continuous("Estimated Unaccomodated Population, pixel values")
 @
 %
 % \comment{SVP: Need to make the denominational colors different, instead of using the same 4 colors each time. Maybe use scale\_identity and merge that information in?
