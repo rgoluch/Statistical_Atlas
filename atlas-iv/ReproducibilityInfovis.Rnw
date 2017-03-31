@@ -526,7 +526,7 @@ When we compare the proportions of state populations shown in the Statistical At
 
 \begin{figure}
 \centering
-\includegraphics[width=\columnwidth]{figure/religious-bias-plot-1}
+\includegraphics[width=.8\columnwidth]{figure/religious-bias-plot-1}
 \caption{Percentage of state-wide unaccommodated population based on estimates from the 1\% Microsample ($x$-axis) and pixel values measured from the digitized version of plate \#31 ($y$-axis).\label{fig:matches-plate31}}
 \end{figure}
 
@@ -659,9 +659,15 @@ cl %>%
     facet_wrap(~State)
 @
 
-<<onepanel-state-plot, echo = FALSE, message=FALSE, warning = FALSE, fig.height = 10, fig.width=8, fig.cap="Proportion of religious sittings for each state by denomination \\label{fig:state-denominations}", include = F, eval = T>>=
+<<onepanel-state-plot, echo = FALSE, message=FALSE, warning = FALSE, fig.height = 10, fig.width=8, fig.cap="Proportion of religious sittings for each state by denomination.  \\label{fig:state-denominations}", include = T, eval = T>>=
+cl$Number[is.na(cl$Number)] <- 0
+chpca <- cl %>% spread(key="Denomination", value="Number", fill=0)
+row.names(chpca) <- as.character(chpca$State)
+chpca <- chpca[,-(1:7)]
+pcares <- princomp(log(as.matrix(chpca)+1),  cor=TRUE)
 
 cl %>% filter(Denomination != "Unaccommodated") %>%
+  mutate(State = factor(State, levels=names(sort(pcares$scores[,2])))) %>%
   ggplot() +
   geom_bar(aes(weight = Number,  x = State, fill = Denomination),
            position = "fill") +
@@ -671,15 +677,29 @@ cl %>% filter(Denomination != "Unaccommodated") %>%
 @
 
 
-<<onepanel-state-plot-unaccommodated, echo = FALSE, message=FALSE, warning = FALSE, fig.height = 10, fig.width=8, fig.cap="Proportion of religious sittings for each state by denomination including unaccommodated population.\\label{fig:state-denominations-ua}">>=
+<<onepanel-state-plot-unaccommodated, echo = FALSE, message=FALSE, warning = FALSE, fig.height = 9, fig.width=8, fig.cap="Proportion of unaccommodated population for each state.\\label{fig:state-denominations-ua}">>=
+
+# cl %>%
+#   ggplot() +
+#   geom_bar(aes(weight = Number,  x = State, fill = Denomination),
+#            position = "fill") +
+#   scale_fill_manual(values = rev(colHEX)[-(1:2)]) + coord_flip() +
+#   theme(legend.position = "bottom") + ylab("") +
+#   guides(fill = guide_legend(reverse = TRUE, nrow = 6))
+
+uaStates <- cl %>% filter(Denomination =="Unaccommodated") %>%
+  group_by(State) %>% summarize(ua=sum(Number, na.rm=TRUE)/sum(Total)) %>% arrange(desc(ua))
 
 cl %>%
+  mutate(State = factor(State, levels=as.character(uaStates$State))) %>%
   ggplot() +
-  geom_bar(aes(weight = Number,  x = State, fill = Denomination),
+  geom_bar(aes(weight = Number,  x = State, fill = Denomination=="Unaccommodated"),
            position = "fill") +
-  scale_fill_manual(values = rev(colHEX)[-(1:2)]) + coord_flip() +
-  theme(legend.position = "bottom") + ylab("") +
-  guides(fill = guide_legend(reverse = TRUE, nrow = 6))
+  scale_fill_manual("Ratio of Unaccommodated", values = rev(colHEX)[-(1:2)]) + coord_flip() +
+  theme(legend.position = "bottom") + ylab("")
+
+
+
 @
 
 
@@ -691,7 +711,8 @@ Plates \# 31 and \# 32 of the statistical atlas are reproducible using modern me
 
 Some of the design decisions made in the statistical atlas do not necessarily tell the whole story. For instance, in plate \# 32, the unaccounted for population is shown in the border of each sub-plot, but when this information is included as a bar in the reconstructed plot shown in \autoref{fig:us-plate32-redo}, it becomes clear that almost all of this unaccounted population is female. This design decision may have been made because of the perceived aesthetic appeal of the unaccounted border region (which makes showing the gender of unaccounted persons difficult), but it may also have been made because the unpaid work by women in the home was not visible (those persons who kept house for other individuals would have been included in the personal and professional services category). This logic is still present today: women who are homemakers are not included in the labor force\cite{labor-participation}, and thus their contributions to the overall economy are not typically counted.
 
-\comment{SVP: I think the paragraph above may belong in the section and not in the discussion. }
+\comment{SVP: I think the paragraph above may belong in the section and not in the discussion.
+HH: I'm fine with that}
 
 The statistical atlas based on the 1870 census is the only version which contains mosaic plots. The atlases based on the 1880 and 1890 censuses contained \href{https://www.loc.gov/resource/g3701gm.gct00010/?sp=67}{pie charts}, \href{https://www.loc.gov/resource/g3701gm.gct00009/?sp=123}{maps}, and \href{https://www.loc.gov/resource/g3701gm.gct00010/?sp=87}{bar charts} instead of mosaic plots. The purpose of the charts may have changed or developed over time as well: in 1870, the statistical atlas shows church sittings, which might be interpreted as the physical building space; in 1880, the atlas shows the geographical strength of each denomination, and in 1890, denominational statistics are displayed as pie charts. This difference may be due to a changing focus: first, it's necessary to make sure the infrastructure is in place as westward expansion occurs, then religious affiliation becomes more of a demographic concern. The mosaic plots for occupational statistics in 1870 give way to state bar charts in 1880 and stacked bar charts in 1890; segregation by gender is no longer a concern, and educational statistics are separated out into different charts entirely. It is likely that the chart design changed due to several factors: different goals, new technological capabilities, and individual preferences. Each atlas was published by a different publishing house, and was likely assembled by different individuals, each with their own preferred methods of data display. The use of different methods for displaying similar data led to discussions of which methods were best\cite{brinton1919graphic,eells1926relative,wickham2013graphical} and the formation of a community devoted to statistical visualization.  True reproducibility of these figures would also include the ``why": the goals of the visualization, known only to the individuals who made the decision to display the data using mosaic and spine plots. We return to Buckheit \& Donoho's \cite{Buckheit1995} insight:
 \begin{quote}
