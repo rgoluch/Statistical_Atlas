@@ -445,8 +445,7 @@ The inside squares of plate~\#31 are simpler structured than those of plate \#32
   \includegraphics[width=0.49\columnwidth]{figure/barchart-denominations-1}
   \label{fig:barchart-31}
   }
-\caption{Old and new side-by-side: XXX color scheme XXX. On the right we see that the number of unaccommodated people over the age of ten is higher than the number of sittings in any of the denominations.}
-
+\caption{Old and new side-by-side: denominations are ordered  from top to bottomaccording to the nation-wide number of sittings. On the right, all denominations  are shown that were accommodated for in 1874. We also see that the number of unaccommodated people over the age of ten is higher than the number of sittings in any of the denominations.}
 \end{figure}
 
 
@@ -514,8 +513,13 @@ A close examination of plate \#31 also reveals that the different color layers o
 When we compare the proportions of state populations shown in the Statistical Atlas and the proportions of different denominations in the 1\% microsample data, another interesting anomaly emerges. The proportion of unaccommodated individuals in Minnesota is much higher in the Statistical Atlas plot than it is in the 1\% microsample, while the proportions are comparable for every other state. Figure~\autoref{fig:matches-plate31} shows the relationship between the 1\% microsample population and the pixel proportions in plate \#31. The most likely explanation for this large discrepancy is that the lithographer made an error when creating the state sub-plot for Minnesota.
 
 
+\begin{figure}
+\centering
+\includegraphics[width=\columnwidth]{figure/religious-bias-plot-1}
+\caption{Percentage of state-wide unaccommodated population based on estimates from the 1\% Microsample ($x$-axis) and pixel values measured from the digitized version of plate \#31 ($y$-axis).\label{fig:matches-plate31}}
+\end{figure}
 
-<<religious-bias-plot, echo = FALSE, fig.width=5, fig.height=5, fig.cap="Percentage of state-wide unaccommodated population based on estimates from the 1\\% Microsample ($x$-axis) and pixel values measured from the digitized version of plate \\#31 ($y$-axis).\\label{fig:matches-plate31}">>=
+<<religious-bias-plot, echo = FALSE, include=F, fig.width=5, fig.height=5>>=
 churchPixel <- read.csv("../Data/church_pixel.csv")
 church_noterritories <- churchPixel %>%
   filter(!(State.Territory %in% c("SW Territories", "NW Territories")))
@@ -533,6 +537,8 @@ church_noterritories %>%
   scale_x_continuous("Estimated Unaccomodated Population, 1% microsample") +
   scale_y_continuous("Estimated Unaccomodated Population, pixel values")
 @
+
+
 %
 % \comment{SVP: Need to make the denominational colors different, instead of using the same 4 colors each time. Maybe use scale\_identity and merge that information in?
 %
@@ -622,6 +628,7 @@ p +  geom_text(aes(label = label, x = (xmin+xmax)/2), angle = 90, size =5, colou
 \caption{Panels from 3 states, Michigan, Minnesota, and Mississippi.\label{orig-state-plots-church}}
 \end{figure}
 
+
 <<state-church-plot, dependson="data-plate31", echo = F, message = F, warning = F, include = T, fig.width = 8, fig.height = 4, out.width = "\\columnwidth", fig.cap = "State religious accommodation plots generated with ggplot2.">>=
 
 cl %>%
@@ -664,10 +671,14 @@ cl %>%
   guides(fill = guide_legend(reverse = TRUE, nrow = 6))
 @
 
+
+
 \section{Discussion}
 Plates \# 31 and \# 32 of the statistical atlas are reproducible using modern methods and a bit of exploratory analysis. Reproducing these charts provides important lessons on the importance of archival information to reproducible analyses. Additionally, the reproduction process highlights some interesting features of historical chart creation, such as the use of grey bands around the plots to represent unaccounted or unaccommodated population, and whether 10 year olds are counted in the population or not.
 
-Some of the design decisions made in the statistical atlas do not necessarily tell the whole story. For instance, in plate \# 32, the unaccounted for population is shown in the border of each sub-plot, but when this information is included as a bar in the reconstructed plot shown in Figure~\autoref{fig:us-plate32-redo}, it becomes clear that almost all of this unaccounted population is female. This design decision may have been made because of the perceived aesthetic appeal of the unaccounted border region (which makes showing the gender of unaccounted persons difficult), but it may also have been made because the unpaid work by women in the home was not visible (those persons who kept house for other individuals would have been included in the personal and professional services category). This logic is still present today: women who are homemakers are not included in the labor force\cite{labor-participation}, and thus their contributions to the overall economy are not typically counted.
+
+
+Some of the design decisions made in the statistical atlas do not necessarily tell the whole story. For instance, in plate \# 32, the unaccounted for population is shown in the border of each sub-plot, but when this information is included as a bar in the reconstructed plot shown in \autoref{fig:us-plate32-redo}, it becomes clear that almost all of this unaccounted population is female. This design decision may have been made because of the perceived aesthetic appeal of the unaccounted border region (which makes showing the gender of unaccounted persons difficult), but it may also have been made because the unpaid work by women in the home was not visible (those persons who kept house for other individuals would have been included in the personal and professional services category). This logic is still present today: women who are homemakers are not included in the labor force\cite{labor-participation}, and thus their contributions to the overall economy are not typically counted.
 
 \comment{SVP: I think the paragraph above may belong in the section and not in the discussion. }
 
@@ -734,7 +745,7 @@ occ2 %>% filter(Area.Name != State) %>% ggplot() +
 
 
 
-<<territory-work-mosaic-unemployed, results = 'hide', fig.width=10, fig.height=12, echo = FALSE, message=FALSE,fig.cap="Mosaics of gainful occupation by territories including population not employed.">>=
+<<territory-work-mosaic-unemployed, results = 'hide', fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.cap="Mosaics of gainful occupation by territories including population not employed.">>=
 occ3 %>% filter(Area.name==State) %>% ggplot() +
   geom_mosaic(aes(x = product(Sex, Occupation),
                   fill=Occupation, alpha = Sex, weight = Number),
