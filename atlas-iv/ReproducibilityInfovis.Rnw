@@ -444,7 +444,6 @@ The inside squares of plate~\#31 are simpler structured than those of plate \#32
   \includegraphics[width=0.49\columnwidth]{figure/barchart-denominations-1}
   \label{fig:barchart-31}
   }
-<<<<<<< HEAD
   % \begin{subfigure}[t]{0.24\textwidth}
   % \centering
   % \includegraphics[height=\columnwidth]{images/plate31-legend.png}
