@@ -768,7 +768,7 @@ popmap %>% filter(!is.na(Number)) %>%
 #  scale_alpha_manual("Population:", labels=c("10,000","1,000", "100"), values=c(1,.56,.18))
 @
 
-\autoref{fig:map} is similar to maps included in the 1880 and 1890 Statistical Atlases that show the geographic strength of the most common denominations.
+\autoref{fig:map} is similar to maps included in the 1880 and 1890 Statistical Atlases that show the geographic strength of the most common denominations. These maps are accompanied by bar charts showing the proportion of individuals in each state who identify with each denomination, providing a very nice picture of the religious affiliations of the residents of the United States.
 
 
 \section{Discussion}
