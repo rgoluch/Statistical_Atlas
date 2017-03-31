@@ -717,7 +717,8 @@ cl %>%
 
 @
 
-The re-imagined church accomodation plots provide the ability to make comparisons between states, but there is one obvious ingredient which is still missing: geographic context. \autoref{fig:denominations-map-1} shows the geographic distribution of church accomodations; this spatial information allows us to see that the mormon church is highly localized geographically, while the Methodist church is relatively popular across most of the country.
+The re-imagined church accomodation plots provide the ability to make comparisons between states, but there is one obvious ingredient which is still missing: geographic context. \autoref{fig:map} shows the geographic distribution of church accomodations; this spatial information allows us to see that the mormon church is highly localized geographically, while the Methodist church is relatively popular across most of the country.
+ Numbers of unaccommodation population are -- not surprisingly -- particularly high in the new territories, with the exception of New Mexico. \autoref{fig:map} is an example for a density dot map. The location of the dots within each state is random, but the number of the dots within each state is proportional to the population. Density maps are not new - some of the first examples appear in the Statistical Atlas accompanying the tenth US census of 1880\cite{atlas1883}.\
 
 %%% Insert map stuff here!
 \begin{figure*}
