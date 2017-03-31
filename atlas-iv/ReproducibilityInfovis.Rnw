@@ -432,7 +432,11 @@ On another note: the Census information about territories is available at a high
 
 \autoref{fig:plate31} shows a miniature of plate \#31 from the Statistical Atlas. This plate shows the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey outer frame). For each state a square of the same size is drawn. The four most common denominations are shown as colored stripes, the width of each is proportional to the number of their sittings. Each denomination is shown by one of eleven different colors, all other denominations are represented jointly by a twelfth color. The color scheme chosen in the Statistical Atlas is essentially that of paired colors, i.e.\ each hue is represented with a lighter shade (using hatching) and a darker shade (see zoom-in to the legend of plate \#31 in \autoref{fig:legend-31}).
 
-The inside squares of plate~\#31 are simpler structured than those of plate \#32 -- they are one-dimensional mosaicplots, also known as rotated stacked barcharts or spine plots \cite{hummel:1996}. XXX next sentence is a bit strange XXX Due to the decision to show only the four most common denominations for each state, denominations such as Judaism which have a small proportion in each state (but have an overall larger population) do not appear in any state plot, while denominations which are extremely concentrated in some states (such as the Mormon church in Utah) but have fewer members overall are shown. In addition, as denominations are ordered from largest to smallest within each state, making cross-state comparisons difficult, as the denominations are in a different order in each sub-plot.
+The inside squares of plate~\#31 are simpler structured than those of plate \#32 -- they are one-dimensional mosaicplots, also known as rotated stacked barcharts or spine plots \cite{hummel:1996}. As in the previous example, a grey frame is drawn with an area proportional to the size of the unaccommodated population over the age of ten. This is one design choice, that we are going to address in our reproduction of it. However, there are other design choices that have questionable(?) consequences:
+\begin{compactitem}
+\item Probably for simplifying the resulting visualization the decision was made to only show the top four denominations in each state and the top eight denominations overall. This has the effect, that some denominations are shown but others are not, even though the ones not shown have an overall higher number of sittings. For example, Judaism is nation-wide the ninth largest
+\end{compactitem}
+XXX next sentence is a bit strange XXX Due to the decision to show only the four most common denominations for each state, denominations such as Judaism which have a small proportion in each state (but have an overall larger population) do not appear in any state plot, while denominations which are extremely concentrated in some states (such as the Mormon church in Utah) but have fewer members overall are shown. In addition, as denominations are ordered from largest to smallest within each state, making cross-state comparisons difficult, as the denominations are in a different order in each sub-plot.
 
 \begin{figure}
 \includegraphics[width = \columnwidth]{images/ca000081.jpg}
@@ -480,7 +484,7 @@ cl <- cl %>% mutate(Denomination =
                       reorder(Denomination, Number, na.rm = TRUE))
 
 cl$Denomination <- factor(cl$Denomination,
-                          c("Unaccommodated", levels(cl$Denomination)))
+                          c("Unaccommodated", levels(cl$Denomination)[-20]))
 levels(cl$Denomination) <- gsub("\\.", " ", levels(cl$Denomination))
 @
 
