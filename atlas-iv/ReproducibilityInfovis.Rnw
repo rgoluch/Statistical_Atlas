@@ -639,7 +639,7 @@ p +  geom_text(aes(label = label, x = (xmin+xmax)/2), angle = 90, size =5, colou
 \end{figure}
 
 
-<<state-church-plot, dependson="data-plate31", echo = F, message = F, warning = F, include = T, fig.width = 8, fig.height = 3, out.width = "\\columnwidth", fig.cap = "State religious accommodation plots generated with ggplot2.">>=
+<<state-church-plot, dependson="data-plate31", echo = F, message = F, warning = F, include = T, fig.width = 8, fig.height = 3, out.width = "\\columnwidth", fig.cap = "State religious accommodation plots generated with ggplot2\\cite{ggplot2}.">>=
 
 p <- cl %>%
   filter(State %in% c("Michigan", "Minnesota", "Mississippi"), Number > 0) %>%
@@ -656,7 +656,7 @@ p + theme(axis.text = element_blank(), axis.title = element_blank(),
         axis.ticks = element_blank(), panel.grid.major.x = element_blank()) +
   geom_text(data = scales,
             aes(x = (xmin+xmax)/2, label=label, colour = label),
-            y = 0.025, angle=90, hjust=0, vjust=0.5, size = 3) +
+            y = 0.025, angle=90, hjust=0, vjust=0.5, size = 2.5) +
   scale_colour_manual(values = rep("black",20))
 
 
