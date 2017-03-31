@@ -1,3 +1,4 @@
+library(tidyverse)
 denominations <- read.csv("../Data-raw/denominations-1874.csv")
 totals <- read.csv("../Data/ages-ipums.csv")
 totals <- totals %>% mutate(
@@ -5,7 +6,6 @@ totals <- totals %>% mutate(
   Area.name = replace(Area.name, Area.name=="Louisianna", "Louisiana")
 )
 
-library(tidyverse)
 denominations %>% anti_join(totals[,c("STATEICP", "Area.name", "Total.above10.est")],
                             by=c("State"="Area.name"))
 

@@ -1,3 +1,4 @@
+library(tidyverse)
 church <- read.csv("../Data/denominations-1874.csv")
 churchPixel <- read.csv("../Data-raw/church_accomodations-w-percent-unacomodated-area.csv")
 churchPixel <- churchPixel %>%

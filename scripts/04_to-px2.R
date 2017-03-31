@@ -1,3 +1,4 @@
+library(tidyverse)
 pixels2 <- read.csv("../Data-raw/pixel-values.csv")
 pixels2$Unaccounted <- (451^2 - (451-2*pixels2$Unaccounted)^2)/451
 
