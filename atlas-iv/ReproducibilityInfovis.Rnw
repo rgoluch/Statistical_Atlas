@@ -436,7 +436,7 @@ The inside squares of plate~\#31 are simpler structured than those of plate \#32
 
 \begin{figure}
   \centering
-  \subfloat[Zoom-in to the legend section of plate \#31.]{
+  \subfloat[Legend section of plate \#31.]{
   \includegraphics[width = 0.49\columnwidth]{images/plate31-legend.png}
   \label{fig:legend-31}
   }
@@ -444,6 +444,7 @@ The inside squares of plate~\#31 are simpler structured than those of plate \#32
   \includegraphics[width=0.49\columnwidth]{figure/barchart-denominations-1}
   \label{fig:barchart-31}
   }
+<<<<<<< HEAD
   % \begin{subfigure}[t]{0.24\textwidth}
   % \centering
   % \includegraphics[height=\columnwidth]{images/plate31-legend.png}
@@ -454,7 +455,7 @@ The inside squares of plate~\#31 are simpler structured than those of plate \#32
   % \includegraphics[height=\columnwidth]{figure/barchart-denominations-1}
   % \caption{Church sittings by denomination. \label{fig:barchart-31}}
   % \end{subfigure}
-\caption{Old and new side-by-side: The replicated picture uses the Paired Colorbrewer2 scheme\cite{colorbrewer}. On the right we see that the number of unaccommodated people over the age of ten is higher than the number of sittings in any of the denominations.}
+\caption{Old and new side-by-side: denominations are ordered  from top to bottom according to the nation-wide number of sittings. On the right, all denominations  are shown that were accommodated for in 1874. We also see that the number of unaccommodated people over the age of ten is higher than the number of sittings in any of the denominations.}
 
 \end{figure}
 
@@ -523,8 +524,13 @@ A close examination of plate \#31 also reveals that the different color layers o
 When we compare the proportions of state populations shown in the Statistical Atlas and the proportions of different denominations in the 1\% microsample data, another interesting anomaly emerges. The proportion of unaccommodated individuals in Minnesota is much higher in the Statistical Atlas plot than it is in the 1\% microsample, while the proportions are comparable for every other state. Figure~\autoref{fig:matches-plate31} shows the relationship between the 1\% microsample population and the pixel proportions in plate \#31. The most likely explanation for this large discrepancy is that the lithographer made an error when creating the state sub-plot for Minnesota.
 
 
+\begin{figure}
+\centering
+\includegraphics[width=\columnwidth]{figure/religious-bias-plot-1}
+\caption{Percentage of state-wide unaccommodated population based on estimates from the 1\% Microsample ($x$-axis) and pixel values measured from the digitized version of plate \#31 ($y$-axis).\label{fig:matches-plate31}}
+\end{figure}
 
-<<religious-bias-plot, echo = FALSE, fig.width=5, fig.height=5, fig.cap="Percentage of state-wide unaccommodated population based on estimates from the 1\\% Microsample ($x$-axis) and pixel values measured from the digitized version of plate \\#31 ($y$-axis).\\label{fig:matches-plate31}">>=
+<<religious-bias-plot, echo = FALSE, include=F, fig.width=5, fig.height=5>>=
 churchPixel <- read.csv("../Data/church_pixel.csv")
 church_noterritories <- churchPixel %>%
   filter(!(State.Territory %in% c("SW Territories", "NW Territories")))
@@ -542,6 +548,8 @@ church_noterritories %>%
   scale_x_continuous("Estimated Unaccomodated Population, 1% microsample") +
   scale_y_continuous("Estimated Unaccomodated Population, pixel values")
 @
+
+
 %
 % \comment{SVP: Need to make the denominational colors different, instead of using the same 4 colors each time. Maybe use scale\_identity and merge that information in?
 %
@@ -631,6 +639,7 @@ p +  geom_text(aes(label = label, x = (xmin+xmax)/2), angle = 90, size =5, colou
 \caption{Panels from 3 states, Michigan, Minnesota, and Mississippi.\label{orig-state-plots-church}}
 \end{figure}
 
+
 <<state-church-plot, dependson="data-plate31", echo = F, message = F, warning = F, include = T, fig.width = 8, fig.height = 4, out.width = "\\columnwidth", fig.cap = "State religious accommodation plots generated with ggplot2.">>=
 
 cl %>%
@@ -673,14 +682,18 @@ cl %>%
   guides(fill = guide_legend(reverse = TRUE, nrow = 6))
 @
 
+
+
 \section{Discussion}
 Plates \# 31 and \# 32 of the statistical atlas are reproducible using modern methods and a bit of exploratory analysis. Reproducing these charts provides important lessons on the importance of archival information to reproducible analyses. Additionally, the reproduction process highlights some interesting features of historical chart creation, such as the use of grey bands around the plots to represent unaccounted or unaccommodated population, and whether 10 year olds are counted in the population or not.
 
-Some of the design decisions made in the statistical atlas do not necessarily tell the whole story. For instance, in plate \# 32, the unaccounted for population is shown in the border of each sub-plot, but when this information is included as a bar in the reconstructed plot shown in Figure~\autoref{fig:us-plate32-redo}, it becomes clear that almost all of this unaccounted population is female. This design decision may have been made because of the perceived aesthetic appeal of the unaccounted border region (which makes showing the gender of unaccounted persons difficult), but it may also have been made because the unpaid work by women in the home was not visible (those persons who kept house for other individuals would have been included in the personal and professional services category). This logic is still present today: women who are homemakers are not included in the labor force\cite{labor-participation}, and thus their contributions to the overall economy are not typically counted.
+
+
+Some of the design decisions made in the statistical atlas do not necessarily tell the whole story. For instance, in plate \# 32, the unaccounted for population is shown in the border of each sub-plot, but when this information is included as a bar in the reconstructed plot shown in \autoref{fig:us-plate32-redo}, it becomes clear that almost all of this unaccounted population is female. This design decision may have been made because of the perceived aesthetic appeal of the unaccounted border region (which makes showing the gender of unaccounted persons difficult), but it may also have been made because the unpaid work by women in the home was not visible (those persons who kept house for other individuals would have been included in the personal and professional services category). This logic is still present today: women who are homemakers are not included in the labor force\cite{labor-participation}, and thus their contributions to the overall economy are not typically counted.
 
 \comment{SVP: I think the paragraph above may belong in the section and not in the discussion. }
 
-The statistical atlas based on the 1870 census is the only version which contains mosaic plots. The atlases based on the 1880 and 1890 censuses contained \hyperref{https://www.loc.gov/resource/g3701gm.gct00010/?sp=67}{pie charts}, \hyperref{https://www.loc.gov/resource/g3701gm.gct00009/?sp=123}{maps}, and \hyperref{https://www.loc.gov/resource/g3701gm.gct00010/?sp=87}{bar charts} instead of mosaic plots. The purpose of the charts may have changed or developed over time as well: in 1870, the statistical atlas shows church sittings, which might be interpreted as the physical building space; in 1880, the atlas shows the geographical strength of each denomination, and in 1890, denominational statistics are displayed as pie charts. This difference may be due to a changing focus: first, it's necessary to make sure the infrastructure is in place as westward expansion occurs, then religious affiliation becomes more of a demographic concern. The mosaic plots for occupational statistics in 1870 give way to state bar charts in 1880 and stacked bar charts in 1890; segregation by gender is no longer a concern, and educational statistics are separated out into different charts entirely. It is likely that the chart design changed due to several factors: different goals, new technological capabilities, and individual preferences. Each atlas was published by a different publishing house, and was likely assembled by different individuals, each with their own preferred methods of data display. The use of different methods for displaying similar data led to discussions of which methods were best\cite{brinton1919graphic,eells1926relative,wickham2013graphical} and the formation of a community devoted to statistical visualization.  True reproducibility of these figures would also include the ``why": the goals of the visualization, known only to the individuals who made the decision to display the data using mosaic and spine plots. We return to Buckheit \& Donoho's \cite{Buckheit1995} insight:
+The statistical atlas based on the 1870 census is the only version which contains mosaic plots. The atlases based on the 1880 and 1890 censuses contained \href{https://www.loc.gov/resource/g3701gm.gct00010/?sp=67}{pie charts}, \href{https://www.loc.gov/resource/g3701gm.gct00009/?sp=123}{maps}, and \href{https://www.loc.gov/resource/g3701gm.gct00010/?sp=87}{bar charts} instead of mosaic plots. The purpose of the charts may have changed or developed over time as well: in 1870, the statistical atlas shows church sittings, which might be interpreted as the physical building space; in 1880, the atlas shows the geographical strength of each denomination, and in 1890, denominational statistics are displayed as pie charts. This difference may be due to a changing focus: first, it's necessary to make sure the infrastructure is in place as westward expansion occurs, then religious affiliation becomes more of a demographic concern. The mosaic plots for occupational statistics in 1870 give way to state bar charts in 1880 and stacked bar charts in 1890; segregation by gender is no longer a concern, and educational statistics are separated out into different charts entirely. It is likely that the chart design changed due to several factors: different goals, new technological capabilities, and individual preferences. Each atlas was published by a different publishing house, and was likely assembled by different individuals, each with their own preferred methods of data display. The use of different methods for displaying similar data led to discussions of which methods were best\cite{brinton1919graphic,eells1926relative,wickham2013graphical} and the formation of a community devoted to statistical visualization.  True reproducibility of these figures would also include the ``why": the goals of the visualization, known only to the individuals who made the decision to display the data using mosaic and spine plots. We return to Buckheit \& Donoho's \cite{Buckheit1995} insight:
 \begin{quote}
 The actual scholarship is the complete software development environment and the complete set of instructions which generated the figures.
 \end{quote}
@@ -692,7 +705,7 @@ Representatives and direct Taxes shall be apportioned among the several States w
 % , which shall be determined by adding to the whole Number of free Persons, including those bound to Service for a Term of Years, and excluding Indians not taxed, three fifths of all other Persons. % Overridden by the 14th amendment section 2
 The actual Enumeration shall be made within three Years after the first Meeting of the Congress of the United States, and within every subsequent Term of ten Years, in such Manner as they shall by Law direct.
 \end{quote}
-The Census Bureau's dedication to preserving the historical data and images from the statistical atlas make it possible to reproduce the charts from plate \# 31 and \# 32, but most charts created today do not have the same commitment to historical preservation. It is not hard to imagine that most charts we create today will not be easily reproduced in 150 years - the code that we write will almost certainly not run on the operating systems which might be in use then; and our digitally stored data files may not be decodable either. We do not advocate for storing data on stone tablets, but we have made our code and aggregated data available on \hyperref{https://github.com/srvanderplas/InfovisStatisticalAtlas}{github} to ensure at least near-term reproducibility. We have also opted to utilize packrat\cite{packrat}, which preserves the software package versions used to create this report. While these methods may not ensure reproducibility for 150 years, they should provide the ability for others to exactly replicate the steps we have taken for the next 5-10 years at least. Reproducibility longer-term requires a commitment to maintaining archival information in currently-readable formats in perpetuity, and this commitment is (at this point) best left to governments, libraries, and other archives.
+The Census Bureau's dedication to preserving the historical data and images from the statistical atlas make it possible to reproduce the charts from plate \# 31 and \# 32, but most charts created today do not have the same commitment to historical preservation. It is not hard to imagine that most charts we create today will not be easily reproduced in 150 years - the code that we write will almost certainly not run on the operating systems which might be in use then; and our digitally stored data files may not be decodable either. We do not advocate for storing data on stone tablets, but we have made our code and aggregated data available on \href{https://github.com/srvanderplas/InfovisStatisticalAtlas}{github} to ensure at least near-term reproducibility. We have also opted to utilize packrat\cite{packrat}, which preserves the software package versions used to create this report. While these methods may not ensure reproducibility for 150 years, they should provide the ability for others to exactly replicate the steps we have taken for the next 5-10 years at least. Reproducibility longer-term requires a commitment to maintaining archival information in currently-readable formats in perpetuity, and this commitment is (at this point) best left to governments, libraries, and other archives.
 
 \comment{talking points: plates \#31 and \# 32 of the statistical atlas *are* reproducible, or at least reproducible enough. This is only possible because of the infrastructure put into place by the US Census Bureau a long time ago, which has been maintained and updated to fit with modern technology.
 
@@ -743,7 +756,7 @@ occ2 %>% filter(Area.Name != State) %>% ggplot() +
 
 
 
-<<territory-work-mosaic-unemployed, results = 'hide', fig.width=10, fig.height=12, echo = FALSE, message=FALSE,fig.cap="Mosaics of gainful occupation by territories including population not employed.">>=
+<<territory-work-mosaic-unemployed, results = 'hide', fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.cap="Mosaics of gainful occupation by territories including population not employed.">>=
 occ3 %>% filter(Area.name==State) %>% ggplot() +
   geom_mosaic(aes(x = product(Sex, Occupation),
                   fill=Occupation, alpha = Sex, weight = Number),
