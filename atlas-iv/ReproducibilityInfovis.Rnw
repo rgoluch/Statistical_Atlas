@@ -632,7 +632,7 @@ p +  geom_text(aes(label = label, x = (xmin+xmax)/2), angle = 90, size =5, colou
 
 Figure~\autoref{orig-state-plots-church} shows 3 sub plots from the 1874 Statistical Atlas; figure~\autoref{fig:state-church-plot-1} shows an improved version of the same plots. We have added an additional bar for the proportion of the population which is unaccomodated, and we have included all denominations which were part of the 1870 census. These changes produce much more complicated plots, but allow us to notice that Mississippi is much more religiously homogeneous than Michigan or Minnesota, and also that Mississippi has significantly fewer unaccommodated persons. We can also see that Minnesota has a higher proportion of Lutheran church accommodations than Michigan, but the same denominations seem to be present in both states. These details were much less obvious on the original plots due to the choice to show only 4 denominations surrounded by a rectangle representing unaccomodated persons.
 
-<<state-church-plot, dependson="data-plate31", echo = F, message = F, warning = F, include = T, fig.width = 8, fig.height = 3, out.width = "\\columnwidth", fig.cap = "State religious accommodation plots generated with ggplot2\\cite{ggplot2}.">>=
+<<state-church-plot, dependson="data-plate31", echo = F, message = F, warning = F, include = T, fig.width = 8, fig.height = 3, out.width = "\\columnwidth", fig.cap = "State religious accommodation plots generated with the \texttt{ggplot2} package\\cite{ggplot2}.">>=
 
 p <- cl %>%
   filter(State %in% c("Michigan", "Minnesota", "Mississippi"), Number > 0) %>%
@@ -670,9 +670,9 @@ p + theme(axis.text = element_blank(), axis.title = element_blank(),
 #     facet_wrap(~State)
 @
 
-If we re-display the data from plate \# 31, unconstrained by the original format, we might choose to show all of the states on the $y$-axis, with denominations on the $x$ axis, using stacked bars, as shown in Figure~\autoref{fig:onepanel-state-plot-1}. This allows for comparison between states much more readily than the small multiples approach, because states are aligned on a common axis, and denominations are shown in the same order in every stacked bar. Figure~\autoref{fig:onepanel-state-plot-1} does not show any information about unaccommodated persons: this information is shown in Figure~\autoref{fig:onepanel-state-plot-unaccommodated-1}, with states ordered by the proportion of the accommodated population. The combination of these two plots allows us to compare states by denominations and accomodated population.
+If we re-display the data from plate \# 31, unconstrained by the original format, we might choose to show all of the states on the $y$-axis, with denominations on the $x$ axis, using stacked bars, as shown in \autoref{fig:state-denominations}. This allows for comparison between states much more readily than the small multiples approach, because states are aligned on a common axis, and denominations are shown in the same order in every stacked bar. \autoref{fig:state-denominations} does not show any information about unaccommodated persons: this information is shown in \autoref{fig:state-denominations-ua}, with states ordered by the proportion of the accommodated population. The combination of these two plots allows us to compare states by denominations and accomodated population.
 
-Both sets of re-imagined church accomodation plots use a triple color scheme. The lightest colors were drawn from the Colorbrewer\cite{colorbrewer} ``Paired" palette's light colors (a grey hue was also added); each color was then darkened twice to produce a color scheme composed of 21 colors and 7 hues using the \texttt{munsell} package. This scheme is similar to the color scheme in the Statistical Atlas, which is composed of 7 hues and uses crosshatching to create lighter and darker bars.
+Both sets of re-imagined church accomodation plots use a triple color scheme. The lightest colors were drawn from the Colorbrewer\cite{colorbrewer} ``Paired" palette's light colors (a grey hue was also added); each color was then darkened twice to produce a color scheme composed of 21 colors and 7 hues using the \texttt{munsell} package\cite{munsell}. This scheme is similar to the color scheme in the Statistical Atlas, which is composed of 7 hues and uses crosshatching to create lighter and darker bars.
 
 <<onepanel-state-plot, echo = FALSE, message=FALSE, warning = FALSE, fig.height = 10, fig.width=8, fig.cap="Proportion of religious sittings for each state by denomination.  \\label{fig:state-denominations}", include = T, eval = T>>=
 cl$Number[is.na(cl$Number)] <- 0
@@ -717,11 +717,57 @@ cl %>%
 
 @
 
-The re-imagined church accomodation plots provide the ability to make comparisons between states, but there is one obvious ingredient which is still missing: geographic context. Figure~\autoref{fig:map} shows the geographic distribution of church accomodations; this spatial information allows us to see that the mormon church is highly localized geographically, while the Methodist church is relatively popular across most of the country.\
+The re-imagined church accomodation plots provide the ability to make comparisons between states, but there is one obvious ingredient which is still missing: geographic context. \autoref{fig:map} shows the geographic distribution of church accomodations; this spatial information allows us to see that the mormon church is highly localized geographically, while the Methodist church is relatively popular across most of the country.\
 
 %%% Insert map stuff here!
+\begin{figure*}
+\centering
+\includegraphics[width=\textwidth]{figure/denominations-map-1}
+\caption{Density dot maps of geographic expansion of religious sittings by denomination. \label{fig:map}}
+\end{figure*}
 
-Figure~\autoref{fig:map} is similar to maps included in the 1880 and 1890 Statistical Atlases that show the geographic strength of the most common denominations.
+<<denominations-map, include=F, fig.width=8, fig.height = 9, echo=FALSE>>=
+library(USAboundaries)
+map_states <- us_boundaries("1870-01-01", type = "state")
+map1870 <- map_data(map_states)
+map1870$Territory <- gsub(".* Territory", "TRUE", map1870$region)
+map1870$Territory <- gsub(".* Department", "TRUE", map1870$Territory)
+map1870$Territory <- as.logical(gsub(".* Terr.", "TRUE", map1870$Territory))
+map1870$Parts <- c("Territory", "State")[is.na(map1870$Territory)+1]
+# map1870 %>% filter(lat <= 50) %>%
+#   ggplot(aes(x = long, y = lat, group = group, fill=Parts)) +
+#   geom_polygon(color="white", size=0.1) + scale_fill_manual(values=c("grey80", "grey90")) +
+#   ggthemes::theme_map()
+
+cl$State <- as.character(cl$State)
+cl$Denomination <- factor(cl$Denomination, levels=rev(levels(cl$Denomination)))
+popmap <- left_join(map1870, cl, by=c("region"="State")) %>% filter(lat <= 50)
+
+library(ggmapr)
+popmap$jitters1 <- round(popmap$Number/10000,0)
+popmap$jitters2 <- round((popmap$Number %% 10000)/1000,0)
+popmap$jitters3 <- round((popmap$Number %% 1000)/100,0)
+popmap %>% filter(!is.na(Number)) %>%
+  ggplot(aes(x = long, y = lat)) +
+   geom_polygon(aes(group = group, fill=Parts), color="white", size=0.1) +
+   stat_polygon_jitter(aes(long = long, lat = lat, group = region,
+                           mapgroup = group, n = jitters1,
+                            size="a", colour="a")) +
+   stat_polygon_jitter(aes(long = long, lat = lat, group = region,
+                           mapgroup = group, n = jitters2,
+                            size="b", colour="b")) +
+   stat_polygon_jitter(aes(long = long, lat = lat, group = region,
+                           mapgroup = group, n = jitters3,
+                            size = "c", colour="c")) +
+   ggthemes::theme_map() + facet_wrap(~Denomination, ncol = 4) +
+  scale_colour_manual( "Population:", values=colHEX[3:1], labels=c("10,000","1,000", "100")) +
+  scale_fill_manual(values=c("grey85", "grey95")) +
+  theme(legend.position="top") +
+  scale_size_manual("Population:", labels=c("10,000","1,000", "100"), values=c(1,.56,.18)) #+
+#  scale_alpha_manual("Population:", labels=c("10,000","1,000", "100"), values=c(1,.56,.18))
+@
+
+\autoref{fig:map} is similar to maps included in the 1880 and 1890 Statistical Atlases that show the geographic strength of the most common denominations.
 
 
 \section{Discussion}
@@ -804,3 +850,4 @@ occ3 %>% filter(Area.name==State) %>% ggplot() +
     theme(axis.line=element_blank(), axis.text=element_blank(),
         axis.title = element_blank(), axis.ticks = element_blank())
 @
+
