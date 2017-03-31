@@ -412,7 +412,12 @@ On another note: the Census information about territories is available at a high
 
 \autoref{fig:plate31} shows a miniature of plate \#31 from the Statistical Atlas. This plate shows the percentage of religious sittings by denomination for each state (colored stripes in the square) as well as the percentage of unaccommodated population over the age of ten (area of the grey outer frame). For each state a square of the same size is drawn. The four most common denominations are shown as colored stripes, the width of each is proportional to the number of their sittings. Each denomination is shown by one of eleven different colors, all other denominations are represented jointly by a twelfth color. The color scheme chosen in the Statistical Atlas is essentially that of paired colors, i.e.\ each hue is represented with a lighter shade (using hatching) and a darker shade (see zoom-in to the legend of plate \#31 in \autoref{fig:legend-31}).
 
-The inside squares of plate~\#31 are simpler structured than those of plate \#32 -- they are one-dimensional mosaicplots, also known as rotated stacked barcharts or spine plots \cite{hummel:1996}. XXX next sentence is a bit strange XXX Due to the decision to show only the four most common denominations for each state, denominations such as Judaism which have a small proportion in each state (but have an overall larger population) do not appear in any state plot, while denominations which are extremely concentrated in some states (such as the Mormon church in Utah) but have fewer members overall are shown. In addition, as denominations are ordered from largest to smallest within each state, making cross-state comparisons difficult, as the denominations are in a different order in each sub-plot.
+The inside squares of plate~\#31 are simpler structured than those of plate \#32 -- they are one-dimensional mosaicplots, also known as rotated stacked barcharts or spine plots \cite{hummel:1996}. As in the previous example, a grey frame is drawn with an area proportional to the size of the unaccommodated population over the age of ten. This is one design choice, that we are going to address in our reproduction of it. However, there are other design choices that have questionable(?) consequences:
+\begin{compactitem}
+\item[\bf Top four only:] Probably for simplifying the resulting visualization XXX technical reasons?XXX the decision was made to only show the top four denominations in each state and the top eight denominations overall. This has the effect, that some denominations are shown but others are not, even though the ones not shown have an overall higher number of sittings. For example, the Reformed Late Germans have in 1870 nation-wide 431,700 sittings, which puts them into tenth place However, they are not mentioned in plate \#32, whereas the Mormon Church is locally (Utah Territory) strong enough to get featured, even though it is with 87,838 sittings far behind the German Reformed Church in a nation-wide 17th place.
+\item[\bf Re-ordering:] Within each state denominations are ordered from largest to smallest. This makes comparisons of the state-wide religious makeup between states  cognitively more difficult, as it re-orders the colors in the barcode-like color strips representing each state and small differences in numbers might result in rather large visual differences.
+\end{compactitem}
+%XXX next sentence is a bit strange XXX Due to the decision to show only the four most common denominations for each state, denominations such as Judaism which have a small proportion in each state (but have an overall larger population) do not appear in any state plot, while denominations which are extremely concentrated in some states (such as the Mormon church in Utah) but have fewer members overall are shown. In addition, as denominations are ordered from largest to smallest within each state, making cross-state comparisons difficult, as the denominations are in a different order in each sub-plot.
 
 \begin{figure}
 \includegraphics[width = \columnwidth]{images/ca000081.jpg}
@@ -425,8 +430,9 @@ The inside squares of plate~\#31 are simpler structured than those of plate \#32
 \caption{Zoom-in to the legend section of plate \#31.\label{fig:legend-31}}
 \end{figure}
 
-% \comment{HH: dubious design choices: (1) only top four denominations per state and top eight denominations overall are shown. This lets some denominations disappear (e.g. Jews) from the view that have overall more followers than e.g. the Mormon church, yet are not locally as prominent.
-% (2) within each state  denominations  are ordered from largest to smallest (with the `all others` category always in fifth position). This does not allow us to compare the makeup between states, as small differences in numbers might result in rather large visual differences. }
+
+%\comment{HH: dubious design choices: (1) only top four denominations per state and top eight denominations overall are shown. This lets some denominations disappear (e.g. Jews) from the view that have overall more followers than e.g. the Mormon church, yet are not locally as prominent.
+%(2) within each state  denominations  are ordered from largest to smallest (with the `all others` category always in fifth position). This does not allow us to compare the makeup between states, as small differences in numbers might result in rather large visual differences. }
 
 We initially computed the state population as described in equation \eqref{eq:nUA2}, but found that there was a clear difference in the percentage of unaccommodated population reported by each state in the Statistical Atlas pictures and the proportion estimated by using the 1\% microsample. This difference was resolved by considering only the population above age 11 when computing estimates for plate \#31. There is some ambiguity in the phrase ``population over 10 years of age", as an individual attains 10 years of age on their 10th birthday (that is,  $x \ge 10$), but in any other context, ``over 10" would indicate $x > 10$. In plate \# 32, the interpretation of $x \ge 10$ is used, but in plate \# 31, it appears that the interpretation $x > 10$ or $x \ge 11$ is used instead. This modification to the calculations resolves the difference in estimates (shown in Figure~\autoref{fig:matches-plate31}) for all states except Minnesota, which we discuss below.
 
@@ -463,7 +469,7 @@ cl <- cl %>% mutate(Denomination =
                       reorder(Denomination, Number, na.rm = TRUE))
 
 cl$Denomination <- factor(cl$Denomination,
-                          c("Unaccommodated", levels(cl$Denomination)))
+                          c("Unaccommodated", levels(cl$Denomination)[-20]))
 levels(cl$Denomination) <- gsub("\\.", " ", levels(cl$Denomination))
 @
 
@@ -630,6 +636,7 @@ Mosaic plots only feature in this Statistical Atas. In the Atlas accompanying th
 
 \comment{Some hypothesizing as to the reasons for some of the decision choices: The decision to not include the gender ratio for the unaccounted population is curious. A simple and innocent explanation would be that the design decision to show unaccounted for population as a grey frame led to the decision to not include the gender ratio. It might also be a reflection of the attitude towards women at the time: `keeping house' is an occupation that is not being paid for (if it is, it would fall under the `Services' category), and is therefore also not seen.  }
 \meh{I don't think that last part has changed much :(}
+
 
 %% if specified like this the section will be committed in review mode
 % \acknowledgments{
