@@ -514,14 +514,6 @@ cl %>% ggplot(aes(x = Denomination, weight=Number/10^6, fill=Denomination)) +
         axis.title.y = element_blank())
 @
 
-%\comment{HH: dubious design choices: (1) only top four denominations per state and top eight denominations overall are shown. This lets some denominations disappear (e.g. Jews) from the view that have overall more followers than e.g. the Mormon church, yet are not locally as prominent.
-%(2) within each state  denominations  are ordered from largest to smallest (with the `all others` category always in fifth position). This does not allow us to compare the makeup between states, as small differences in numbers might result in rather large visual differences. }
-
-
-A close examination of plate \#31 also reveals that the different color layers of the lithographic prints are not as well aligned. In addition, the state plots are much more variable in size in plate \#31 than in plate \#32. These differences suggest that plate \#31 might have been created by a less experienced lithographer than plate \#32.
-
-When we compare the proportions of state populations shown in the Statistical Atlas and the proportions of different denominations in the 1\% microsample data, another interesting anomaly emerges. The proportion of unaccommodated individuals in Minnesota is much higher in the Statistical Atlas plot than it is in the 1\% microsample, while the proportions are comparable for every other state. Figure~\autoref{fig:matches-plate31} shows the relationship between the 1\% microsample population and the pixel proportions in plate \#31. The most likely explanation for this large discrepancy is that the lithographer made an error when creating the state sub-plot for Minnesota.
-
 
 \begin{figure}
 \centering
