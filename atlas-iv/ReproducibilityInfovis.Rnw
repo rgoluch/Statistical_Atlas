@@ -199,26 +199,6 @@ opts_chunk$set(cache = T, echo = F, autodep = T, warning = F, message = F)
 
 \maketitle
 
-\comment{
-Plan:
-
-\begin{enumerate}
-\item What is computational reproducibility: Donoho \cite{donoho-reproducible} and Buckheit and Donoho \cite{Buckheit1995} state: ``an article [...] is advertising, not scholarship. The actual scholarship is the full software environment, code and data, that produced the result."
-\item How can we implement computational reproducibility:
-Sandve et al \cite{sandve:2013} propose `ten simple rules for computational reproducibility`. Successful computational reproducibility is rooted in the ideas of literate programming (cite Knuth). R has a history of aiming for computational reproducibility (with Sweave - fritz). Recent developments (knitr, rmarkdown, rweave) make it possible to implement all suggestions made by Sandve. (XXX Jenny Bryan's contribution)
-\item Translational reproducibility: using other means to reproduce a particular result. Keith Baggerly \cite{baggerly2009} uses this approach in what he calls `forensic bioinformatics'.
-\item Two examples of translational reproducibility:
-\begin{itemize}
-\item first: discussion of tools used, mosaicplots in general
-\item discuss, recreate and redesign both of plates \#31 and \#32
-\item three stories: (1) design choice makes us underestimate the `unaccommodated`/`unemployed` population. (2) Most of the unemployed population are women.
-(3) Minnesota has a very different unaccommodated population.
-\end{itemize}
-\end{enumerate}
-
-XXX from the style file guide: use ``\texttt{\textbackslash autoref\{reference\}}''
-}
-
 <<plate32-scatterplot, include=FALSE, results='hide', echo=FALSE, fig.pos="center", fig.width = 7.5, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). ", warning=FALSE, message=FALSE>>=
 # only run this once
 px2 <- read.csv("../Data/px2.csv")
