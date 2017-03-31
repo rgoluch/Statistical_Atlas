@@ -428,7 +428,6 @@ The inside squares of plate~\#31 are simpler structured than those of plate \#32
 
 \item[\bf Re-ordering:] Within each state denominations are ordered from largest to smallest. This makes comparisons of the state-wide religious makeup between states  cognitively more difficult, as it re-orders the colors in the bar code-like color strips representing each state and small differences in numbers might result in rather large visual differences.
 \end{compactitem}
-%XXX next sentence is a bit strange XXX Due to the decision to show only the four most common denominations for each state, denominations such as Judaism which have a small proportion in each state (but have an overall larger population) do not appear in any state plot, while denominations which are extremely concentrated in some states (such as the Mormon church in Utah) but have fewer members overall are shown. In addition, as denominations are ordered from largest to smallest within each state, making cross-state comparisons difficult, as the denominations are in a different order in each sub-plot.
 
 \begin{figure}
 \includegraphics[width = \columnwidth]{images/ca000081.jpg}
@@ -455,7 +454,7 @@ The inside squares of plate~\#31 are simpler structured than those of plate \#32
   % \includegraphics[height=\columnwidth]{figure/barchart-denominations-1}
   % \caption{Church sittings by denomination. \label{fig:barchart-31}}
   % \end{subfigure}
-\caption{Old and new side-by-side: XXX color scheme XXX. On the right we see that the number of unaccommodated people over the age of ten is higher than the number of sittings in any of the denominations.}
+\caption{Old and new side-by-side: The replicated picture uses the Paired Colorbrewer2 scheme\cite{colorbrewer}. On the right we see that the number of unaccommodated people over the age of ten is higher than the number of sittings in any of the denominations.}
 
 \end{figure}
 
