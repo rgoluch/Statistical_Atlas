@@ -329,7 +329,7 @@ n_{\text{AGE}\ge 10}^{(\text{XY})} = n_\text{total}^{(\text{XY})} \cdot p_{\text
 \]
 where $p_{\text{AGE}\ge 10}^{(\text{XY})} \in [0,1]$ is the proportion of the  population in state {\it XY} who is over ten years of age. While this proportion is also not known, we can estimate it from the 1\% microsample as the ratio of individuals over ten and the total number of individuals in the state.
 \[
-\widehat{p_{\text{AGE}\ge 10}}^{(\text{XY})} &=& \frac{\text{\# individuals age ten and over in state } XY}{\text{\# individuals in state } XY}.
+\widehat{p_{\text{AGE}\ge 10}}^{(\text{XY})} = \frac{\text{\# individuals age ten and over in state } XY}{\text{\# individuals in state } XY}.
 \]
 Piecing this result back into \autoref{eq:nUA}, we get both estimates for the size of the unaccounted population as well as a standard error for it:
 \begin{eqnarray}\label{eq:nUA2}
