@@ -56,7 +56,7 @@
 %% with other math-related packages, you may want to disable it.
 
 %%%%% Extra Packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{subcaption}
+% \usepackage{subcaption}
 \usepackage{subfig}
 \usepackage{paralist}
 \usepackage{amsmath}
@@ -66,7 +66,6 @@
 \newcommand{\done}[2][inline]{\todo[color=SpringGreen, #1]{#2}}  % for todos that have been seen and dealt with
 \newcommand{\meh}[2][inline]{\todo[color=White, #1]{#2}}   % for todos that may no longer be relevant
 \newcommand{\comment}[2][inline]{\todo[color=SkyBlue, #1]{#2}} % for comments that may not be "to-do"s
-%\newcommand{\mcomment}[1]{\todo[color=SkyBlue]{#1}} % for margin comments
 \newcommand{\newtext}[1]{\todo[inline, color=White]{ \color{OliveGreen}{#1}}} % new text - not necessarily something to be done
 \newcommand{\newdo}[1]{\todo[inline, color=Lime]{#1}} % new to do item
 
@@ -143,23 +142,34 @@
 %% Uncomment below to include a teaser figure.
 \teaser{
   \centering
-    \begin{subfigure}[t]{0.24\textwidth}
-        \centering
-        \includegraphics[height=2in]{images/ca000082}
-        \caption{Miniature of plate \#32 of the Statistical Atlas. \label{fig:plate32}}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.24\textwidth}
-        \centering
-%        \includegraphics[height=2in]{state-work-mosaics-1.pdf}
-        \includegraphics[height=2in]{images/plate32-repro}
-        \caption{Reproduction of plate \#32.\label{fig:plate32-repro}}
-    \end{subfigure}
-\begin{subfigure}[t]{0.49\textwidth}
-        \centering
-\includegraphics[height=2in]{figure/plate32-scatterplot-1.pdf}
-        \caption{Differences/similarities between numbers from the Statistical Atlas and the modern reproduction.\label{fig:plate32-similarities}}
-    \end{subfigure}
-
+    \subfloat[Miniature of plate \#32 of the Statistical Atlas.]{
+        \includegraphics[width=0.24\textwidth, height=2in]{images/ca000082}
+        \label{fig:plate32}
+    }
+    \subfloat[Reproduction of plate \#32.]{
+        \includegraphics[width=0.24\textwidth, height=2in]{images/plate32-repro}
+        \label{fig:plate32-repro}
+    }
+    \subfloat[Differences/similarities between numbers from the Statistical Atlas and the modern reproduction.]{
+        \includegraphics[width=0.49\textwidth, height=2in]{figure/plate32-scatterplot-1.pdf}
+        \label{fig:plate32-similarities}
+    }
+    % \begin{subfigure}[t]{0.24\textwidth}
+    %     \centering
+    %     \includegraphics[height=2in]{images/ca000082}
+    %     \caption{Miniature of plate \#32 of the Statistical Atlas. \label{fig:plate32}}
+    % \end{subfigure}
+    % \begin{subfigure}[t]{0.24\textwidth}
+    %     \centering
+    %    % \includegraphics[height=2in]{state-work-mosaics-1.pdf}
+    %     \includegraphics[height=2in]{images/plate32-repro}
+    %     \caption{Reproduction of plate \#32.\label{fig:plate32-repro}}
+    % \end{subfigure}
+    % \begin{subfigure}[t]{0.49\textwidth}
+    %   \centering
+    %   \includegraphics[height=2in]{figure/plate32-scatterplot-1.pdf}
+    %   \caption{Differences/similarities between numbers from the Statistical Atlas and the modern reproduction.\label{fig:plate32-similarities}}
+    % \end{subfigure}
   \caption{Example of translational reproducibility: from left to right we have the original chart in~\autoref{fig:plate32}, its reproduction in~\autoref{fig:plate32-repro}, and the number differences between the two in~\autoref{fig:plate32-similarities}.}
 	\label{fig:teaser}
 }
@@ -199,7 +209,7 @@ opts_chunk$set(cache = T, echo = F, autodep = T, warning = F, message = F)
 
 \maketitle
 
-<<plate32-scatterplot, include=FALSE, results='hide', echo=FALSE, fig.pos="center", fig.width = 7.5, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). ", warning=FALSE, message=FALSE>>=
+<<plate32-scatterplot, include=FALSE, results='hide', echo=FALSE, fig.width = 7.5, fig.height = 5, warning = FALSE, fig.cap="Set of scatterplots showing a comparison of estimates of occupation percentages based on the Census Data (y) and Chart measurements (x). ", warning=FALSE, message=FALSE>>=
 # only run this once
 px2 <- read.csv("../Data/px2.csv")
 seframe = data.frame(x =seq(0,50))
@@ -341,7 +351,7 @@ Estimates for the number of unaccounted women and men over ten years of age in e
 %\comment{SVP: autoref doesn't seem to be working. This renders as fig. 1a1, which just looks odd.}
 \autoref{fig:plate32} shows a miniature of the chart published as plate \#32 in the Statistical Atlas of 1874 \cite{atlas} produced from data collected in the 9th US Census. The chart shows the gender ratio of population over the age of ten in different types of occupations.
 
-<<overall-work-plot, eval=FALSE, out.width='.7\\columnwidth', fig.width=5, fig.height=5.5, echo = FALSE, message=FALSE, fig.pos="center", fig.cap="Recreation of the mosaicplot based on gainfully employed population over ten.\\label{fig:us-plate32-redo}">>=
+<<overall-work-plot, eval=FALSE, out.width='.7\\columnwidth', fig.width=5, fig.height=5.5, echo = FALSE, message=FALSE, fig.cap="Recreation of the mosaicplot based on gainfully employed population over ten.\\label{fig:us-plate32-redo}">>=
 cols <- c("#333300", "#000066", "#cc9900", "#202060", "#86742d")
 library(ggmosaic)
 occ2 %>% filter(State==Area.Name) %>% ggplot() +
@@ -390,7 +400,7 @@ Visual inspection tells us that the data used to render the nation-wide overview
 \autoref{fig:plate32-similarities} shows this comparison:  for each of the occupations we draw a scatterplot of the percentages calculated from the pixel measurements ($x$-axis) and compare them to the  percentages obtained from NT13 and  the 1\% microsample ($y$-axis). We can see in \autoref{fig:plate32-similarities}
 that the numbers closely match; the regions in blue are based on point-wise Agresti-Coull 95\% confidence intervals \cite{agresti:1998}. None of the points are outside these confidence bands. For all occupation levels and school attendance the numbers are {\emph very} close. For population not accounted for, the numbers are estimated from the 1\% microsample. This increases the variability of the estimates, but the relationship to the pixel measurements is still very strong.
 
-<<state-work-mosaics, include=FALSE, fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center", fig.cap="Recreation of mosaics of gainful occupation by states.">>=
+<<state-work-mosaics, include=FALSE, fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.cap="Recreation of mosaics of gainful occupation by states.">>=
 occ2 %>% filter(Area.Name==State) %>% ggplot() +
   geom_mosaic(aes(x = product(Gender, Occupation),
                   fill=Occupation, alpha = Gender, weight = Number),
@@ -427,16 +437,24 @@ The inside squares of plate~\#31 are simpler structured than those of plate \#32
 
 \begin{figure}
   \centering
-    \begin{subfigure}[t]{0.24\textwidth}
-\centering
-\includegraphics[height=\columnwidth]{images/plate31-legend.png}
-\caption{Zoom-in to the legend section of plate \#31.\label{fig:legend-31}}
- \end{subfigure}
- \begin{subfigure}[t]{0.24\textwidth}
-\centering
-\includegraphics[height=\columnwidth]{figure/barchart-denominations-1}
-\caption{Church sittings by denomination. \label{fig:barchart-31}}
- \end{subfigure}
+  \subfloat[Zoom-in to the legend section of plate \#31.]{
+  \includegraphics[width = 0.49\columnwidth]{images/plate31-legend.png}
+  \label{fig:legend-31}
+  }
+  \subfloat[Church sittings by denomination.]{
+  \includegraphics[width=0.49\columnwidth]{figure/barchart-denominations-1}
+  \label{fig:barchart-31}
+  }
+  % \begin{subfigure}[t]{0.24\textwidth}
+  % \centering
+  % \includegraphics[height=\columnwidth]{images/plate31-legend.png}
+  % \caption{Zoom-in to the legend section of plate \#31.\label{fig:legend-31}}
+  % \end{subfigure}
+  % \begin{subfigure}[t]{0.24\textwidth}
+  % \centering
+  % \includegraphics[height=\columnwidth]{figure/barchart-denominations-1}
+  % \caption{Church sittings by denomination. \label{fig:barchart-31}}
+  % \end{subfigure}
 \caption{Old and new side-by-side: XXX color scheme XXX. On the right we see that the number of unaccommodated people over the age of ten is higher than the number of sittings in any of the denominations.}
 
 \end{figure}
@@ -581,7 +599,7 @@ cl %>%
   ggtitle("Mississippi")
 @
 
-<<overall-religious-plot, dependson="data-plate31", echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.cap="US overview of sittings provided by the eight most common denominations, all other denominations and unaccommodated population.\\label{fig:us-denominations}", fig.width=6, fig.height=6, eval = T, include = F>>=
+<<overall-religious-plot, dependson="data-plate31", echo = FALSE, message=FALSE, warning = FALSE, fig.cap="US overview of sittings provided by the eight most common denominations, all other denominations and unaccommodated population.\\label{fig:us-denominations}", fig.width=6, fig.height=6, eval = T, include = F>>=
 clsmall <- cl %>% filter(Denomination != "Unaccommodated") %>%
   mutate(Denomination = reorder(Denomination, Number, function(x) -sum(x, na.rm = TRUE)))
 clsmall$Denom10 <- clsmall$Denomination
@@ -631,7 +649,7 @@ cl %>%
     facet_wrap(~State)
 @
 
-<<onepanel-state-plot, echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 10, fig.width=8, fig.cap="Proportion of religious sittings for each state by denomination \\label{fig:state-denominations}", include = F, eval = T>>=
+<<onepanel-state-plot, echo = FALSE, message=FALSE, warning = FALSE, fig.height = 10, fig.width=8, fig.cap="Proportion of religious sittings for each state by denomination \\label{fig:state-denominations}", include = F, eval = T>>=
 
 cl %>% filter(Denomination != "Unaccommodated") %>%
   ggplot() +
@@ -643,7 +661,7 @@ cl %>% filter(Denomination != "Unaccommodated") %>%
 @
 
 
-<<onepanel-state-plot-unaccommodated, echo = FALSE, message=FALSE, warning = FALSE, fig.pos="center", fig.height = 10, fig.width=8, fig.cap="Proportion of religious sittings for each state by denomination including unaccommodated population.\\label{fig:state-denominations-ua}">>=
+<<onepanel-state-plot-unaccommodated, echo = FALSE, message=FALSE, warning = FALSE, fig.height = 10, fig.width=8, fig.cap="Proportion of religious sittings for each state by denomination including unaccommodated population.\\label{fig:state-denominations-ua}">>=
 
 cl %>%
   ggplot() +
@@ -688,7 +706,7 @@ Mosaic plots only feature in this Statistical Atlas. In the Atlas accompanying t
 }
 
 \comment{Some hypothesizing as to the reasons for some of the decision choices: The decision to not include the gender ratio for the unaccounted population is curious. A simple and innocent explanation would be that the design decision to show unaccounted for population as a grey frame led to the decision to not include the gender ratio. It might also be a reflection of the attitude towards women at the time: `keeping house' is an occupation that is not being paid for (if it is, it would fall under the `Services' category), and is therefore also not seen.  }
-\meh{I don't think that last part has changed much :(}
+
 
 
 %% if specified like this the section will be committed in review mode
@@ -704,7 +722,7 @@ Mosaic plots only feature in this Statistical Atlas. In the Atlas accompanying t
 
 Needs to go into a supplement
 
-<<territory-work-mosaics, fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Mosaics of gainful occupation by territories.">>=
+<<territory-work-mosaics, fig.width=10, fig.height=12, echo = FALSE, message=FALSE,fig.cap="Mosaics of gainful occupation by territories.">>=
 occ2 %>% filter(Area.Name != State) %>% ggplot() +
   geom_mosaic(aes(x = product(Gender, Occupation),
                   fill=Occupation, alpha = Gender, weight = Number),
@@ -724,7 +742,7 @@ occ2 %>% filter(Area.Name != State) %>% ggplot() +
 
 
 
-<<territory-work-mosaic-unemployed, results = 'hide', fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.pos="center",fig.cap="Mosaics of gainful occupation by territories including population not employed.">>=
+<<territory-work-mosaic-unemployed, results = 'hide', fig.width=10, fig.height=12, echo = FALSE, message=FALSE,fig.cap="Mosaics of gainful occupation by territories including population not employed.">>=
 occ3 %>% filter(Area.name==State) %>% ggplot() +
   geom_mosaic(aes(x = product(Sex, Occupation),
                   fill=Occupation, alpha = Sex, weight = Number),
