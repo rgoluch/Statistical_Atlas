@@ -442,7 +442,6 @@ A close examination of plate \#31 will also reveal that the different color laye
 When we compare the proportions of state populations shown in the Statistical Atlas and the proportions of different denominations in the 1\% microsample data, another interesting anomaly emerges. The proportion of unaccommodated individuals in Minnesota is much higher in the Statistical Atlas plot than it is in the 1\% microsample, while the proportions are comparable for every other state. Figure~\autoref{fig:matches-plate31} shows the relationship between the 1\% microsample population and the pixel proportions in plate \#31. The most likely explanation for this large discrepancy is that the lithographer made an error when creating the state sub-plot for Minnesota.
 
 
-
 <<data-plate31-colors, echo=FALSE, message=FALSE, warning=FALSE>>=
 
 cols = c(brewer.pal(n = 12, name = "Paired")[c(1,3,5,7,9,11)], "grey80")
@@ -473,6 +472,27 @@ cl$Denomination <- factor(cl$Denomination,
                           c("Unaccommodated", levels(cl$Denomination)[-20]))
 levels(cl$Denomination) <- gsub("\\.", " ", levels(cl$Denomination))
 @
+
+<<barchart-31, echo = FALSE, fig.width=5, fig.height=5, fig.cap="Some text\\label{fig:barchart-31}">>=
+cl %>% ggplot(aes(x = Denomination, weight=Number, fill=Denomination)) +
+  geom_bar() + theme_bw() + coord_flip() +
+  scale_fill_manual(values=rev(colHEX)[-c(3:4)]) +
+  theme(legend.position="none") +
+  annotate(geom="text", x = 1:20, y=6.5e+6, label=levels(cl$Denomination),
+           hjust=1, size=3, colour = "grey30") +
+  ylab("Number of nation-wide sittings") +
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
+@
+
+%\comment{HH: dubious design choices: (1) only top four denominations per state and top eight denominations overall are shown. This lets some denominations disappear (e.g. Jews) from the view that have overall more followers than e.g. the Mormon church, yet are not locally as prominent.
+%(2) within each state  denominations  are ordered from largest to smallest (with the `all others` category always in fifth position). This does not allow us to compare the makeup between states, as small differences in numbers might result in rather large visual differences. }
+
+
+A close examination of plate \#31 also reveals that the different color layers of the lithographic prints are not as well aligned. In addition, the state plots are much more variable in size in plate \#31 than in plate \#32. These differences suggest that plate \#31 might have been created by a less experienced lithographer than plate \#32.
+
+When we compare the proportions of state populations shown in the Statistical Atlas and the proportions of different denominations in the 1\% microsample data, another interesting anomaly emerges. The proportion of unaccommodated individuals in Minnesota is much higher in the Statistical Atlas plot than it is in the 1\% microsample, while the proportions are comparable for every other state. Figure~\autoref{fig:matches-plate31} shows the relationship between the 1\% microsample population and the pixel proportions in plate \#31. The most likely explanation for this large discrepancy is that the lithographer made an error when creating the state sub-plot for Minnesota.
+
+
 
 <<religious-bias-plot, echo = FALSE, fig.width=5, fig.height=5, fig.cap="Percentage of state-wide unaccommodated population based on estimates from the 1\\% Microsample ($x$-axis) and pixel values measured from the digitized version of plate \\#31 ($y$-axis).\\label{fig:matches-plate31}">>=
 churchPixel <- read.csv("../Data/church_pixel.csv")
