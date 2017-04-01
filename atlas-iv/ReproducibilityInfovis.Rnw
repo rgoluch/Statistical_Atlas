@@ -720,6 +720,8 @@ cl %>%
 The re-imagined church accomodation plots provide the ability to make comparisons between states, but there is one obvious ingredient which is still missing: geographic context. \autoref{fig:map} shows the geographic distribution of church accomodations; this spatial information allows us to see that the mormon church is highly localized geographically, while the Methodist church is relatively popular across most of the country.
  Numbers of unaccommodation population are -- not surprisingly -- particularly high in the new territories, with the exception of New Mexico. \autoref{fig:map} is an example for a density dot map. The location of the dots within each state is random, but the number of the dots within each state is proportional to the population. Density maps are not new - some of the first examples appear in the Statistical Atlas accompanying the tenth US census of 1880\cite{atlas1883}.\
 
+The Statistical Atlases of 1880 and 1890 pick up the theme of religious affiliation again and provide an overview similar to \autoref{fig:map} that shows the geographic strength of the most common denominations. These maps are accompanied by bar charts showing the proportion of individuals in each state who identify with each denomination, providing a very nice picture of the religious affiliations of the residents of the United States.
+
 %%% Insert map stuff here!
 \begin{figure*}
 \centering
@@ -768,7 +770,6 @@ popmap %>% filter(!is.na(Number)) %>%
 #  scale_alpha_manual("Population:", labels=c("10,000","1,000", "100"), values=c(1,.56,.18))
 @
 
-\autoref{fig:map} is similar to maps included in the 1880 and 1890 Statistical Atlases that show the geographic strength of the most common denominations. These maps are accompanied by bar charts showing the proportion of individuals in each state who identify with each denomination, providing a very nice picture of the religious affiliations of the residents of the United States.
 
 
 \section{Discussion}
