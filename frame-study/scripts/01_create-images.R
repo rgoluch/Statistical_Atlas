@@ -16,20 +16,21 @@ occ3 <- occ3 %>% mutate(
 createPlots <- function(data = occ3, state_name = "Iowa") {
   occ4 <- occ3 %>% filter(State==Area.name, State == state_name)
 
-  ggp <- occ4 %>% filter(Occupation != "Unaccounted") %>%
-    ggplot() +
-    geom_mosaic(aes(x = product(Sex, Occupation),
-                    fill=Occupation, alpha = Sex, weight = Number),
-                offset = 0.00) +
-    scale_fill_manual(values=cols) + theme_bw() +
-    scale_alpha_manual(values=c(0.8,1)) +
-    theme(legend.position = "none") +
-    coord_equal() +
-    theme(axis.line=element_blank(), axis.text=element_blank(),
-          axis.title.y = element_blank(), axis.ticks = element_blank()) +
-    ggtitle(state_name) +
-    xlab("")
-
+    getMosaic <- function(data) {
+      data %>%
+        ggplot() +
+        geom_mosaic(aes(x = product(Sex, Occupation),
+                        fill=Occupation, alpha = Sex, weight = Number),
+                    offset = 0.00, colour="grey85", size=0.1) +
+        scale_fill_manual(values=cols) + theme_bw() +
+        scale_alpha_manual(values=c(0.8,1)) +
+        coord_equal() +
+        theme(axis.line=element_blank(), axis.text=element_blank(),
+              axis.title.y = element_blank(), axis.ticks = element_blank()) +
+        ggtitle(state_name) +
+        xlab("") + geomnet::theme_net() +
+        theme(legend.position = "none")
+    }
 
   scalars <- occ4 %>%
     mutate(frame = Occupation=="Unaccounted") %>%
@@ -42,6 +43,8 @@ createPlots <- function(data = occ3, state_name = "Iowa") {
   scalars$weight[1] <- sqrt(scalars$weight[1])
   scalars$weight[2] <- 1-scalars$weight[1]
 
+  # make inside plot, then scale
+  ggp <- getMosaic(occ4 %>% filter(Occupation != "Unaccounted"))
   ggp_df <- ggplot_build(ggp)$data[[1]] %>% mutate(
     xmin = xmin*scalars$weight[1] + scalars$weight[2]/2,
     xmax = xmax*scalars$weight[1] + scalars$weight[2]/2,
@@ -60,19 +63,7 @@ createPlots <- function(data = occ3, state_name = "Iowa") {
     geomnet::theme_net() +
     ggtitle(state_name)
 
-  plot2 <-  occ4 %>%
-    ggplot() +
-    geom_mosaic(aes(x = product(Sex, Occupation),
-                    fill=Occupation, alpha = Sex, weight = Number),
-                offset = 0.00, colour="grey85", size=0.1) +
-    scale_fill_manual(values=cols) + theme_bw() +
-    scale_alpha_manual(values=c(0.8,1)) +
-    coord_equal() +
-    theme(axis.line=element_blank(), axis.text=element_blank(),
-          axis.title.y = element_blank(), axis.ticks = element_blank()) +
-    ggtitle(state_name) +
-    xlab("") + geomnet::theme_net() +
-    theme(legend.position = "none")
+  plot2 <- getMosaic(occ4)
 
   list(plot1=plot1, plot2=plot2)
 }
@@ -80,3 +71,4 @@ createPlots <- function(data = occ3, state_name = "Iowa") {
 state <- occ3 %>% createPlots("New Jersey")
 state[[1]]
 state[[2]]
+
