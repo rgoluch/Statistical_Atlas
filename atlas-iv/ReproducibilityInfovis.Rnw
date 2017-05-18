@@ -219,7 +219,7 @@ seframe$se <- with(seframe, sqrt(p*(1-p))*10)
 sepolygon <- with(seframe, data.frame(x = c(x, rev(x)), y = c(x-1.96*se, rev(x+1.96*se))))
 
 
-px2 %>%
+px2 %>% data.frame() %>%
   ggplot(aes(x = PixPercent, y = CensusPercent)) +
   geom_polygon(aes(x = x, y = y), fill="steelblue",
                alpha = 0.5, data = sepolygon) +
@@ -816,40 +816,40 @@ The Census Bureau's dedication to preserving the historical data and images from
 \bibliography{mybibfile}
 \end{document}
 
-
-Needs to go into a supplement
-
-<<territory-work-mosaics, fig.width=10, fig.height=12, echo = FALSE, message=FALSE,fig.cap="Mosaics of gainful occupation by territories.">>=
-occ2 %>% filter(Area.Name != State) %>% ggplot() +
-  geom_mosaic(aes(x = product(Gender, Occupation),
-                  fill=Occupation, alpha = Gender, weight = Number),
-              offset = 0.005) +
-  scale_fill_manual(values=cols) + theme_bw() +
-  scale_alpha_manual(values=c(0.8,1)) +
-  theme(legend.position = "top") +
-  facet_wrap(~State, ncol=6) +
-#  coord_equal() +
-  theme(axis.line=element_blank(), axis.text=element_blank(),
-        axis.title = element_blank(), axis.ticks = element_blank(),
-        aspect.ratio=1)
-@
-
-
-
-
-
-
-<<territory-work-mosaic-unemployed, results = 'hide', fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.cap="Mosaics of gainful occupation by territories including population not employed.">>=
-occ3 %>% filter(Area.name==State) %>% ggplot() +
-  geom_mosaic(aes(x = product(Sex, Occupation),
-                  fill=Occupation, alpha = Sex, weight = Number),
-              offset = 0.005) +
-  scale_fill_manual(values=cols) + theme_bw() +
-  scale_alpha_manual(values=c(0.8,1)) +
-  theme(legend.position = "top") +
-  facet_wrap(~State, ncol=6) +
-  coord_equal() +
-    theme(axis.line=element_blank(), axis.text=element_blank(),
-        axis.title = element_blank(), axis.ticks = element_blank())
-@
-
+%
+% Needs to go into a supplement
+%
+% <<territory-work-mosaics, fig.width=10, fig.height=12, echo = FALSE, message=FALSE,fig.cap="Mosaics of gainful occupation by territories.">>=
+% occ2 %>% filter(Area.Name != State) %>% ggplot() +
+%   geom_mosaic(aes(x = product(Gender, Occupation),
+%                   fill=Occupation, alpha = Gender, weight = Number),
+%               offset = 0.005) +
+%   scale_fill_manual(values=cols) + theme_bw() +
+%   scale_alpha_manual(values=c(0.8,1)) +
+%   theme(legend.position = "top") +
+%   facet_wrap(~State, ncol=6) +
+% #  coord_equal() +
+%   theme(axis.line=element_blank(), axis.text=element_blank(),
+%         axis.title = element_blank(), axis.ticks = element_blank(),
+%         aspect.ratio=1)
+% @
+%
+%
+%
+%
+%
+%
+% <<territory-work-mosaic-unemployed, results = 'hide', fig.width=10, fig.height=12, echo = FALSE, message=FALSE, fig.cap="Mosaics of gainful occupation by territories including population not employed.">>=
+% occ3 %>% filter(Area.name==State) %>% ggplot() +
+%   geom_mosaic(aes(x = product(Sex, Occupation),
+%                   fill=Occupation, alpha = Sex, weight = Number),
+%               offset = 0.005) +
+%   scale_fill_manual(values=cols) + theme_bw() +
+%   scale_alpha_manual(values=c(0.8,1)) +
+%   theme(legend.position = "top") +
+%   facet_wrap(~State, ncol=6) +
+%   coord_equal() +
+%     theme(axis.line=element_blank(), axis.text=element_blank(),
+%         axis.title = element_blank(), axis.ticks = element_blank())
+% @
+%
