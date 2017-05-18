@@ -1,4 +1,8 @@
 cols <- c("#333300", "#000066", "#cc9900", "#202060", "#86742d", "grey50")
+
+# alternate color scheme
+library(RColorBrewer)
+cols <- c(brewer.pal(5, "Dark2"), "grey50")
 library(ggmosaic)
 library(tidyverse)
 
@@ -15,6 +19,7 @@ occ3 <- occ3 %>% mutate(
 
 createPlots <- function(data = occ3, state_name = "Iowa") {
   occ4 <- occ3 %>% filter(State==Area.name, State == state_name)
+  if (nrow(occ4) == 0) return(NULL)
 
     getMosaic <- function(data) {
       data %>%
@@ -54,6 +59,8 @@ createPlots <- function(data = occ3, state_name = "Iowa") {
 
   plot1 <- ggp_df %>% ggplot() +
     geom_rect(xmin=0, xmax=1, ymin=0, ymax=1, fill="grey50") +
+    geom_rect(xmin=scalars$weight[2]/2, xmax=1-scalars$weight[2]/2,
+              ymin=scalars$weight[2]/2, ymax=1-scalars$weight[2]/2, fill="white") +
     geom_rect(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax, fill=fill, alpha=alpha),
               colour="grey85", size=0.1) +
     scale_fill_identity() +
@@ -68,7 +75,13 @@ createPlots <- function(data = occ3, state_name = "Iowa") {
   list(plot1=plot1, plot2=plot2)
 }
 
-state <- occ3 %>% createPlots("New Jersey")
-state[[1]]
-state[[2]]
+states <- occ3 %>% group_by(Area.name) %>% nest()
+# get all mosaics into a variable
+states$mosaics <- purrr::map2(
+  states$data, states$Area.name,
+  .f=function(x,y) {
+    createPlots(data=x, state_name = y)})
 
+# get both plots for Alabama
+states$mosaics[[1]][1]
+states$mosaics[[1]][2]
