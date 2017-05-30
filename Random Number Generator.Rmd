@@ -1,0 +1,13 @@
+---
+title: "Random Number Generator"
+author: "Ryan Goluch"
+date: "5/29/2017"
+output: html_document
+---
+
+
+```{r}
+numbers<-sample(1:50, 26, replace=F)
+list(numbers)
+```
+
